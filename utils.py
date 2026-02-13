@@ -11,8 +11,10 @@ OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
 
 
 def ensure_output_dir():
-    """Create output/ directory if it doesn't exist."""
+    """Create output/ directory and subdirectories if they don't exist."""
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(os.path.join(OUTPUT_DIR, "comext"), exist_ok=True)
+    os.makedirs(os.path.join(OUTPUT_DIR, "sts"), exist_ok=True)
     return OUTPUT_DIR
 
 
@@ -222,7 +224,7 @@ def write_quality_report(all_metrics, all_code_infos):
     report_path = os.path.join(OUTPUT_DIR, "quality_report.md")
 
     lines = [
-        "# Eurostat Data Quality Assessment Report",
+        "# Eurostat Monthly Data Quality Assessment Report",
         "",
         f"*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*",
         "",

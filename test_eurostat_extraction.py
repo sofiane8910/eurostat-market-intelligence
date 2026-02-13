@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
 """
-Eurostat Data Quality Testing Script
-=====================================
-Extracts the 10 most critical series for Avery Dennison market intelligence
-and produces a quality assessment report.
+Eurostat Monthly Data Extraction Script
+========================================
+Extracts monthly data for all Comext trade CN codes and STS industry indices
+relevant to the European PSA materials, labels, and converting industry.
 
-Series tested:
-  1. PRODCOM — Self-adhesive plastic film (wide rolls) [22292240]
-  2. PRODCOM — Self-adhesive paper and paperboard [17127733]
-  3. PRODCOM — Self-adhesive printed labels [17291120]
-  4. PRODCOM — PET film <= 0.35mm [22213065]
-  5. PRODCOM — BOPP film <= 0.10mm [22213021]
-  6. Comext  — Self-adhesive plastic trade [39199080]
-  7. Comext  — Self-adhesive paper trade [481141]
-  8. STS     — Industrial production index, C2229 [sts_inpr_m]
-  9. STS     — Producer price index, C2052 [sts_inpp_m]
- 10. SBS     — Structural business stats, C2229 [sbs_na_ind_r2]
+Series:
+  - 46 Comext CN trade codes (DS-045409, monthly)
+  - 11 STS datasets x 14 NACE codes (monthly indices)
+
+Time range: 2023-01 through 2025-12
 
 Usage:
     python test_eurostat_extraction.py
@@ -33,8 +27,7 @@ import requests
 try:
     import eurostat
 except ImportError:
-    print("ERROR: 'eurostat' package not installed. Run: pip install eurostat")
-    sys.exit(1)
+    eurostat = None
 
 from utils import assess_quality, ensure_output_dir, write_quality_report
 
@@ -43,284 +36,172 @@ from utils import assess_quality, ensure_output_dir, write_quality_report
 # Configuration
 # ---------------------------------------------------------------------------
 
-START_YEAR = 2015
-END_YEAR = 2024
+START_PERIOD = 2023
+END_PERIOD = 2025
 
-# EU-27 ISO codes — used by BOTH DS-datasets and standard datasets
 EU27_ISO = sorted([
     "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES",
     "FI", "FR", "GR", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT",
     "NL", "PL", "PT", "RO", "SE", "SI", "SK",
 ])
-EU27_ISO_PLUS = EU27_ISO + ["EU27_2020"]
 
-# PRODCOM indicator codes
-PRODCOM_INDICATORS = ["PRODVAL", "PRODQNT"]
-
-# Comext indicator/flow codes
 COMEXT_FLOW_IMPORT = "1"
 COMEXT_FLOW_EXPORT = "2"
 COMEXT_INDICATORS = ["VALUE_IN_EUROS", "QUANTITY_IN_100KG"]
 
-
 # ---------------------------------------------------------------------------
-# Series definitions
+# CN codes — 46 total
 # ---------------------------------------------------------------------------
 
-SERIES = [
-    {
-        "id": 1,
-        "name": "Self-Adhesive Plastic Film (wide rolls)",
-        "type": "prodcom",
-        "dataset": "DS-059358",
-        "code": "22292240",
-        "filename": "01_prodcom_sa_plastic_film.csv",
-    },
-    {
-        "id": 2,
-        "name": "Self-Adhesive Paper & Paperboard",
-        "type": "prodcom",
-        "dataset": "DS-059358",
-        "code": "17127733",
-        "filename": "02_prodcom_sa_paper.csv",
-    },
-    {
-        "id": 3,
-        "name": "Self-Adhesive Printed Labels",
-        "type": "prodcom",
-        "dataset": "DS-059358",
-        "code": "17291120",
-        "filename": "03_prodcom_sa_labels.csv",
-    },
-    {
-        "id": 4,
-        "name": "PET Film <= 0.35mm",
-        "type": "prodcom",
-        "dataset": "DS-059358",
-        "code": "22213065",
-        "filename": "04_prodcom_pet_film.csv",
-    },
-    {
-        "id": 5,
-        "name": "BOPP Film <= 0.10mm",
-        "type": "prodcom",
-        "dataset": "DS-059358",
-        "code": "22213021",
-        "filename": "05_prodcom_bopp_film.csv",
-    },
-    {
-        "id": 6,
-        "name": "Self-Adhesive Plastic Trade (CN 39199080)",
-        "type": "comext",
-        "dataset": "DS-045409",
-        "code": "39199080",
-        "filename": "06_trade_sa_plastic.csv",
-    },
-    {
-        "id": 7,
-        "name": "Self-Adhesive Paper Trade (HS6 481141)",
-        "type": "comext",
-        "dataset": "DS-045409",
-        "code": "481141",
-        "filename": "07_trade_sa_paper.csv",
-    },
-    {
-        "id": 8,
-        "name": "Industrial Production Index (C2229)",
-        "type": "sts",
-        "dataset": "sts_inpr_m",
-        "nace": "C2229",
-        "filename": "08_sts_production_index.csv",
-    },
-    {
-        "id": 9,
-        "name": "Producer Price Index (C2052)",
-        "type": "sts",
-        "dataset": "sts_inpp_m",
-        "nace": "C2052",
-        "filename": "09_sts_price_index.csv",
-    },
-    {
-        "id": 10,
-        "name": "Structural Business Stats (C2229)",
-        "type": "sbs",
-        "dataset": "sbs_na_ind_r2",
-        "nace": "C2229",
-        "filename": "10_sbs_structure.csv",
-    },
+COMEXT_CN_CODES = [
+    # B1: SA Plastics
+    "39191010", "39191080", "39199010", "39199020", "39199080",
+    # B2: SA Paper
+    "48114100", "48114900",
+    # B3: Labels
+    "48211010", "48211090", "48219010", "48219090",
+    # B4.1: PE Films
+    "39201023", "39201024", "39201025", "39201028",
+    "39201040", "39201081", "39201089",
+    # B4.2: PP Films
+    "39202021", "39202029", "39202080",
+    # B4.3: PVC Films
+    "39204310", "39204390", "39204910", "39204990",
+    # B4.4: PET Films
+    "39206210", "39206219", "39206290",
+    # B4.5: Other Films
+    "39206100", "39206900", "39209928", "39209959",
+    # B5: Adhesives
+    "35061000", "35069110", "35069190", "35069900",
+    # B6: Silicones
+    "39100000",
+    # B7: Glassine
+    "48064010", "48064090",
+    # B8: Printing Inks
+    "32151100", "32151900", "32159000",
+    # B9: RFID
+    "85235210", "85235910", "85235990",
+    # B10: Stamping Foils
+    "32121000",
 ]
+
+# ---------------------------------------------------------------------------
+# STS datasets and NACE codes
+# ---------------------------------------------------------------------------
+
+STS_DATASETS = [
+    "sts_inpr_m",
+    "sts_intv_m",
+    "sts_intvd_m",
+    "sts_intvnd_m",
+    "sts_inpp_m",
+    "sts_inppd_m",
+    "sts_inppnd_m",
+    "sts_inpi_m",
+    "sts_ordi_m",
+    "sts_inlb_m",
+    "ei_bssi_m_r2",
+]
+
+NACE_CODES = [
+    "C17", "C171", "C1712", "C172", "C1729",
+    "C18", "C20", "C203", "C2052",
+    "C22", "C222", "C2221", "C2229", "C2829",
+]
+
+# ---------------------------------------------------------------------------
+# Description mappings
+# ---------------------------------------------------------------------------
+
+CN_DESCRIPTIONS = {
+    "39191010": "SA plastic, rolls <= 20cm, width <= 20cm",
+    "39191080": "SA plastic, rolls <= 20cm, other",
+    "39199010": "SA plastic (excl. rolls <= 20cm), condensation polymerisation",
+    "39199020": "SA plastic (excl. rolls <= 20cm), addition polymerisation",
+    "39199080": "SA plastic (excl. rolls <= 20cm), other",
+    "48114100": "Self-adhesive paper and paperboard",
+    "48114900": "Gummed/adhesive paper & paperboard (excl. self-adhesive)",
+    "48211010": "Self-adhesive printed labels, paper/paperboard",
+    "48211090": "Other printed labels, paper/paperboard (excl. SA)",
+    "48219010": "Self-adhesive labels, paper/paperboard (unprinted)",
+    "48219090": "Other labels, paper/paperboard (unprinted, excl. SA)",
+    "39201023": "PE film, SG < 0.94, thickness <= 0.025mm",
+    "39201024": "PE film, SG < 0.94, thickness 0.025-0.05mm",
+    "39201025": "PE film, SG < 0.94, thickness > 0.05mm",
+    "39201028": "Other PE film, SG < 0.94",
+    "39201040": "PE film, SG >= 0.94, thickness < 0.021mm",
+    "39201081": "PE film, SG >= 0.94, thickness 0.021-0.160mm",
+    "39201089": "Other PE film, SG >= 0.94",
+    "39202021": "BOPP film, thickness <= 0.10mm",
+    "39202029": "Other PP film (cast/OPP), thickness <= 0.10mm",
+    "39202080": "PP film, thickness > 0.10mm",
+    "39204310": "Flexible PVC film (>= 6% plasticiser), not supported",
+    "39204390": "Other flexible PVC film",
+    "39204910": "Rigid PVC film, thickness > 1mm",
+    "39204990": "Other rigid PVC film",
+    "39206210": "PET film, thickness <= 0.025mm",
+    "39206219": "PET film, thickness 0.025-0.35mm",
+    "39206290": "PET film, thickness > 0.35mm",
+    "39206100": "Polycarbonate film",
+    "39206900": "Other polyester film (PEN, PBT, etc.)",
+    "39209928": "Polyimide film",
+    "39209959": "Other plastic film, n.e.c.",
+    "35061000": "Adhesives, retail sale, <= 1kg",
+    "35069110": "Water-based adhesives from synthetic polymers",
+    "35069190": "Other adhesives (synthetic polymers/rubber)",
+    "35069900": "Other prepared glues/adhesives, n.e.c.",
+    "39100000": "Silicones in primary forms",
+    "48064010": "Glassine papers",
+    "48064090": "Other glazed transparent/translucent papers",
+    "32151100": "Black printing ink",
+    "32151900": "Other printing ink",
+    "32159000": "Other ink (excl. printing)",
+    "85235210": "Smart cards (electronic IC)",
+    "85235910": "RFID tags, inlays, proximity cards",
+    "85235990": "Other semiconductor media",
+    "32121000": "Stamping foils",
+}
+
+STS_DATASET_DESCRIPTIONS = {
+    "sts_inpr_m": "Production in industry - monthly",
+    "sts_intv_m": "Turnover in industry - total",
+    "sts_intvd_m": "Turnover in industry - domestic market",
+    "sts_intvnd_m": "Turnover in industry - non-domestic market",
+    "sts_inpp_m": "Producer prices in industry - total",
+    "sts_inppd_m": "Producer prices - domestic market",
+    "sts_inppnd_m": "Producer prices - non-domestic market",
+    "sts_inpi_m": "Import prices in industry",
+    "sts_ordi_m": "New orders in industry",
+    "sts_inlb_m": "Labour input in industry",
+    "ei_bssi_m_r2": "Industry confidence indicator",
+}
+
+NACE_DESCRIPTIONS = {
+    "C17": "Paper and paper products",
+    "C171": "Pulp, paper and paperboard",
+    "C1712": "Paper and paperboard",
+    "C172": "Articles of paper and paperboard",
+    "C1729": "Other articles of paper and paperboard",
+    "C18": "Printing and reproduction",
+    "C20": "Chemicals and chemical products",
+    "C203": "Paints, varnishes, printing ink, mastics",
+    "C2052": "Manufacture of glues",
+    "C22": "Rubber and plastic products",
+    "C222": "Plastics products",
+    "C2221": "Plastic plates, sheets, tubes, profiles",
+    "C2229": "Other plastic products",
+    "C2829": "Other general-purpose machinery, n.e.c.",
+}
 
 
 # ---------------------------------------------------------------------------
 # Extraction functions
 # ---------------------------------------------------------------------------
 
-def extract_prodcom(series_def):
+def extract_comext_monthly(cn_code):
     """
-    Extract PRODCOM data from DS-059358.
-    DSD dimension order: freq.reporter.product.indicators
-    Reporter uses ISO country codes. Product uses 8-digit PRODCOM codes.
-    """
-    dataset = series_def["dataset"]
-    product_code = series_def["code"]
-
-    # Attempt 1: Direct SDMX REST API (most reliable for DS-datasets)
-    print(f"  Trying direct SDMX REST API for {dataset}, product={product_code}...")
-    df = _prodcom_direct_api(product_code)
-    if df is not None and not df.empty:
-        return df
-
-    # Attempt 2: eurostat package with correct lowercase dimension names
-    print(f"  Trying eurostat.get_sdmx_data_df with lowercase keys...")
-    try:
-        filter_pars = {
-            "freq": ["A"],
-            "product": [product_code],
-            "indicators": PRODCOM_INDICATORS,
-        }
-        df = eurostat.get_sdmx_data_df(
-            dataset,
-            StartPeriod=START_YEAR,
-            EndPeriod=END_YEAR,
-            filter_pars=filter_pars,
-            flags=True,
-            verbose=False,
-        )
-        if df is not None and not df.empty:
-            print(f"  -> Success via eurostat package: {len(df)} rows")
-            return df
-        print("  -> Empty result from eurostat package.")
-    except Exception as e:
-        print(f"  -> eurostat package failed: {e}")
-
-    return pd.DataFrame()
-
-
-def _prodcom_direct_api(product_code):
-    """
-    Direct REST API call to Eurostat SDMX 2.1 endpoint for PRODCOM.
-    DSD key: freq.reporter.product.indicators
-    """
-    base_url = "https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1"
-    indicators = "+".join(PRODCOM_INDICATORS)
-    reporters = "+".join(EU27_ISO_PLUS)
-
-    # Try with all EU27 countries + aggregate
-    url = (
-        f"{base_url}/data/DS-059358/"
-        f"A.{reporters}.{product_code}.{indicators}"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-
-    try:
-        resp = requests.get(url, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success via direct API: {len(df)} rows")
-            return df
-        else:
-            print(f"  -> Status {resp.status_code}, "
-                  f"length {len(resp.content)}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Direct API failed: {e}")
-
-    # Fallback: omit reporter to get all countries
-    print("  Trying without country filter...")
-    url_open = (
-        f"{base_url}/data/DS-059358/"
-        f"A..{product_code}.{indicators}"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-    try:
-        resp = requests.get(url_open, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success (all countries): {len(df)} rows")
-            return df
-        else:
-            print(f"  -> Status {resp.status_code}, length {len(resp.content)}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Failed: {e}")
-
-    # Fallback: try just PRODVAL indicator with fewer countries
-    print("  Trying minimal query (5 countries, PRODVAL only)...")
-    top5 = "+".join(["DE", "FR", "IT", "ES", "NL"])
-    url_min = (
-        f"{base_url}/data/DS-059358/"
-        f"A.{top5}.{product_code}.PRODVAL"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-    try:
-        resp = requests.get(url_min, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success (minimal): {len(df)} rows")
-            return df
-        else:
-            print(f"  -> Status {resp.status_code}, length {len(resp.content)}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Failed: {e}")
-
-    return pd.DataFrame()
-
-
-def extract_comext(series_def):
-    """
-    Extract Comext trade data from DS-045409.
-    DSD dimension order: freq.reporter.partner.product.flow.indicators
-    Reporter uses ISO codes. Partner "WORLD" for total trade.
-    """
-    dataset = series_def["dataset"]
-    cn_code = series_def["code"]
-
-    # Attempt 1: Direct SDMX REST API
-    print(f"  Trying direct SDMX REST API for {dataset}, product={cn_code}...")
-    df = _comext_direct_api(cn_code)
-    if df is not None and not df.empty:
-        return df
-
-    # Attempt 2: eurostat package with correct lowercase dimension names
-    print(f"  Trying eurostat.get_sdmx_data_df with lowercase keys...")
-    try:
-        filter_pars = {
-            "freq": ["A"],
-            "reporter": EU27_ISO,
-            "partner": ["WORLD"],
-            "product": [cn_code],
-            "flow": [COMEXT_FLOW_IMPORT, COMEXT_FLOW_EXPORT],
-            "indicators": COMEXT_INDICATORS,
-        }
-        df = eurostat.get_sdmx_data_df(
-            dataset,
-            StartPeriod=START_YEAR,
-            EndPeriod=END_YEAR,
-            filter_pars=filter_pars,
-            flags=True,
-            verbose=False,
-        )
-        if df is not None and not df.empty:
-            print(f"  -> Success via eurostat package: {len(df)} rows")
-            return df
-        print("  -> Empty result from eurostat package.")
-    except Exception as e:
-        print(f"  -> eurostat package failed: {e}")
-
-    return pd.DataFrame()
-
-
-def _comext_direct_api(cn_code):
-    """
-    Direct REST API call for Comext trade data.
-    DSD key: freq.reporter.partner.product.flow.indicators
+    Extract monthly Comext trade data for a single CN code from DS-045409.
+    Falls back to HS6 (first 6 digits) if CN8 returns 400.
     """
     base_url = "https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1"
     reporters = "+".join(EU27_ISO)
@@ -329,228 +210,100 @@ def _comext_direct_api(cn_code):
 
     url = (
         f"{base_url}/data/DS-045409/"
-        f"A.{reporters}.WORLD.{cn_code}.{flows}.{indicators}"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
+        f"M.{reporters}.WORLD.{cn_code}.{flows}.{indicators}"
+        f"?startPeriod={START_PERIOD}&endPeriod={END_PERIOD}"
         f"&format=SDMX-CSV"
     )
 
+    print(f"  Fetching CN {cn_code} (monthly)...")
     try:
         resp = requests.get(url, timeout=120)
         if resp.status_code == 200 and len(resp.content) > 100:
             df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success via direct API: {len(df)} rows")
+            print(f"  -> OK: {len(df)} rows")
             return df
-        else:
-            print(f"  -> Status {resp.status_code}, "
-                  f"length {len(resp.content)}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Direct API failed: {e}")
 
-    # Fallback: fewer countries
-    print("  Trying with top 10 countries only...")
-    top10 = "+".join(["DE", "FR", "IT", "ES", "NL", "BE", "PL", "AT", "CZ", "SE"])
-    url_small = (
-        f"{base_url}/data/DS-045409/"
-        f"A.{top10}.WORLD.{cn_code}.{flows}.{indicators}"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-    try:
-        resp = requests.get(url_small, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success (top 10): {len(df)} rows")
-            return df
+        if resp.status_code == 400 and len(cn_code) == 8:
+            hs6 = cn_code[:6]
+            print(f"  -> CN8 returned 400, trying HS6 ({hs6})...")
+            url_hs6 = (
+                f"{base_url}/data/DS-045409/"
+                f"M.{reporters}.WORLD.{hs6}.{flows}.{indicators}"
+                f"?startPeriod={START_PERIOD}&endPeriod={END_PERIOD}"
+                f"&format=SDMX-CSV"
+            )
+            resp2 = requests.get(url_hs6, timeout=120)
+            if resp2.status_code == 200 and len(resp2.content) > 100:
+                df = pd.read_csv(StringIO(resp2.text))
+                print(f"  -> OK (HS6 fallback): {len(df)} rows")
+                return df
+            print(f"  -> HS6 also failed: status {resp2.status_code}")
         else:
             print(f"  -> Status {resp.status_code}, length {len(resp.content)}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Failed: {e}")
-
-    # Last resort: single country test
-    print("  Trying single country (DE) as connectivity test...")
-    url_de = (
-        f"{base_url}/data/DS-045409/"
-        f"A.DE.WORLD.{cn_code}.{flows}.VALUE_IN_EUROS"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-    try:
-        resp = requests.get(url_de, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success (DE only): {len(df)} rows")
-            return df
-        else:
-            print(f"  -> Status {resp.status_code}, length {len(resp.content)}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
     except Exception as e:
         print(f"  -> Failed: {e}")
 
     return pd.DataFrame()
 
 
-def extract_sts(series_def):
+def extract_sts_monthly(dataset, nace):
     """
-    Extract Short-Term Statistics (monthly indices) using eurostat.get_data_df.
-    These are standard Eurostat datasets with ISO geo codes.
+    Extract STS monthly index data for a dataset x NACE combination
+    using eurostat.get_data_df().
     """
-    dataset = series_def["dataset"]
-    nace = series_def["nace"]
+    if eurostat is None:
+        print("  -> eurostat package not available")
+        return pd.DataFrame()
 
-    print(f"  Trying eurostat.get_data_df for {dataset}, nace_r2={nace}...")
+    print(f"  Fetching {dataset} x {nace}...")
 
-    # Attempt 1: eurostat package — seasonally adjusted, index 2015=100
+    # Attempt 1: seasonally adjusted, index 2021=100
     try:
         filter_pars = {
-            "startPeriod": START_YEAR,
-            "endPeriod": END_YEAR,
+            "startPeriod": START_PERIOD,
+            "endPeriod": END_PERIOD,
+            "nace_r2": [nace],
+            "s_adj": ["SCA"],
+            "unit": ["I21"],
+        }
+        df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
+        if df is not None and not df.empty:
+            print(f"  -> OK: {len(df)} rows")
+            return df
+    except Exception as e:
+        print(f"  -> SCA/I21 failed: {e}")
+
+    # Attempt 2: index 2015=100
+    try:
+        filter_pars = {
+            "startPeriod": START_PERIOD,
+            "endPeriod": END_PERIOD,
             "nace_r2": [nace],
             "s_adj": ["SCA"],
             "unit": ["I15"],
         }
-        df = eurostat.get_data_df(
-            dataset,
-            filter_pars=filter_pars,
-            flags=True,
-        )
+        df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
-            print(f"  -> Success: {len(df)} rows, {len(df.columns)} columns")
+            print(f"  -> OK (I15): {len(df)} rows")
             return df
-        print("  -> Empty result.")
     except Exception as e:
-        print(f"  -> Failed with SCA/I15: {e}")
+        print(f"  -> SCA/I15 failed: {e}")
 
-    # Attempt 2: Try with broader filters
-    print("  Retrying with broader filters...")
+    # Attempt 3: broader filter
     try:
         filter_pars = {
-            "startPeriod": START_YEAR,
-            "endPeriod": END_YEAR,
+            "startPeriod": START_PERIOD,
+            "endPeriod": END_PERIOD,
             "nace_r2": [nace],
         }
-        df = eurostat.get_data_df(
-            dataset,
-            filter_pars=filter_pars,
-            flags=True,
-        )
+        df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
-            print(f"  -> Success with broad filters: {len(df)} rows")
+            print(f"  -> OK (broad): {len(df)} rows")
             return df
-        print("  -> Still empty.")
     except Exception as e:
-        print(f"  -> Broad filter also failed: {e}")
+        print(f"  -> Broad filter failed: {e}")
 
-    # Attempt 3: Direct SDMX-CSV API
-    print("  Falling back to direct SDMX-CSV API...")
-    return _sts_direct_api(dataset, nace)
-
-
-def _sts_direct_api(dataset, nace):
-    """Direct API call for STS datasets using SDMX-CSV format."""
-    # STS dimension order: freq.indic_bt.nace_r2.s_adj.unit.geo
-    geos = "+".join(["EU27_2020", "DE", "FR", "IT", "ES", "NL", "PL", "BE", "AT", "SE", "CZ"])
-    url = (
-        f"https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/"
-        f"data/{dataset}/M.PROD.{nace}.SCA.I15.{geos}"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-    try:
-        resp = requests.get(url, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success via direct API: {len(df)} rows")
-            return df
-        else:
-            print(f"  -> Status {resp.status_code}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Direct API failed: {e}")
-
-    # Try without indic_bt
-    url2 = (
-        f"https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/"
-        f"data/{dataset}/.PROD.{nace}.SCA.I15.{geos}"
-        f"?startPeriod={START_YEAR}&endPeriod={END_YEAR}"
-        f"&format=SDMX-CSV"
-    )
-    try:
-        resp = requests.get(url2, timeout=120)
-        if resp.status_code == 200 and len(resp.content) > 100:
-            df = pd.read_csv(StringIO(resp.text))
-            print(f"  -> Success via direct API (alt): {len(df)} rows")
-            return df
-        else:
-            print(f"  -> Status {resp.status_code}")
-            if resp.status_code >= 400:
-                print(f"     Error: {resp.text[:300]}")
-    except Exception as e:
-        print(f"  -> Failed: {e}")
-
-    return pd.DataFrame()
-
-
-def extract_sbs(series_def):
-    """
-    Extract Structural Business Statistics (annual) using eurostat.get_data_df.
-    """
-    dataset = series_def["dataset"]
-    nace = series_def["nace"]
-
-    print(f"  Trying eurostat.get_data_df for {dataset}, nace_r2={nace}...")
-
-    # Attempt 1: eurostat package — key indicators
-    try:
-        filter_pars = {
-            "startPeriod": START_YEAR,
-            "endPeriod": END_YEAR,
-            "nace_r2": [nace],
-            "indic_sb": [
-                "V12110",  # Turnover
-                "V16110",  # Persons employed
-                "V12150",  # Value added at factor cost
-                "V11110",  # Number of enterprises
-                "V15110",  # Gross investment in tangible goods
-            ],
-        }
-        df = eurostat.get_data_df(
-            dataset,
-            filter_pars=filter_pars,
-            flags=True,
-        )
-        if df is not None and not df.empty:
-            print(f"  -> Success: {len(df)} rows")
-            return df
-        print("  -> Empty result.")
-    except Exception as e:
-        print(f"  -> Failed: {e}")
-
-    # Attempt 2: Broader filter
-    print("  Retrying with just NACE filter...")
-    try:
-        filter_pars = {
-            "startPeriod": START_YEAR,
-            "endPeriod": END_YEAR,
-            "nace_r2": [nace],
-        }
-        df = eurostat.get_data_df(
-            dataset,
-            filter_pars=filter_pars,
-            flags=True,
-        )
-        if df is not None and not df.empty:
-            print(f"  -> Success with broad filter: {len(df)} rows")
-            return df
-        print("  -> Still empty.")
-    except Exception as e:
-        print(f"  -> Broad filter also failed: {e}")
-
+    print(f"  -> No data for {dataset} x {nace}")
     return pd.DataFrame()
 
 
@@ -558,126 +311,172 @@ def extract_sbs(series_def):
 # Main execution
 # ---------------------------------------------------------------------------
 
-def run_extraction(series_list=None):
-    """
-    Run the full extraction and quality assessment pipeline.
+def run_extraction():
+    """Run the full monthly extraction pipeline."""
+    if eurostat is None:
+        print("ERROR: 'eurostat' package not installed. Run: pip install eurostat")
+        sys.exit(1)
 
-    Parameters
-    ----------
-    series_list : list or None
-        If provided, only extract these series (by id). If None, extract all 10.
-    """
     output_dir = ensure_output_dir()
+    comext_dir = os.path.join(output_dir, "comext")
+    sts_dir = os.path.join(output_dir, "sts")
+    os.makedirs(comext_dir, exist_ok=True)
+    os.makedirs(sts_dir, exist_ok=True)
+
     all_metrics = []
     all_code_infos = []
     results = []
 
-    target_series = SERIES
-    if series_list:
-        target_series = [s for s in SERIES if s["id"] in series_list]
-
-    total = len(target_series)
+    total_comext = len(COMEXT_CN_CODES)
+    total_sts = len(STS_DATASETS) * len(NACE_CODES)
+    total = total_comext + total_sts
     success_count = 0
+    series_idx = 0
 
     print("=" * 70)
-    print("EUROSTAT DATA QUALITY TESTING")
-    print(f"Extracting {total} priority series ({START_YEAR}-{END_YEAR})")
+    print("EUROSTAT MONTHLY DATA EXTRACTION")
+    print(f"Comext: {total_comext} CN codes | "
+          f"STS: {len(STS_DATASETS)} datasets x {len(NACE_CODES)} NACE = {total_sts}")
+    print(f"Total: {total} series | Period: {START_PERIOD}-01 to {END_PERIOD}-12")
     print("=" * 70)
 
-    for i, sdef in enumerate(target_series, 1):
-        sid = sdef["id"]
-        sname = sdef["name"]
-        stype = sdef["type"]
-        filename = sdef["filename"]
+    # --- Phase 1: Comext trade data ---
+    print(f"\n{'=' * 70}")
+    print("PHASE 1: COMEXT TRADE DATA (monthly)")
+    print(f"{'=' * 70}")
 
-        print(f"\n[{i}/{total}] Series #{sid}: {sname}")
+    for i, cn_code in enumerate(COMEXT_CN_CODES, 1):
+        series_idx += 1
+        desc = CN_DESCRIPTIONS.get(cn_code, cn_code)
+        series_name = f"Trade CN {cn_code}: {desc}"
+
+        print(f"\n[{series_idx}/{total}] Comext {i}/{total_comext}: CN {cn_code}")
         print("-" * 50)
 
         t0 = time.time()
-        df = pd.DataFrame()
-
         try:
-            if stype == "prodcom":
-                df = extract_prodcom(sdef)
-            elif stype == "comext":
-                df = extract_comext(sdef)
-            elif stype == "sts":
-                df = extract_sts(sdef)
-            elif stype == "sbs":
-                df = extract_sbs(sdef)
-            else:
-                print(f"  Unknown type: {stype}")
+            df = extract_comext_monthly(cn_code)
         except Exception as e:
             print(f"  UNEXPECTED ERROR: {e}")
             traceback.print_exc()
+            df = pd.DataFrame()
 
         elapsed = time.time() - t0
 
-        # Save CSV
-        csv_path = os.path.join(output_dir, filename)
         if df is not None and not df.empty:
+            csv_path = os.path.join(comext_dir, f"CN_{cn_code}.csv")
             df.to_csv(csv_path, index=False)
-            print(f"  Saved: {csv_path} ({len(df)} rows)")
+            print(f"  Saved: {csv_path}")
             success_count += 1
         else:
-            # Write empty CSV with a note
-            with open(csv_path, "w") as f:
-                f.write("# No data returned for this series\n")
-            print(f"  WARNING: No data returned. Empty placeholder saved.")
             df = pd.DataFrame()
 
-        # Quality assessment
-        code_info = sdef.get("code", sdef.get("nace", "")) + f" ({sdef['dataset']})"
-        metrics = assess_quality(df, sname)
+        code_info = f"CN {cn_code} (DS-045409)"
+        metrics = assess_quality(df, series_name)
         metrics["notes"].append(f"Extraction time: {elapsed:.1f}s")
         if df.empty:
-            metrics["notes"].append(
-                "FAILED — no data extracted. Check API availability or filter parameters."
-            )
+            metrics["notes"].append("No data returned.")
 
         all_metrics.append(metrics)
         all_code_infos.append(code_info)
-
         results.append({
-            "id": sid,
-            "name": sname,
+            "type": "comext",
+            "code": cn_code,
+            "name": series_name,
             "success": not df.empty,
             "rows": len(df),
             "elapsed": elapsed,
         })
 
-        # Be polite to the API
-        if i < total:
-            time.sleep(2)
+        if series_idx < total:
+            time.sleep(1.5)
 
-    # Write quality report
+    # --- Phase 2: STS monthly indices ---
+    print(f"\n{'=' * 70}")
+    print("PHASE 2: STS MONTHLY INDICES")
+    print(f"{'=' * 70}")
+
+    sts_idx = 0
+    for dataset in STS_DATASETS:
+        for nace in NACE_CODES:
+            series_idx += 1
+            sts_idx += 1
+            ds_desc = STS_DATASET_DESCRIPTIONS.get(dataset, dataset)
+            nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
+            series_name = f"{ds_desc} x {nace_desc}"
+
+            print(f"\n[{series_idx}/{total}] STS {sts_idx}/{total_sts}: "
+                  f"{dataset} x {nace}")
+            print("-" * 50)
+
+            t0 = time.time()
+            try:
+                df = extract_sts_monthly(dataset, nace)
+            except Exception as e:
+                print(f"  UNEXPECTED ERROR: {e}")
+                traceback.print_exc()
+                df = pd.DataFrame()
+
+            elapsed = time.time() - t0
+
+            if df is not None and not df.empty:
+                csv_path = os.path.join(sts_dir, f"{dataset}_{nace}.csv")
+                df.to_csv(csv_path, index=False)
+                print(f"  Saved: {csv_path}")
+                success_count += 1
+            else:
+                df = pd.DataFrame()
+
+            code_info = f"{dataset} x {nace}"
+            metrics = assess_quality(df, series_name)
+            metrics["notes"].append(f"Extraction time: {elapsed:.1f}s")
+            if df.empty:
+                metrics["notes"].append("No data for this combination.")
+
+            all_metrics.append(metrics)
+            all_code_infos.append(code_info)
+            results.append({
+                "type": "sts",
+                "code": f"{dataset}_{nace}",
+                "name": series_name,
+                "success": not df.empty,
+                "rows": len(df),
+                "elapsed": elapsed,
+            })
+
+            if series_idx < total:
+                time.sleep(1)
+
+    # --- Quality report ---
     print("\n" + "=" * 70)
     write_quality_report(all_metrics, all_code_infos)
 
-    # Summary
+    # --- Summary ---
     print("\n" + "=" * 70)
     print("EXTRACTION SUMMARY")
     print("=" * 70)
-    for r in results:
-        status = "OK" if r["success"] else "FAILED"
-        print(f"  [{status:6s}] #{r['id']:2d} {r['name']:45s} "
-              f"{r['rows']:6d} rows  ({r['elapsed']:.1f}s)")
 
-    print(f"\nResult: {success_count}/{total} series extracted successfully.")
-    if success_count >= 8:
-        print("PASS — Sufficient data coverage for market intelligence.")
-    elif success_count >= 5:
-        print("PARTIAL — Some series failed. Review quality report for details.")
-    else:
-        print("WARN — Multiple series failed. Check API availability and filters.")
+    comext_ok = sum(1 for r in results if r["type"] == "comext" and r["success"])
+    sts_ok = sum(1 for r in results if r["type"] == "sts" and r["success"])
 
-    print(f"\nOutput files in: {output_dir}/")
+    print(f"\n  Comext: {comext_ok}/{total_comext} CN codes extracted")
+    print(f"  STS:    {sts_ok}/{total_sts} dataset x NACE combinations extracted")
+    print(f"  Total:  {success_count}/{total} series extracted successfully")
+
+    failures = [r for r in results if not r["success"]]
+    if failures:
+        print(f"\n  Failed series ({len(failures)}):")
+        for r in failures[:20]:
+            print(f"    - {r['code']}: {r['name'][:60]}")
+        if len(failures) > 20:
+            print(f"    ... and {len(failures) - 20} more")
+
+    print(f"\nOutput in: {output_dir}/")
     return results
 
 
 if __name__ == "__main__":
     run_extraction()
 
-    # Generate visualizations
     from visualize import generate_all_charts
     generate_all_charts()
