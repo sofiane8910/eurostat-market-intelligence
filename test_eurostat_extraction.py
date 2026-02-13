@@ -246,10 +246,69 @@ def extract_comext_monthly(cn_code):
     return pd.DataFrame()
 
 
+def _clean_sts_df(df):
+    """
+    Clean STS DataFrame: keep one series per geo, drop flag columns,
+    rename value columns to bare dates.
+    """
+    # Find geo column
+    geo_col = None
+    for c in ["geo\\TIME_PERIOD", "geo\\time", "geo"]:
+        if c in df.columns:
+            geo_col = c
+            break
+    if geo_col is None:
+        return df
+
+    # Drop flag columns
+    flag_cols = [c for c in df.columns if c.endswith("_flag")]
+    df = df.drop(columns=flag_cols, errors="ignore")
+
+    # Rename value columns: "2023-01_value" -> "2023-01"
+    rename = {}
+    for c in df.columns:
+        if c.endswith("_value"):
+            rename[c] = c.replace("_value", "")
+    df = df.rename(columns=rename)
+
+    # If multiple rows per geo, filter to single best series
+    rows_per_geo = df.groupby(geo_col).size()
+    if rows_per_geo.max() <= 1:
+        return df
+
+    # Prefer SCA > SA > NSA
+    if "s_adj" in df.columns and df["s_adj"].nunique() > 1:
+        for pref in ["SCA", "SA", "NSA"]:
+            subset = df[df["s_adj"] == pref]
+            if not subset.empty:
+                df = subset
+                break
+
+    # Prefer I21 > I15 > other index units (skip percentage changes)
+    if "unit" in df.columns and df["unit"].nunique() > 1:
+        for pref in ["I21", "I15", "I10", "I05"]:
+            subset = df[df["unit"] == pref]
+            if not subset.empty:
+                df = subset
+                break
+
+    # If still multiple rows per geo (e.g. multiple indicators), pick first
+    rows_per_geo = df.groupby(geo_col).size()
+    if rows_per_geo.max() > 1:
+        for col in ["indic_bt", "indic"]:
+            if col in df.columns and df[col].nunique() > 1:
+                first_val = df[col].iloc[0]
+                df = df[df[col] == first_val]
+                break
+
+    return df.reset_index(drop=True)
+
+
 def extract_sts_monthly(dataset, nace):
     """
     Extract STS monthly index data for a dataset x NACE combination
-    using eurostat.get_data_df().
+    using eurostat.get_data_df(). Returns cleaned DataFrame with one
+    row per geo and bare date columns.
     """
     if eurostat is None:
         print("  -> eurostat package not available")
@@ -268,6 +327,7 @@ def extract_sts_monthly(dataset, nace):
         }
         df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
+            df = _clean_sts_df(df)
             print(f"  -> OK: {len(df)} rows")
             return df
     except Exception as e:
@@ -284,12 +344,13 @@ def extract_sts_monthly(dataset, nace):
         }
         df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
+            df = _clean_sts_df(df)
             print(f"  -> OK (I15): {len(df)} rows")
             return df
     except Exception as e:
         print(f"  -> SCA/I15 failed: {e}")
 
-    # Attempt 3: broader filter
+    # Attempt 3: broader filter — clean aggressively
     try:
         filter_pars = {
             "startPeriod": START_PERIOD,
@@ -298,6 +359,7 @@ def extract_sts_monthly(dataset, nace):
         }
         df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
+            df = _clean_sts_df(df)
             print(f"  -> OK (broad): {len(df)} rows")
             return df
     except Exception as e:

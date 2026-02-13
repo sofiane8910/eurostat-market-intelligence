@@ -235,7 +235,7 @@ def plot_comext(csv_path, cn_code, output_dir):
 def plot_sts(csv_path, dataset, nace, output_dir):
     """
     Single-panel chart for STS index data:
-    EU27 line (bold blue) + top 3-4 country lines (thinner, colored).
+    EU27 line (bold blue) + top 3 country lines (thinner, colored).
     """
     df = pd.read_csv(csv_path)
 
@@ -249,18 +249,47 @@ def plot_sts(csv_path, dataset, nace, output_dir):
         print(f"  SKIP {dataset}_{nace}.png: no geo column found")
         return None
 
-    # Find value columns (pattern: YYYY-MM_value)
+    # Filter to single series per geo if needed (handles old unclean CSVs)
+    rows_per_geo = df.groupby(geo_col).size()
+    if rows_per_geo.max() > 1:
+        if "s_adj" in df.columns and df["s_adj"].nunique() > 1:
+            for pref in ["SCA", "SA", "NSA"]:
+                subset = df[df["s_adj"] == pref]
+                if not subset.empty:
+                    df = subset
+                    break
+        if "unit" in df.columns and df["unit"].nunique() > 1:
+            for pref in ["I21", "I15"]:
+                subset = df[df["unit"] == pref]
+                if not subset.empty:
+                    df = subset
+                    break
+        rows_per_geo = df.groupby(geo_col).size()
+        if rows_per_geo.max() > 1:
+            for col in ["indic_bt", "indic"]:
+                if col in df.columns and df[col].nunique() > 1:
+                    df = df[df[col] == df[col].iloc[0]]
+                    break
+
+    # Find date columns: "2023-01_value" or bare "2023-01"
     val_cols = [c for c in df.columns if re.match(r"\d{4}-\d{2}_value$", c)]
-    if not val_cols:
-        print(f"  SKIP {dataset}_{nace}.png: no _value columns")
+    bare_cols = [c for c in df.columns if re.match(r"\d{4}-\d{2}$", c)]
+    date_cols = val_cols or bare_cols
+    is_value_suffix = bool(val_cols)
+
+    if not date_cols:
+        print(f"  SKIP {dataset}_{nace}.png: no date columns")
         return None
 
     # Parse to long format
     records = []
     for _, row in df.iterrows():
         geo = row[geo_col]
-        for c in val_cols:
-            m = re.match(r"(\d{4})-(\d{2})_value$", c)
+        for c in date_cols:
+            if is_value_suffix:
+                m = re.match(r"(\d{4})-(\d{2})_value$", c)
+            else:
+                m = re.match(r"(\d{4})-(\d{2})$", c)
             if m:
                 v = row[c]
                 if pd.notna(v):
@@ -299,10 +328,10 @@ def plot_sts(csv_path, dataset, nace, output_dir):
         ax.plot(eu["date"], eu["value"],
                 color=COLORS["blue"], linewidth=2.5, label=eu_label, zorder=5)
 
-    # Top 3-4 countries by average value
+    # Top 3 countries (excluding aggregates)
     countries = long[~long["geo"].isin(EU27_AGGREGATES)]
     if not countries.empty:
-        avg_by_geo = countries.groupby("geo")["value"].mean().nlargest(4)
+        avg_by_geo = countries.groupby("geo")["value"].mean().nlargest(3)
         for i, (geo, _) in enumerate(avg_by_geo.items()):
             gdata = countries[countries["geo"] == geo].sort_values("date")
             ax.plot(gdata["date"], gdata["value"],
@@ -311,7 +340,7 @@ def plot_sts(csv_path, dataset, nace, output_dir):
                     label=geo)
 
     _style_ax(ax, f"{dataset} x {nace}", "Index value")
-    ax.legend(fontsize=7, loc="best")
+    ax.legend(fontsize=8, loc="best")
     ax.axhline(y=100, color="black", linewidth=0.5, linestyle="--", alpha=0.3)
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))
