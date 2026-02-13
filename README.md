@@ -50,114 +50,114 @@ python visualize.py
 
 ### B1: Self-Adhesive Plastics (HS 3919)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39191080 | SA plastic strips in rolls <= 20cm wide, other | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39199020 | SA plastic sheets/films (excl. rolls <= 20cm), addition polymerisation — PE, PP, PVC-based labelstock | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39199080 | SA plastic sheets/films (excl. rolls <= 20cm), other — catch-all for PSA labelstock | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39191080 | DS-045409 | SA plastic strips in rolls <= 20cm wide, other | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39199020 | DS-045409 | SA plastic sheets/films (excl. rolls <= 20cm), addition polymerisation — PE, PP, PVC-based labelstock | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39199080 | DS-045409 | SA plastic sheets/films (excl. rolls <= 20cm), other — catch-all for PSA labelstock | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B2: Self-Adhesive Paper & Paperboard (HS 4811)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 48114100 | Self-adhesive paper and paperboard — paper PSA labelstock (face + adhesive + liner) | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 48114900 | Gummed/adhesive paper & paperboard (excl. self-adhesive) — competing wet-gummed technology | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 48114100 | DS-045409 | Self-adhesive paper and paperboard — paper PSA labelstock (face + adhesive + liner) | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 48114900 | DS-045409 | Gummed/adhesive paper & paperboard (excl. self-adhesive) — competing wet-gummed technology | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B3: Labels of Paper & Paperboard (HS 4821)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 48211010 | Self-adhesive printed labels of paper/paperboard — finished converted PSA labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 48211090 | Other printed labels of paper/paperboard (excl. SA) — wet-glue, shrink sleeve labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 48219010 | Self-adhesive labels, paper/paperboard (unprinted) — blank thermal/shipping labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 48219090 | Other labels, paper/paperboard (unprinted, excl. SA) — blank non-PSA labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 48211010 | DS-045409 | Self-adhesive printed labels of paper/paperboard — finished converted PSA labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 48211090 | DS-045409 | Other printed labels of paper/paperboard (excl. SA) — wet-glue, shrink sleeve labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 48219010 | DS-045409 | Self-adhesive labels, paper/paperboard (unprinted) — blank thermal/shipping labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 48219090 | DS-045409 | Other labels, paper/paperboard (unprinted, excl. SA) — blank non-PSA labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B4.1: PE Films (HS 3920.10)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39201023 | PE film, SG < 0.94, thickness <= 0.025mm — thin LDPE/LLDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39201024 | PE film, SG < 0.94, thickness 0.025-0.05mm — medium LDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39201025 | PE film, SG < 0.94, thickness > 0.05mm — thicker LDPE films, label face stock gauge | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39201028 | Other PE film, SG < 0.94 — other LDPE/LLDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39201040 | PE film, SG >= 0.94, thickness < 0.021mm — thin HDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39201081 | PE film, SG >= 0.94, thickness 0.021-0.160mm — standard HDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39201089 | Other PE film, SG >= 0.94 — other HDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39201023 | DS-045409 | PE film, SG < 0.94, thickness <= 0.025mm — thin LDPE/LLDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39201024 | DS-045409 | PE film, SG < 0.94, thickness 0.025-0.05mm — medium LDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39201025 | DS-045409 | PE film, SG < 0.94, thickness > 0.05mm — thicker LDPE films, label face stock gauge | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39201028 | DS-045409 | Other PE film, SG < 0.94 — other LDPE/LLDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39201040 | DS-045409 | PE film, SG >= 0.94, thickness < 0.021mm — thin HDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39201081 | DS-045409 | PE film, SG >= 0.94, thickness 0.021-0.160mm — standard HDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39201089 | DS-045409 | Other PE film, SG >= 0.94 — other HDPE films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B4.2: PP Films (HS 3920.20)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39202021 | BOPP film, thickness <= 0.10mm — the #1 filmic label face stock material | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39202029 | Other PP film (cast/OPP), thickness <= 0.10mm — cast PP for wrap-around labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39202080 | PP film, thickness > 0.10mm — thicker PP films for heavy-duty applications | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39202021 | DS-045409 | BOPP film, thickness <= 0.10mm — the #1 filmic label face stock material | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39202029 | DS-045409 | Other PP film (cast/OPP), thickness <= 0.10mm — cast PP for wrap-around labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39202080 | DS-045409 | PP film, thickness > 0.10mm — thicker PP films for heavy-duty applications | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B4.3: PVC Films (HS 3920.43/49)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39204310 | Flexible PVC film (>= 6% plasticiser), not supported — conformable label/graphic film | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39204390 | Other flexible PVC film | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39204910 | Rigid PVC film, thickness > 1mm — thick rigid PVC for blister packaging | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39204990 | Other rigid PVC film — thin rigid PVC | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39204310 | DS-045409 | Flexible PVC film (>= 6% plasticiser), not supported — conformable label/graphic film | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39204390 | DS-045409 | Other flexible PVC film | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39204910 | DS-045409 | Rigid PVC film, thickness > 1mm — thick rigid PVC for blister packaging | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39204990 | DS-045409 | Other rigid PVC film — thin rigid PVC | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B4.4: PET Films (HS 3920.62)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39206219 | PET film, thickness 0.025-0.35mm — standard PET for label face stocks and release liners | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39206290 | PET film, thickness > 0.35mm — heavy PET sheets for industrial labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39206219 | DS-045409 | PET film, thickness 0.025-0.35mm — standard PET for label face stocks and release liners | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39206290 | DS-045409 | PET film, thickness > 0.35mm — heavy PET sheets for industrial labels | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B4.5: Other Films
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39206100 | Polycarbonate film — durable label substrates for harsh environments | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39206900 | Other polyester film (PEN, PBT, etc.) — specialty high-performance label substrates | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39209928 | Polyimide film — high-temperature labels for electronics and automotive | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 39209959 | Other plastic film, n.e.c. — catch-all including bio-based and TPU films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39206100 | DS-045409 | Polycarbonate film — durable label substrates for harsh environments | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39206900 | DS-045409 | Other polyester film (PEN, PBT, etc.) — specialty high-performance label substrates | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39209928 | DS-045409 | Polyimide film — high-temperature labels for electronics and automotive | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 39209959 | DS-045409 | Other plastic film, n.e.c. — catch-all including bio-based and TPU films | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B5: Adhesives (HS 3506)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 35061000 | Adhesives, retail sale, net weight <= 1kg — small-format retail adhesives | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 35069110 | Water-based adhesives from synthetic polymers — water-based PSA emulsions, PVAc | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 35069190 | Other adhesives based on synthetic polymers or rubber — solvent-based PSA, hot-melt, UV-curable | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 35069900 | Other prepared glues/adhesives, n.e.c. — other industrial adhesives | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 35061000 | DS-045409 | Adhesives, retail sale, net weight <= 1kg — small-format retail adhesives | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 35069110 | DS-045409 | Water-based adhesives from synthetic polymers — water-based PSA emulsions, PVAc | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 35069190 | DS-045409 | Other adhesives based on synthetic polymers or rubber — solvent-based PSA, hot-melt, UV-curable | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 35069900 | DS-045409 | Other prepared glues/adhesives, n.e.c. — other industrial adhesives | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B6: Silicones (HS 3910)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 39100000 | Silicones in primary forms — release coating silicones for liner substrates | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 39100000 | DS-045409 | Silicones in primary forms — release coating silicones for liner substrates | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B7: Glassine & Release Liner Papers (HS 4806)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 48064010 | Glassine papers in rolls or sheets — primary release liner base paper | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 48064090 | Other glazed transparent/translucent papers — specialty transparent liner papers | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 48064010 | DS-045409 | Glassine papers in rolls or sheets — primary release liner base paper | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 48064090 | DS-045409 | Other glazed transparent/translucent papers — specialty transparent liner papers | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B8: Printing Inks (HS 3215)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 32151100 | Black printing ink — black inks for flexo, offset, digital label printing | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 32151900 | Other printing ink — all colour inks for label printing | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 32151100 | DS-045409 | Black printing ink — black inks for flexo, offset, digital label printing | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 32151900 | DS-045409 | Other printing ink — all colour inks for label printing | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B9: RFID / Smart Labels (HS 8523)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 85235910 | RFID tags, inlays, proximity cards — RFID smart label inlays | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
-| 85235990 | Other semiconductor media — other smart label components | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 85235910 | DS-045409 | RFID tags, inlays, proximity cards — RFID smart label inlays | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| 85235990 | DS-045409 | Other semiconductor media — other smart label components | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### B10: Stamping Foils (HS 3212)
 
-| CN Code | Description | Freq | Range | Partner Detail | Link |
-|---|---|---|---|---|---|
-| 32121000 | Stamping foils — hot stamping foils for premium label embellishment | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
+| CN Code | Dataset | Description | Freq | Range | Partner Detail | Link |
+|---|---|---|---|---|---|---|
+| 32121000 | DS-045409 | Stamping foils — hot stamping foils for premium label embellishment | Monthly | 2023-01 to 2025-12 | WORLD only | [Comext](https://ec.europa.eu/eurostat/comext/newxtweb/) |
 
 ### Excluded CN Codes (no data returned from Eurostat)
 
