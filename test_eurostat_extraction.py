@@ -6,8 +6,9 @@ Extracts monthly data for all Comext trade CN codes and STS industry indices
 relevant to the European PSA materials, labels, and converting industry.
 
 Series:
-  - 46 Comext CN trade codes (DS-045409, monthly)
-  - 11 STS datasets x 14 NACE codes (monthly indices)
+  - 61 Comext CN trade codes (DS-045409, monthly) — supply + demand side
+  - 11 STS datasets x 19 NACE codes (monthly indices) — supply + demand side
+  - 4 demand-side STS datasets (retail, logistics, confidence) x 12 NACE codes
 
 Time range: 2023-01 through 2025-12
 
@@ -37,7 +38,7 @@ from utils import assess_quality, ensure_output_dir, write_quality_report
 # ---------------------------------------------------------------------------
 
 START_PERIOD = 2023
-END_PERIOD = 2025
+END_PERIOD = 2026
 
 EU27_ISO = sorted([
     "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES",
@@ -48,6 +49,9 @@ EU27_ISO = sorted([
 COMEXT_FLOW_IMPORT = "1"
 COMEXT_FLOW_EXPORT = "2"
 COMEXT_INDICATORS = ["VALUE_IN_EUROS", "QUANTITY_IN_100KG"]
+
+# Partners: WORLD aggregate + all 27 EU bilateral + China
+COMEXT_PARTNERS = "+".join(["WORLD"] + EU27_ISO + ["CN"])
 
 # ---------------------------------------------------------------------------
 # CN codes — 46 total
@@ -83,6 +87,25 @@ COMEXT_CN_CODES = [
     "85235210", "85235910", "85235990",
     # B10: Stamping Foils
     "32121000",
+    # Demand-side: Beverages
+    "2009",    # Fruit juices
+    "2201",    # Mineral/aerated waters
+    "2202",    # Non-alcoholic beverages
+    "2203",    # Beer
+    "2204",    # Wine
+    "2208",    # Spirits
+    # Demand-side: HPC / Cleaning
+    "3304",    # Beauty/skin care preparations
+    "3305",    # Hair preparations
+    "3307",    # Shaving, deodorant, bath preparations
+    "3402",    # Washing/cleaning preparations
+    # Demand-side: Pharma
+    "3004",    # Medicaments in dosage form
+    # Demand-side: Food (processed)
+    "1602",    # Prepared/preserved meat
+    "1604",    # Prepared/preserved fish
+    "2005",    # Prepared/preserved vegetables
+    "2106",    # Food preparations n.e.c.
 ]
 
 # ---------------------------------------------------------------------------
@@ -107,7 +130,21 @@ NACE_CODES = [
     "C17", "C171", "C1712", "C172", "C1729",
     "C18", "C20", "C203", "C2052",
     "C22", "C222", "C2221", "C2229", "C2829",
+    # Demand-side end-market sectors
+    "C10",   # Food products
+    "C11",   # Beverages
+    "C12",   # Tobacco
+    "C204",  # Soap, detergents, cosmetics, toiletries (HPC)
+    "C21",   # Pharmaceuticals
 ]
+
+# Retail & logistics datasets with their specific NACE codes
+DEMAND_STS_SERIES = {
+    "sts_trtu_m": ["G47", "G47_FOOD", "G47_NF_HLTH", "G47_NFOOD_X_G473", "G4711"],
+    "sts_sepr_m": ["H", "H49", "H52", "H53"],
+    "ei_bsrt_m_r2": ["G47_FOOD", "G47_NFOOD"],
+    "ei_bsse_m_r2": ["H"],
+}
 
 # ---------------------------------------------------------------------------
 # Description mappings
@@ -160,6 +197,22 @@ CN_DESCRIPTIONS = {
     "85235910": "RFID tags, inlays, proximity cards",
     "85235990": "Other semiconductor media",
     "32121000": "Stamping foils",
+    # Demand-side CN descriptions
+    "2009": "Fruit juices (incl. grape must)",
+    "2201": "Mineral and aerated waters",
+    "2202": "Non-alcoholic beverages (excl. water/juices)",
+    "2203": "Beer made from malt",
+    "2204": "Wine of fresh grapes",
+    "2208": "Spirits, liqueurs and other spirituous beverages",
+    "3304": "Beauty, make-up and skin care preparations",
+    "3305": "Hair preparations",
+    "3307": "Shaving, deodorant, bath preparations",
+    "3402": "Washing and cleaning preparations",
+    "3004": "Medicaments in measured doses",
+    "1602": "Prepared or preserved meat",
+    "1604": "Prepared or preserved fish",
+    "2005": "Prepared or preserved vegetables",
+    "2106": "Food preparations n.e.c.",
 }
 
 STS_DATASET_DESCRIPTIONS = {
@@ -174,6 +227,10 @@ STS_DATASET_DESCRIPTIONS = {
     "sts_ordi_m": "New orders in industry",
     "sts_inlb_m": "Labour input in industry",
     "ei_bssi_m_r2": "Industry confidence indicator",
+    "sts_trtu_m": "Retail trade turnover",
+    "sts_sepr_m": "Services production index",
+    "ei_bsrt_m_r2": "Retail trade confidence indicator",
+    "ei_bsse_m_r2": "Services confidence indicator",
 }
 
 NACE_DESCRIPTIONS = {
@@ -191,6 +248,22 @@ NACE_DESCRIPTIONS = {
     "C2221": "Plastic plates, sheets, tubes, profiles",
     "C2229": "Other plastic products",
     "C2829": "Other general-purpose machinery, n.e.c.",
+    # Demand-side NACE descriptions
+    "C10": "Manufacture of food products",
+    "C11": "Manufacture of beverages",
+    "C12": "Manufacture of tobacco products",
+    "C204": "Soap, detergents, cleaning, cosmetics, toiletries",
+    "C21": "Basic pharmaceutical products and preparations",
+    "G47": "Retail trade (excl. motor vehicles)",
+    "G47_FOOD": "Retail sale of food, beverages and tobacco",
+    "G47_NF_HLTH": "Dispensing chemist, medical goods, cosmetics, toiletries",
+    "G47_NFOOD_X_G473": "Non-food retail (excl. automotive fuel)",
+    "G4711": "Non-specialised stores (food predominating)",
+    "H": "Transportation and storage",
+    "H49": "Land transport and pipelines",
+    "H52": "Warehousing and transport support",
+    "H53": "Postal and courier activities",
+    "G47_NFOOD": "Retail non-food products",
 }
 
 
@@ -210,14 +283,14 @@ def extract_comext_monthly(cn_code):
 
     url = (
         f"{base_url}/data/DS-045409/"
-        f"M.{reporters}.WORLD.{cn_code}.{flows}.{indicators}"
+        f"M.{reporters}.{COMEXT_PARTNERS}.{cn_code}.{flows}.{indicators}"
         f"?startPeriod={START_PERIOD}&endPeriod={END_PERIOD}"
         f"&format=SDMX-CSV"
     )
 
-    print(f"  Fetching CN {cn_code} (monthly)...")
+    print(f"  Fetching CN {cn_code} (monthly, bilateral)...")
     try:
-        resp = requests.get(url, timeout=120)
+        resp = requests.get(url, timeout=300)
         if resp.status_code == 200 and len(resp.content) > 100:
             df = pd.read_csv(StringIO(resp.text))
             print(f"  -> OK: {len(df)} rows")
@@ -228,11 +301,11 @@ def extract_comext_monthly(cn_code):
             print(f"  -> CN8 returned 400, trying HS6 ({hs6})...")
             url_hs6 = (
                 f"{base_url}/data/DS-045409/"
-                f"M.{reporters}.WORLD.{hs6}.{flows}.{indicators}"
+                f"M.{reporters}.{COMEXT_PARTNERS}.{hs6}.{flows}.{indicators}"
                 f"?startPeriod={START_PERIOD}&endPeriod={END_PERIOD}"
                 f"&format=SDMX-CSV"
             )
-            resp2 = requests.get(url_hs6, timeout=120)
+            resp2 = requests.get(url_hs6, timeout=300)
             if resp2.status_code == 200 and len(resp2.content) > 100:
                 df = pd.read_csv(StringIO(resp2.text))
                 print(f"  -> OK (HS6 fallback): {len(df)} rows")
@@ -391,20 +464,22 @@ def run_extraction():
 
     total_comext = len(COMEXT_CN_CODES)
     total_sts = len(STS_DATASETS) * len(NACE_CODES)
-    total = total_comext + total_sts
+    total_demand_sts = sum(len(v) for v in DEMAND_STS_SERIES.values())
+    total = total_comext + total_sts + total_demand_sts
     success_count = 0
     series_idx = 0
 
     print("=" * 70)
     print("EUROSTAT MONTHLY DATA EXTRACTION")
-    print(f"Comext: {total_comext} CN codes | "
-          f"STS: {len(STS_DATASETS)} datasets x {len(NACE_CODES)} NACE = {total_sts}")
+    print(f"Comext: {total_comext} CN codes (bilateral: WORLD+EU27+CN) | "
+          f"STS: {len(STS_DATASETS)} datasets x {len(NACE_CODES)} NACE = {total_sts} | "
+          f"Demand STS: {total_demand_sts}")
     print(f"Total: {total} series | Period: {START_PERIOD}-01 to {END_PERIOD}-12")
     print("=" * 70)
 
-    # --- Phase 1: Comext trade data ---
+    # --- Phase 1: Comext trade data (bilateral) ---
     print(f"\n{'=' * 70}")
-    print("PHASE 1: COMEXT TRADE DATA (monthly)")
+    print("PHASE 1: COMEXT TRADE DATA (monthly, bilateral: WORLD+EU27+CN)")
     print(f"{'=' * 70}")
 
     for i, cn_code in enumerate(COMEXT_CN_CODES, 1):
@@ -509,6 +584,62 @@ def run_extraction():
             if series_idx < total:
                 time.sleep(1)
 
+    # --- Phase 3: Demand-side STS (retail + logistics) ---
+    print(f"\n{'=' * 70}")
+    print("PHASE 3: DEMAND-SIDE STS (retail, logistics, confidence)")
+    print(f"{'=' * 70}")
+
+    demand_idx = 0
+    for dataset, nace_list in DEMAND_STS_SERIES.items():
+        for nace in nace_list:
+            series_idx += 1
+            demand_idx += 1
+            ds_desc = STS_DATASET_DESCRIPTIONS.get(dataset, dataset)
+            nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
+            series_name = f"{ds_desc} x {nace_desc}"
+
+            print(f"\n[{series_idx}/{total}] Demand STS {demand_idx}/{total_demand_sts}: "
+                  f"{dataset} x {nace}")
+            print("-" * 50)
+
+            t0 = time.time()
+            try:
+                df = extract_sts_monthly(dataset, nace)
+            except Exception as e:
+                print(f"  UNEXPECTED ERROR: {e}")
+                traceback.print_exc()
+                df = pd.DataFrame()
+
+            elapsed = time.time() - t0
+
+            if df is not None and not df.empty:
+                csv_path = os.path.join(sts_dir, f"{dataset}_{nace}.csv")
+                df.to_csv(csv_path, index=False)
+                print(f"  Saved: {csv_path}")
+                success_count += 1
+            else:
+                df = pd.DataFrame()
+
+            code_info = f"{dataset} x {nace}"
+            metrics = assess_quality(df, series_name)
+            metrics["notes"].append(f"Extraction time: {elapsed:.1f}s")
+            if df.empty:
+                metrics["notes"].append("No data for this combination.")
+
+            all_metrics.append(metrics)
+            all_code_infos.append(code_info)
+            results.append({
+                "type": "sts_demand",
+                "code": f"{dataset}_{nace}",
+                "name": series_name,
+                "success": not df.empty,
+                "rows": len(df),
+                "elapsed": elapsed,
+            })
+
+            if series_idx < total:
+                time.sleep(1)
+
     # --- Quality report ---
     print("\n" + "=" * 70)
     write_quality_report(all_metrics, all_code_infos)
@@ -520,10 +651,12 @@ def run_extraction():
 
     comext_ok = sum(1 for r in results if r["type"] == "comext" and r["success"])
     sts_ok = sum(1 for r in results if r["type"] == "sts" and r["success"])
+    demand_ok = sum(1 for r in results if r["type"] == "sts_demand" and r["success"])
 
-    print(f"\n  Comext: {comext_ok}/{total_comext} CN codes extracted")
-    print(f"  STS:    {sts_ok}/{total_sts} dataset x NACE combinations extracted")
-    print(f"  Total:  {success_count}/{total} series extracted successfully")
+    print(f"\n  Comext:      {comext_ok}/{total_comext} CN codes extracted")
+    print(f"  STS:         {sts_ok}/{total_sts} dataset x NACE combinations extracted")
+    print(f"  Demand STS:  {demand_ok}/{total_demand_sts} retail/logistics series extracted")
+    print(f"  Total:       {success_count}/{total} series extracted successfully")
 
     failures = [r for r in results if not r["success"]]
     if failures:

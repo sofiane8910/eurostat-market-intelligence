@@ -94,6 +94,22 @@ CN_DESCRIPTIONS = {
     "85235910": "RFID tags, inlays, proximity cards",
     "85235990": "Other semiconductor media",
     "32121000": "Stamping foils",
+    # Demand-side CN descriptions
+    "2009": "Fruit juices (incl. grape must)",
+    "2201": "Mineral and aerated waters",
+    "2202": "Non-alcoholic beverages (excl. water/juices)",
+    "2203": "Beer made from malt",
+    "2204": "Wine of fresh grapes",
+    "2208": "Spirits, liqueurs and other spirituous beverages",
+    "3304": "Beauty, make-up and skin care preparations",
+    "3305": "Hair preparations",
+    "3307": "Shaving, deodorant, bath preparations",
+    "3402": "Washing and cleaning preparations",
+    "3004": "Medicaments in measured doses",
+    "1602": "Prepared or preserved meat",
+    "1604": "Prepared or preserved fish",
+    "2005": "Prepared or preserved vegetables",
+    "2106": "Food preparations n.e.c.",
 }
 
 STS_DATASET_DESCRIPTIONS = {
@@ -108,6 +124,10 @@ STS_DATASET_DESCRIPTIONS = {
     "sts_ordi_m": "New orders in industry",
     "sts_inlb_m": "Labour input in industry",
     "ei_bssi_m_r2": "Industry confidence indicator",
+    "sts_trtu_m": "Retail trade turnover",
+    "sts_sepr_m": "Services production index",
+    "ei_bsrt_m_r2": "Retail trade confidence indicator",
+    "ei_bsse_m_r2": "Services confidence indicator",
 }
 
 NACE_DESCRIPTIONS = {
@@ -125,6 +145,22 @@ NACE_DESCRIPTIONS = {
     "C2221": "Plastic plates, sheets, tubes, profiles",
     "C2229": "Other plastic products",
     "C2829": "Other general-purpose machinery, n.e.c.",
+    # Demand-side NACE descriptions
+    "C10": "Manufacture of food products",
+    "C11": "Manufacture of beverages",
+    "C12": "Manufacture of tobacco products",
+    "C204": "Soap, detergents, cleaning, cosmetics, toiletries",
+    "C21": "Basic pharmaceutical products and preparations",
+    "G47": "Retail trade (excl. motor vehicles)",
+    "G47_FOOD": "Retail sale of food, beverages and tobacco",
+    "G47_NF_HLTH": "Dispensing chemist, medical goods, cosmetics, toiletries",
+    "G47_NFOOD_X_G473": "Non-food retail (excl. automotive fuel)",
+    "G4711": "Non-specialised stores (food predominating)",
+    "H": "Transportation and storage",
+    "H49": "Land transport and pipelines",
+    "H52": "Warehousing and transport support",
+    "H53": "Postal and courier activities",
+    "G47_NFOOD": "Retail non-food products",
 }
 
 
@@ -397,7 +433,7 @@ def generate_all_charts():
         csv_files = sorted(f for f in os.listdir(sts_dir) if f.endswith(".csv"))
         print(f"\nSTS: {len(csv_files)} CSVs found")
         for csv_name in csv_files:
-            m = re.match(r"(.+)_(C\w+)\.csv$", csv_name)
+            m = re.match(r"(.+)_((?:C|G|H)\w*)\.csv$", csv_name)
             if not m:
                 continue
             dataset = m.group(1)
