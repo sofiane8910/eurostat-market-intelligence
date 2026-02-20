@@ -81,11 +81,14 @@ for key, info in data["freshness"].items():
     tier = info["tier"]
 
     # Determine status based on lag
+    # Thresholds account for monthly data granularity + publication delay:
+    # Tier 1 (~3 wk lag): Current if within ~2 months, Lagged if 2-4 months
+    # Tier 2 (~6-8 wk lag): Current if within ~3 months, Lagged if 3-5 months
     if lag is not None:
         if tier == 1:
-            status = "Current" if lag < 45 else ("Lagged" if lag < 90 else "Stale")
+            status = "Current" if lag < 60 else ("Lagged" if lag < 120 else "Stale")
         else:
-            status = "Current" if lag < 75 else ("Lagged" if lag < 120 else "Stale")
+            status = "Current" if lag < 90 else ("Lagged" if lag < 150 else "Stale")
     else:
         status = "Unknown"
 
@@ -257,5 +260,5 @@ st.divider()
 st.caption(
     "This page is auto-generated from the loaded data. "
     "Lag is calculated as the difference between today's date and the latest available data point for each series. "
-    "Status thresholds: Tier 1 Current < 45 days, Tier 2 Current < 75 days."
+    "Status thresholds: Tier 1 Current < 60 days, Tier 2 Current < 90 days."
 )

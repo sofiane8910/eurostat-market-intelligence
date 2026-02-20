@@ -108,7 +108,7 @@ def _parse_sts_filename(filename: str):
     return None, None
 
 
-def compute_freshness(df: pd.DataFrame, dataset_key: str = "") -> dict:
+def compute_freshness(df: pd.DataFrame, dataset_name: str = "") -> dict:
     """Compute data freshness for a series."""
     if df.empty or "date" not in df.columns:
         return {"latest_date": None, "tier": 2, "lag_days": None}
@@ -117,10 +117,9 @@ def compute_freshness(df: pd.DataFrame, dataset_key: str = "") -> dict:
     today = pd.Timestamp(date.today())
     lag_days = (today - latest).days
 
-    # Determine tier from dataset key
-    ds = dataset_key.split("_")[:-1]  # remove NACE suffix
-    ds_name = "_".join(ds) if ds else dataset_key
-    tier = 1 if ds_name in TIER1_DATASETS else 2
+    # Determine tier — dataset_name is already the clean dataset ID
+    # e.g. "sts_inpr_m", "ei_bssi_m_r2", "comext"
+    tier = 1 if dataset_name in TIER1_DATASETS else 2
 
     return {
         "latest_date": latest,
