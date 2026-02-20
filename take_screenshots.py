@@ -1,4 +1,4 @@
-"""Take full-page screenshots of every dashboard page by clicking sidebar links."""
+"""Take screenshots: all pages + dialog pop-out from Executive Summary."""
 
 import asyncio
 from playwright.async_api import async_playwright
@@ -6,9 +6,8 @@ from playwright.async_api import async_playwright
 BASE = "http://localhost:8501"
 OUT = "/Users/sofianeelmokaddam/Desktop/Work/eurostat"
 
-# Sidebar link text -> output filename
 PAGES = [
-    (None,                    "screenshot_0_home.png"),              # home (already loaded)
+    (None,                    "screenshot_0_home.png"),
     ("Executive Summary",     "screenshot_1_executive_summary.png"),
     ("Supply Side",           "screenshot_2_supply_side.png"),
     ("Demand Side",           "screenshot_3_demand_side.png"),
@@ -28,18 +27,14 @@ async def main():
         )
         page = await context.new_page()
 
-        # 1. Load home page first — this triggers data loading into session_state
-        print("Loading home page and waiting for data to load...")
+        print("Loading home page...")
         await page.goto(BASE, wait_until="networkidle", timeout=120000)
-        # Wait for Streamlit app to fully render (data loading can take time)
         await page.wait_for_timeout(15000)
 
         for sidebar_text, filename in PAGES:
             if sidebar_text is not None:
-                # Click the sidebar link
                 print(f"Clicking sidebar: {sidebar_text} ...")
                 link = page.locator(f'[data-testid="stSidebarNav"] a:has-text("{sidebar_text}")')
-                # If the test ID doesn't work, try a broader selector
                 if await link.count() == 0:
                     link = page.locator(f'nav a:has-text("{sidebar_text}")')
                 if await link.count() == 0:
@@ -49,18 +44,38 @@ async def main():
             else:
                 print("Capturing home page ...")
 
-            # Scroll to bottom to trigger lazy content, then back up
-            await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            await page.wait_for_timeout(2000)
-            await page.evaluate("window.scrollTo(0, 0)")
-            await page.wait_for_timeout(1000)
+            # DON'T scroll for Executive Summary — keep dropdown visible at top
+            if sidebar_text != "Executive Summary":
+                await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                await page.wait_for_timeout(2000)
+                await page.evaluate("window.scrollTo(0, 0)")
+                await page.wait_for_timeout(1000)
 
             out_path = f"{OUT}/{filename}"
             await page.screenshot(path=out_path, full_page=True)
             print(f"  Saved: {out_path}")
 
+            # After Executive Summary screenshot: click "View chart" to capture dialog
+            if sidebar_text == "Executive Summary":
+                print("  Clicking first 'View chart' button...")
+                btn = page.locator('button:has-text("View chart")').first
+                if await btn.count() > 0:
+                    await btn.click()
+                    await page.wait_for_timeout(6000)
+                    # Capture viewport (dialog overlay)
+                    await page.screenshot(
+                        path=f"{OUT}/screenshot_1b_exec_dialog.png",
+                        full_page=False,
+                    )
+                    print(f"  Saved: {OUT}/screenshot_1b_exec_dialog.png")
+                    # Close dialog
+                    await page.keyboard.press("Escape")
+                    await page.wait_for_timeout(2000)
+                else:
+                    print("  WARNING: No 'View chart' button found")
+
         await browser.close()
-        print("\nAll screenshots saved.")
+        print("\nDone.")
 
 
 asyncio.run(main())
