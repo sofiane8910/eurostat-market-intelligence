@@ -14,7 +14,7 @@ from constants import (
     EU27_CODES, AGGREGATE_CODES, COUNTRY_NAMES, SECTOR_GROUPS,
     freshness_footnote,
 )
-from charts import line_chart, freshness_badge
+from charts import line_chart, dual_axis_chart, freshness_badge
 
 st.title("Trade Balance & China Competition")
 st.caption(
@@ -77,14 +77,14 @@ else:
 world_totals, china_totals = _compute_eu_china_totals(data["comext"], cn_subset)
 
 if not world_totals.empty and not china_totals.empty:
-    combined = world_totals.assign(country="Imports from World (total)")
-    china_plot = china_totals.assign(country="Imports from China")
-    both = pd.concat([combined, china_plot])
+    both = pd.concat([world_totals, china_totals])
     date_range = f"{both['date'].min().strftime('%b %Y')} – {both['date'].max().strftime('%b %Y')}"
     st.plotly_chart(
-        line_chart(both, ["Imports from World (total)", "Imports from China"],
-                   f"EU27 Monthly Import Value — {scope}, {date_range}",
-                   y_label="Trade Value (EUR)"),
+        dual_axis_chart(world_totals, china_totals,
+                        f"EU27 Monthly Import Value — {scope}, {date_range}",
+                        y_label="Trade Value (EUR)",
+                        world_label="Imports from World (total)",
+                        china_label="Imports from China"),
         use_container_width=True,
     )
     st.caption(_trade_footnote)

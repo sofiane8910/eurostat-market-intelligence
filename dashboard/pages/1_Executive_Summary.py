@@ -292,27 +292,45 @@ def _show_trade_chart(cn_code: str, label: str, flow: str = "1"):
 
     date_range = f"{world['date'].min().strftime('%b %Y')} \u2013 {world['date'].max().strftime('%b %Y')}"
 
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=world["date"], y=world["value"],
-        mode="lines+markers", name=f"{flow_name} from World",
-        line=dict(width=2.5, color="#1f77b4"), marker=dict(size=4),
-        hovertemplate="%{x|%b %Y}: %{y:,.0f} EUR<extra>World</extra>",
-    ))
     if not china.empty:
+        from plotly.subplots import make_subplots
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        fig.add_trace(go.Scatter(
+            x=world["date"], y=world["value"],
+            mode="lines+markers", name=f"{flow_name} from World",
+            line=dict(width=2.5, color="#1f77b4"), marker=dict(size=4),
+            hovertemplate="%{x|%b %Y}: %{y:,.0f} EUR<extra>World</extra>",
+        ), secondary_y=False)
         fig.add_trace(go.Scatter(
             x=china["date"], y=china["value"],
             mode="lines+markers", name=f"{flow_name} from China",
             line=dict(width=2.5, color="#ef553b"), marker=dict(size=4),
             hovertemplate="%{x|%b %Y}: %{y:,.0f} EUR<extra>China</extra>",
+        ), secondary_y=True)
+        fig.update_layout(
+            title=f"{desc} (CN {cn_code}) \u2014 {scope_name} {flow_name}, {date_range}",
+            xaxis_title="", hovermode="x unified",
+            legend=dict(orientation="h", y=-0.15),
+            margin=dict(l=60, r=60, t=50, b=40), height=500,
+        )
+        fig.update_yaxes(title_text="Trade Value (EUR) \u2014 World", secondary_y=False,
+                          title_font=dict(color="#1f77b4"), tickfont=dict(color="#1f77b4"))
+        fig.update_yaxes(title_text="Trade Value (EUR) \u2014 China", secondary_y=True,
+                          title_font=dict(color="#ef553b"), tickfont=dict(color="#ef553b"))
+    else:
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=world["date"], y=world["value"],
+            mode="lines+markers", name=f"{flow_name} from World",
+            line=dict(width=2.5, color="#1f77b4"), marker=dict(size=4),
+            hovertemplate="%{x|%b %Y}: %{y:,.0f} EUR<extra>World</extra>",
         ))
-
-    fig.update_layout(
-        title=f"{desc} (CN {cn_code}) \u2014 {scope_name} {flow_name}, {date_range}",
-        xaxis_title="", yaxis_title="Trade Value (EUR)",
-        hovermode="x unified", legend=dict(orientation="h", y=-0.15),
-        margin=dict(l=60, r=20, t=50, b=40), height=500,
-    )
+        fig.update_layout(
+            title=f"{desc} (CN {cn_code}) \u2014 {scope_name} {flow_name}, {date_range}",
+            xaxis_title="", yaxis_title="Trade Value (EUR)",
+            hovermode="x unified", legend=dict(orientation="h", y=-0.15),
+            margin=dict(l=60, r=20, t=50, b=40), height=500,
+        )
     st.plotly_chart(fig, use_container_width=True)
 
     # Stats

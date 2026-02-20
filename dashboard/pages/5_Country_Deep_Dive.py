@@ -4,6 +4,7 @@ Country Deep Dive — All indicators for a selected country.
 
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -14,7 +15,7 @@ from constants import (
     STS_DATASET_DESCRIPTIONS, NACE_DESCRIPTIONS, SUPPLY_NACE, DEMAND_NACE,
     FLOW_LABELS, INDICATOR_LABELS, freshness_footnote,
 )
-from charts import line_chart, trade_balance_chart, bilateral_flow_chart, freshness_badge
+from charts import line_chart, dual_axis_chart, trade_balance_chart, bilateral_flow_chart, freshness_badge
 
 st.title("Country Deep Dive")
 st.caption("Select an EU member state to view all available trade and industrial indicators")
@@ -64,29 +65,74 @@ with tab_supply_trade:
             world_exp = country_data[(country_data["partner"] == "WORLD") & (country_data["flow"] == "2")]
             china_imp = country_data[(country_data["partner"] == "CN") & (country_data["flow"] == "1")]
 
-            plot_data = []
-            if not world_imp.empty:
-                plot_data.append(world_imp[["date", "value"]].assign(country="Imports from World"))
-            if not world_exp.empty:
-                plot_data.append(world_exp[["date", "value"]].assign(country="Exports to World"))
-            if not china_imp.empty:
-                plot_data.append(china_imp[["date", "value"]].assign(country="Imports from China"))
+            # World imports & exports on left axis, China on right axis
+            has_world = not world_imp.empty or not world_exp.empty
+            has_china = not china_imp.empty
 
-            if plot_data:
-                combined = pd.concat(plot_data)
-                date_range = f"{combined['date'].min().strftime('%b %Y')} – {combined['date'].max().strftime('%b %Y')}"
-                st.plotly_chart(
-                    line_chart(combined, combined["country"].unique().tolist(),
-                               f"{desc} (CN {cn_code}) — {country_name}, {date_range}",
-                               y_label=indicator_name),
-                    use_container_width=True,
-                )
+            if has_world or has_china:
+                all_dates = pd.concat([
+                    d[["date"]] for d in [world_imp, world_exp, china_imp] if not d.empty
+                ])
+                date_range = f"{all_dates['date'].min().strftime('%b %Y')} \u2013 {all_dates['date'].max().strftime('%b %Y')}"
+
+                if has_china and has_world:
+                    from plotly.subplots import make_subplots
+                    fig = make_subplots(specs=[[{"secondary_y": True}]])
+                    if not world_imp.empty:
+                        fig.add_trace(go.Scatter(
+                            x=world_imp["date"], y=world_imp["value"],
+                            mode="lines+markers", name="Imports from World",
+                            line=dict(width=2.5, color="#1f77b4"), marker=dict(size=4),
+                            hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>World Imports</extra>",
+                        ), secondary_y=False)
+                    if not world_exp.empty:
+                        fig.add_trace(go.Scatter(
+                            x=world_exp["date"], y=world_exp["value"],
+                            mode="lines+markers", name="Exports to World",
+                            line=dict(width=2.5, color="#00cc96"), marker=dict(size=4),
+                            hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>World Exports</extra>",
+                        ), secondary_y=False)
+                    fig.add_trace(go.Scatter(
+                        x=china_imp["date"], y=china_imp["value"],
+                        mode="lines+markers", name="Imports from China",
+                        line=dict(width=2.5, color="#ef553b"), marker=dict(size=4),
+                        hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>China Imports</extra>",
+                    ), secondary_y=True)
+                    fig.update_layout(
+                        title=f"{desc} (CN {cn_code}) \u2014 {country_name}, {date_range}",
+                        xaxis_title="", hovermode="x unified",
+                        legend=dict(orientation="h", y=-0.15),
+                        margin=dict(l=60, r=60, t=40, b=40), height=400,
+                    )
+                    fig.update_yaxes(title_text=f"{indicator_name} \u2014 World",
+                                      title_font=dict(color="#1f77b4"),
+                                      tickfont=dict(color="#1f77b4"), secondary_y=False)
+                    fig.update_yaxes(title_text=f"{indicator_name} \u2014 China",
+                                      title_font=dict(color="#ef553b"),
+                                      tickfont=dict(color="#ef553b"), secondary_y=True)
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    plot_data = []
+                    if not world_imp.empty:
+                        plot_data.append(world_imp[["date", "value"]].assign(country="Imports from World"))
+                    if not world_exp.empty:
+                        plot_data.append(world_exp[["date", "value"]].assign(country="Exports to World"))
+                    if not china_imp.empty:
+                        plot_data.append(china_imp[["date", "value"]].assign(country="Imports from China"))
+                    combined = pd.concat(plot_data)
+                    st.plotly_chart(
+                        line_chart(combined, combined["country"].unique().tolist(),
+                                   f"{desc} (CN {cn_code}) \u2014 {country_name}, {date_range}",
+                                   y_label=indicator_name),
+                        use_container_width=True,
+                    )
+
                 fr = data["freshness"].get(f"comext_{cn_code}", {})
                 st.caption(freshness_footnote(fr.get("tier", 2), fr.get("latest_date")))
 
 # ---- DEMAND TRADE ----
 with tab_demand_trade:
-    st.subheader(f"End-Market Product Trade — {country_name}")
+    st.subheader(f"End-Market Product Trade \u2014 {country_name}")
     st.caption("International trade in finished goods (food, beverages, HPC, pharma). Source: Eurostat Comext DS-045409")
 
     indicator = st.radio("Measure", ["VALUE_IN_EUROS", "QUANTITY_IN_100KG"],
@@ -107,23 +153,67 @@ with tab_demand_trade:
             world_exp = country_data[(country_data["partner"] == "WORLD") & (country_data["flow"] == "2")]
             china_imp = country_data[(country_data["partner"] == "CN") & (country_data["flow"] == "1")]
 
-            plot_data = []
-            if not world_imp.empty:
-                plot_data.append(world_imp[["date", "value"]].assign(country="Imports from World"))
-            if not world_exp.empty:
-                plot_data.append(world_exp[["date", "value"]].assign(country="Exports to World"))
-            if not china_imp.empty:
-                plot_data.append(china_imp[["date", "value"]].assign(country="Imports from China"))
+            has_world = not world_imp.empty or not world_exp.empty
+            has_china = not china_imp.empty
 
-            if plot_data:
-                combined = pd.concat(plot_data)
-                date_range = f"{combined['date'].min().strftime('%b %Y')} – {combined['date'].max().strftime('%b %Y')}"
-                st.plotly_chart(
-                    line_chart(combined, combined["country"].unique().tolist(),
-                               f"{desc} (CN {cn_code}) — {country_name}, {date_range}",
-                               y_label=indicator_name),
-                    use_container_width=True,
-                )
+            if has_world or has_china:
+                all_dates = pd.concat([
+                    d[["date"]] for d in [world_imp, world_exp, china_imp] if not d.empty
+                ])
+                date_range = f"{all_dates['date'].min().strftime('%b %Y')} \u2013 {all_dates['date'].max().strftime('%b %Y')}"
+
+                if has_china and has_world:
+                    from plotly.subplots import make_subplots
+                    fig = make_subplots(specs=[[{"secondary_y": True}]])
+                    if not world_imp.empty:
+                        fig.add_trace(go.Scatter(
+                            x=world_imp["date"], y=world_imp["value"],
+                            mode="lines+markers", name="Imports from World",
+                            line=dict(width=2.5, color="#1f77b4"), marker=dict(size=4),
+                            hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>World Imports</extra>",
+                        ), secondary_y=False)
+                    if not world_exp.empty:
+                        fig.add_trace(go.Scatter(
+                            x=world_exp["date"], y=world_exp["value"],
+                            mode="lines+markers", name="Exports to World",
+                            line=dict(width=2.5, color="#00cc96"), marker=dict(size=4),
+                            hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>World Exports</extra>",
+                        ), secondary_y=False)
+                    fig.add_trace(go.Scatter(
+                        x=china_imp["date"], y=china_imp["value"],
+                        mode="lines+markers", name="Imports from China",
+                        line=dict(width=2.5, color="#ef553b"), marker=dict(size=4),
+                        hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>China Imports</extra>",
+                    ), secondary_y=True)
+                    fig.update_layout(
+                        title=f"{desc} (CN {cn_code}) \u2014 {country_name}, {date_range}",
+                        xaxis_title="", hovermode="x unified",
+                        legend=dict(orientation="h", y=-0.15),
+                        margin=dict(l=60, r=60, t=40, b=40), height=400,
+                    )
+                    fig.update_yaxes(title_text=f"{indicator_name} \u2014 World",
+                                      title_font=dict(color="#1f77b4"),
+                                      tickfont=dict(color="#1f77b4"), secondary_y=False)
+                    fig.update_yaxes(title_text=f"{indicator_name} \u2014 China",
+                                      title_font=dict(color="#ef553b"),
+                                      tickfont=dict(color="#ef553b"), secondary_y=True)
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    plot_data = []
+                    if not world_imp.empty:
+                        plot_data.append(world_imp[["date", "value"]].assign(country="Imports from World"))
+                    if not world_exp.empty:
+                        plot_data.append(world_exp[["date", "value"]].assign(country="Exports to World"))
+                    if not china_imp.empty:
+                        plot_data.append(china_imp[["date", "value"]].assign(country="Imports from China"))
+                    combined = pd.concat(plot_data)
+                    st.plotly_chart(
+                        line_chart(combined, combined["country"].unique().tolist(),
+                                   f"{desc} (CN {cn_code}) \u2014 {country_name}, {date_range}",
+                                   y_label=indicator_name),
+                        use_container_width=True,
+                    )
+
                 fr = data["freshness"].get(f"comext_{cn_code}", {})
                 st.caption(freshness_footnote(fr.get("tier", 2), fr.get("latest_date")))
 

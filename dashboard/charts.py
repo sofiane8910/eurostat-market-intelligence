@@ -95,6 +95,43 @@ def heatmap_yoy(df: pd.DataFrame, countries: list[str], title: str) -> go.Figure
     return fig
 
 
+def dual_axis_chart(world_df: pd.DataFrame, china_df: pd.DataFrame,
+                     title: str, y_label: str = "Trade Value (EUR)",
+                     world_label: str = "World", china_label: str = "China") -> go.Figure:
+    """Line chart with dual y-axes: left axis for World, right axis for China.
+    Both DataFrames must have 'date' and 'value' columns."""
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    if not world_df.empty:
+        fig.add_trace(go.Scatter(
+            x=world_df["date"], y=world_df["value"],
+            mode="lines+markers", name=world_label,
+            line=dict(width=2.5, color="#1f77b4"), marker=dict(size=4),
+            hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>" + world_label + "</extra>",
+        ), secondary_y=False)
+
+    if not china_df.empty:
+        fig.add_trace(go.Scatter(
+            x=china_df["date"], y=china_df["value"],
+            mode="lines+markers", name=china_label,
+            line=dict(width=2.5, color="#ef553b"), marker=dict(size=4),
+            hovertemplate="%{x|%b %Y}: %{y:,.0f}<extra>" + china_label + "</extra>",
+        ), secondary_y=True)
+
+    fig.update_layout(
+        title=title, xaxis_title="",
+        hovermode="x unified", legend=dict(orientation="h", y=-0.15),
+        margin=dict(l=60, r=60, t=40, b=40), height=400,
+    )
+    fig.update_yaxes(title_text=f"{y_label} — {world_label}", secondary_y=False,
+                      title_font=dict(color="#1f77b4"), tickfont=dict(color="#1f77b4"))
+    fig.update_yaxes(title_text=f"{y_label} — {china_label}", secondary_y=True,
+                      title_font=dict(color="#ef553b"), tickfont=dict(color="#ef553b"))
+    return fig
+
+
 def sparkline(values: list, color: str = "#1f77b4") -> go.Figure:
     """Small inline sparkline for KPI cards."""
     fig = go.Figure(go.Scatter(
