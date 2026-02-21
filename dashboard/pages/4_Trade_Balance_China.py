@@ -76,8 +76,16 @@ def _compute_eu_china_totals(_comext_data, cn_codes):
     return world_df, china_df
 
 
-scope = st.radio("Product scope", ["All Tracked Products", "Supply Materials Only", "Demand Products Only"],
-                  horizontal=True, key="china_scope")
+scope = st.radio(
+    "Product scope", ["All Tracked Products", "Supply Materials Only", "Demand Products Only"],
+    horizontal=True, key="china_scope",
+    help=(
+        "**Supply Materials** = raw materials and packaging inputs used to make labels "
+        "(plastics, paper, adhesives, inks, RFID, films). "
+        "**Demand Products** = finished goods whose packaging drives label consumption "
+        "(food, beverages, cosmetics, pharma)."
+    ),
+)
 if scope == "Supply Materials Only":
     cn_subset = [c for c in all_cn_codes if c in SUPPLY_CN_CODES]
 elif scope == "Demand Products Only":

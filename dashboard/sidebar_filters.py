@@ -58,6 +58,14 @@ def render_global_filters(show_sector: bool = True,
             ]
             selected_sector_label = st.selectbox(
                 "Sector", sector_options, index=0, key="global_sector",
+                help=(
+                    "**Supply sectors** (Paper & Board, Labels, Films & Plastics, "
+                    "Adhesives, Inks, RFID): raw materials and packaging inputs "
+                    "used to manufacture labels.\n\n"
+                    "**Demand sectors** (Food & Beverages, HPC & Cosmetics, "
+                    "Pharma, Logistics): end-market industries whose packaging "
+                    "drives label consumption."
+                ),
             )
             if selected_sector_label != "All Sectors":
                 sector_name = selected_sector_label.split(" \u2014 ")[0]
