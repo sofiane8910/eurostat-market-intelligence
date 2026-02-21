@@ -2,3 +2,7 @@
 __pycache__/
 *.pyc
 .claude/
+
+# Large CSVs — use .csv.gz versions in git, decompress locally
+output2/comext.csv
+output2/sts.csv

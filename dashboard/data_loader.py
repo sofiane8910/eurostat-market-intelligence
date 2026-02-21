@@ -1,6 +1,6 @@
 """
 Data loading and normalization for the Eurostat Labels Market Dashboard.
-Loads all CSV files from output/comext/ and output/sts/, normalizes formats,
+Loads flat CSVs from output2/ (comext.csv, sts.csv), normalizes formats,
 and computes data freshness metrics.
 """
 
@@ -18,7 +18,7 @@ from constants import (
     TIER1_DATASETS,
 )
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output")
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output2")
 
 
 def _normalize_geo(code: str) -> str:
@@ -26,86 +26,48 @@ def _normalize_geo(code: str) -> str:
     return GEO_NORMALIZE.get(code, code)
 
 
-def load_comext_file(path: str) -> pd.DataFrame:
-    """
-    Load a Comext CSV file and return normalized long-format DataFrame.
-    Columns: country, partner, flow, indicator, date, value
-    """
+def _load_comext_all() -> dict:
+    """Load output2/comext.csv and return {cn_code: DataFrame}."""
+    path = os.path.join(DATA_DIR, "comext.csv")
+    if not os.path.isfile(path):
+        return {}
     df = pd.read_csv(path)
     if df.empty:
-        return pd.DataFrame(columns=["country", "partner", "flow", "indicator", "date", "value"])
-
-    df = df.rename(columns={
-        "reporter": "country",
-        "partner": "partner",
-        "flow": "flow",
-        "indicators": "indicator",
-        "TIME_PERIOD": "date",
-        "OBS_VALUE": "value",
-    })
-    df = df[["country", "partner", "flow", "indicator", "date", "value"]].copy()
+        return {}
+    df = df.rename(columns={"reporter": "country"})
     df["country"] = df["country"].map(_normalize_geo)
     df["partner"] = df["partner"].map(_normalize_geo)
     df["flow"] = df["flow"].astype(str)
     df["date"] = pd.to_datetime(df["date"], format="%Y-%m")
     df["value"] = pd.to_numeric(df["value"], errors="coerce")
-    return df
+    result = {}
+    for cn_code, grp in df.groupby("cn_code"):
+        result[str(cn_code)] = grp[["country", "partner", "flow", "indicator", "date", "value"]].copy()
+    return result
 
 
-def load_sts_file(path: str) -> pd.DataFrame:
-    """
-    Load an STS CSV file (wide format) and return long-format DataFrame.
-    Columns: country, date, value
-    Takes only the first row per geo (preferred SCA/I21 combo).
-    """
+def _load_sts_all() -> dict:
+    """Load output2/sts.csv and return {dataset_nace: DataFrame}."""
+    path = os.path.join(DATA_DIR, "sts.csv")
+    if not os.path.isfile(path):
+        return {}
     df = pd.read_csv(path)
     if df.empty:
-        return pd.DataFrame(columns=["country", "date", "value"])
-
-    # Find the geo column (contains TIME_PERIOD)
-    geo_col = None
-    for c in df.columns:
-        if "geo" in c.lower():
-            geo_col = c
-            break
-    if geo_col is None:
-        return pd.DataFrame(columns=["country", "date", "value"])
-
-    # Identify meta columns (everything before date columns)
-    date_cols = [c for c in df.columns if re.match(r"^\d{4}-\d{2}$", c)]
-    if not date_cols:
-        return pd.DataFrame(columns=["country", "date", "value"])
-
-    # Keep first row per geo (already sorted by preference in extraction)
-    df = df.drop_duplicates(subset=[geo_col], keep="first")
-
-    # Melt wide -> long
-    melted = df.melt(
-        id_vars=[geo_col],
-        value_vars=date_cols,
-        var_name="date",
-        value_name="value",
-    )
-    melted = melted.rename(columns={geo_col: "country"})
-    melted["country"] = melted["country"].map(_normalize_geo)
-    melted["date"] = pd.to_datetime(melted["date"], format="%Y-%m")
-    melted["value"] = pd.to_numeric(melted["value"], errors="coerce")
-    melted = melted.dropna(subset=["value"])
-
-    return melted[["country", "date", "value"]]
-
-
-def _parse_sts_filename(filename: str):
-    """
-    Parse STS filename like 'sts_inpr_m_C10.csv' -> ('sts_inpr_m', 'C10')
-    or 'ei_bssi_m_r2_C10.csv' -> ('ei_bssi_m_r2', 'C10')
-    """
-    name = filename.replace(".csv", "")
-    # Match NACE codes: C*, G*, H* (including bare H)
-    m = re.match(r"(.+)_((?:C|G|H)\w*)$", name)
-    if m:
-        return m.group(1), m.group(2)
-    return None, None
+        return {}
+    # Prefer SCA adjustment, then keep first per (dataset, nace, country, date)
+    adj_order = {"SCA": 0}
+    df["_adj_rank"] = df["s_adj"].map(adj_order).fillna(1)
+    df = df.sort_values("_adj_rank")
+    df = df.drop_duplicates(subset=["dataset", "nace", "country", "date"], keep="first")
+    df = df.drop(columns=["_adj_rank"])
+    df["country"] = df["country"].map(_normalize_geo)
+    df["date"] = pd.to_datetime(df["date"], format="%Y-%m")
+    df["value"] = pd.to_numeric(df["value"], errors="coerce")
+    df = df.dropna(subset=["value"])
+    result = {}
+    for (dataset, nace), grp in df.groupby(["dataset", "nace"]):
+        result[f"{dataset}_{nace}"] = grp[["country", "date", "value"]].copy()
+    return result
 
 
 def compute_freshness(df: pd.DataFrame, dataset_name: str = "") -> dict:
@@ -131,7 +93,7 @@ def compute_freshness(df: pd.DataFrame, dataset_name: str = "") -> dict:
 @st.cache_data(ttl=3600)
 def load_all_data():
     """
-    Load all CSVs from output/comext/ and output/sts/.
+    Load flat CSVs from output2/.
     Returns dict with:
         comext: {cn_code: DataFrame}
         sts: {"dataset_nace": DataFrame}
@@ -141,48 +103,33 @@ def load_all_data():
             sts_series: [(dataset, nace, ds_desc, nace_desc, side), ...],
         }
     """
-    comext_dir = os.path.join(DATA_DIR, "comext")
-    sts_dir = os.path.join(DATA_DIR, "sts")
-
-    comext_data = {}
-    sts_data = {}
     freshness = {}
     comext_codes = []
     sts_series = []
 
-    # Load Comext files
-    if os.path.isdir(comext_dir):
-        for fname in sorted(os.listdir(comext_dir)):
-            if not fname.endswith(".csv"):
-                continue
-            cn_code = fname.replace("CN_", "").replace(".csv", "")
-            path = os.path.join(comext_dir, fname)
-            df = load_comext_file(path)
-            if not df.empty:
-                comext_data[cn_code] = df
-                side = "supply" if cn_code in SUPPLY_CN_CODES else "demand"
-                desc = CN_DESCRIPTIONS.get(cn_code, cn_code)
-                comext_codes.append((cn_code, desc, side))
-                freshness[f"comext_{cn_code}"] = compute_freshness(df, "comext")
+    # Load Comext
+    comext_data = _load_comext_all()
+    for cn_code, df in sorted(comext_data.items()):
+        side = "supply" if cn_code in SUPPLY_CN_CODES else "demand"
+        desc = CN_DESCRIPTIONS.get(cn_code, cn_code)
+        comext_codes.append((cn_code, desc, side))
+        freshness[f"comext_{cn_code}"] = compute_freshness(df, "comext")
 
-    # Load STS files
-    if os.path.isdir(sts_dir):
-        for fname in sorted(os.listdir(sts_dir)):
-            if not fname.endswith(".csv"):
-                continue
-            dataset, nace = _parse_sts_filename(fname)
-            if dataset is None:
-                continue
-            path = os.path.join(sts_dir, fname)
-            df = load_sts_file(path)
-            if not df.empty:
-                key = f"{dataset}_{nace}"
-                sts_data[key] = df
-                ds_desc = STS_DATASET_DESCRIPTIONS.get(dataset, dataset)
-                nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
-                side = "supply" if nace in SUPPLY_NACE else "demand"
-                sts_series.append((dataset, nace, ds_desc, nace_desc, side))
-                freshness[key] = compute_freshness(df, dataset)
+    # Load STS
+    sts_data = _load_sts_all()
+    for key, df in sorted(sts_data.items()):
+        # key is "dataset_nace" e.g. "sts_inpr_m_C17"
+        # Split on last underscore that precedes the NACE code
+        m = re.match(r"(.+)_((?:C|G|H)\w*)$", key)
+        if m:
+            dataset, nace = m.group(1), m.group(2)
+        else:
+            continue
+        ds_desc = STS_DATASET_DESCRIPTIONS.get(dataset, dataset)
+        nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
+        side = "supply" if nace in SUPPLY_NACE else "demand"
+        sts_series.append((dataset, nace, ds_desc, nace_desc, side))
+        freshness[key] = compute_freshness(df, dataset)
 
     return {
         "comext": comext_data,

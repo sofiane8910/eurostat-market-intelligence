@@ -12,7 +12,8 @@ pip install -r requirements.txt
 
 ```bash
 source .venv/bin/activate
-python test_eurostat_extraction.py
+python extract_db.py
+python extract_yfinance_db.py
 ```
 
 ## Run Dashboard

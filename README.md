@@ -11,18 +11,12 @@ Automated monthly data extraction from Eurostat for the European pressure-sensit
 ## Output Structure
 
 ```
-output/
-├── quality_report.md          # Quality assessment for all series
-├── comext/                    # Trade data (CSV + PNG per CN code)
-│   ├── CN_39191080.csv
-│   ├── CN_39191080.png
-│   └── ...
-└── sts/                       # Industry indices (CSV + PNG per dataset x NACE)
-    ├── sts_inpr_m_C2229.csv
-    ├── sts_inpr_m_C2229.png
-    ├── sts_trtu_m_G47_FOOD.csv
-    ├── sts_trtu_m_G47_FOOD.png
-    └── ...
+output2/
+├── comext.csv                    # All Comext trade data (flat, long format)
+├── sts.csv                       # All STS industry indices (flat, long format)
+├── yfinance_financials.csv       # Quarterly income statements for listed companies
+├── yfinance_prices.csv           # Daily stock prices from 2023 onwards
+└── yfinance_news.csv             # Latest news for listed companies
 ```
 
 ---
@@ -32,11 +26,17 @@ output/
 ```bash
 source .venv/bin/activate
 
-# Run extraction + visualization (~15-20 minutes)
-python test_eurostat_extraction.py
+# Run Eurostat extraction (comext + STS → output2/)
+python extract_db.py
 
-# Or generate charts only (from existing CSVs)
-python visualize.py
+# Run yfinance extraction (financials + prices + news → output2/)
+python extract_yfinance_db.py
+
+# Launch dashboard
+streamlit run dashboard/app.py
+
+# Take screenshots of all dashboard pages
+python take_screenshots.py
 ```
 
 ---
@@ -47,8 +47,6 @@ python visualize.py
 **Granularity**: Monthly, by EU27 member state as reporter
 **Partner**: WORLD aggregate (no individual partner country breakdown)
 **Indicators**: VALUE_IN_EUROS, QUANTITY_IN_100KG
-
-> The Comext API supports partner-country breakdowns (e.g. by CN, US, JP) but the current extraction uses WORLD aggregate only. To add bilateral trade data, modify the `WORLD` parameter in `test_eurostat_extraction.py`.
 
 ### B1: Self-Adhesive Plastics (HS 3919)
 
@@ -330,6 +328,7 @@ Y = data extracted, blank = no data available for this combination
 
 | File | Purpose |
 |---|---|
-| `test_eurostat_extraction.py` | Main extraction script — fetches all monthly series from Eurostat APIs |
-| `visualize.py` | Chart generation — single-panel PNG per series with title + footnote |
-| `utils.py` | Shared utilities — output directory management, quality assessment |
+| `extract_db.py` | Eurostat extraction — fetches all Comext + STS series → `output2/` |
+| `extract_yfinance_db.py` | yfinance extraction — financials, prices, news for 58 tickers → `output2/` |
+| `dashboard/` | Streamlit dashboard — reads from `output2/` |
+| `take_screenshots.py` | Playwright screenshot capture for all dashboard pages |

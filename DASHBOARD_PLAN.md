@@ -13,7 +13,7 @@ Build an interactive Streamlit dashboard to showcase 214+ Eurostat series coveri
 ### Goal
 Change Comext extraction from `partner=WORLD` (aggregate only) to `partner=WORLD+EU27+CN` (bilateral trade with every EU country + China).
 
-### File: `test_eurostat_extraction.py`
+### File: `extract_db.py`
 
 **Change 1** — Add partner configuration (after line ~51):
 ```python
@@ -40,11 +40,11 @@ Same change for HS6 fallback URL (line ~301).
 
 ### Verification
 ```bash
-cd ~/Desktop/Work/eurostat && source .venv/bin/activate && python test_eurostat_extraction.py
+cd ~/Desktop/Work/eurostat && source .venv/bin/activate && python extract_db.py
 # Then check:
 python3 -c "
 import pandas as pd
-df = pd.read_csv('output/comext/CN_3920.csv')
+df = pd.read_csv('output2/comext.csv')
 print('Partners:', df['partner'].unique())
 print('CN rows:', len(df[df['partner']=='CN']))
 "
@@ -265,10 +265,6 @@ streamlit run dashboard/app.py
 - Color: green=current month, orange=1 month lag, red=2+ months
 - Grouped by: Comext | STS Supply | STS Demand | STS Retail/Logistics
 - Explanation of tier logic and why different series have different lags
-
-### Fix: `visualize.py`
-
-Change STS regex from `((?:C|G|H)\w+)` to `((?:C|G|H)\w*)` to match bare "H" in `ei_bsse_m_r2_H.csv` and `sts_sepr_m_H.csv`. Appears twice in the file (line ~400 and ~436).
 
 ### Final Verification
 ```bash
