@@ -15,6 +15,7 @@ from constants import (
 )
 from data_loader import get_eu27_aggregate
 from charts import line_chart, bar_chart_latest, heatmap_yoy, trade_balance_chart, freshness_badge
+from sidebar_filters import render_global_filters
 
 st.title("Supply Side — Raw Materials & Packaging")
 st.caption(
@@ -27,6 +28,11 @@ if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
 
+# --- Sidebar filters ---
+filters = render_global_filters(show_sector=True, country_mode="multi")
+_sector_cn = filters["sector_cn_codes"]
+_sector_nace = filters["sector_nace_codes"]
+
 tab_trade, tab_indices, tab_confidence = st.tabs([
     "International Trade (Comext)", "Industrial Indices (STS)", "Business Confidence (Surveys)"
 ])
@@ -36,8 +42,9 @@ with tab_trade:
     st.subheader("EU27 International Trade — Supply Materials")
     st.caption("Source: Eurostat Comext DS-045409 | Monthly bilateral trade data")
 
-    cn_options = {f"{desc} (CN {code})": code for code, desc in SUPPLY_CN_CODES.items()
-                  if code in data["comext"]}
+    _supply_cn = {code: desc for code, desc in SUPPLY_CN_CODES.items()
+                  if code in data["comext"] and (_sector_cn is None or code in _sector_cn)}
+    cn_options = {f"CN {code} \u2014 {desc}": code for code, desc in _supply_cn.items()}
     if not cn_options:
         st.warning("No supply-side trade data loaded.")
     else:
@@ -112,7 +119,12 @@ with tab_indices:
     selected_ds_label = st.selectbox("Select indicator", list(ds_options.keys()), key="supply_ds")
     dataset = ds_options[selected_ds_label]
 
-    nace_options = {f"{desc} ({code})": code for code, desc in SUPPLY_NACE.items()}
+    _supply_nace = {code: desc for code, desc in SUPPLY_NACE.items()
+                    if _sector_nace is None or code in _sector_nace}
+    nace_options = {f"{code} \u2014 {desc}": code for code, desc in _supply_nace.items()}
+    if not nace_options:
+        st.info("No supply NACE codes match the selected sector.")
+        st.stop()
     selected_nace_label = st.selectbox("Select sector (NACE)", list(nace_options.keys()), key="supply_nace")
     nace = nace_options[selected_nace_label]
     nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
@@ -128,13 +140,7 @@ with tab_indices:
             st.markdown(freshness_badge(fr["tier"], fr["latest_date"]), unsafe_allow_html=True)
 
         available = sorted(set(df["country"]) - AGGREGATE_CODES)
-        default_countries = [c for c in ["DE", "FR", "IT", "ES", "PL"] if c in available]
-        selected_countries = st.multiselect(
-            "Select countries", available,
-            default=default_countries[:5],
-            format_func=lambda x: COUNTRY_NAMES.get(x, x),
-            key="supply_countries",
-        )
+        selected_countries = [c for c in filters["countries"] if c in available]
 
         if selected_countries:
             date_range = f"{df['date'].min().strftime('%b %Y')} – {df['date'].max().strftime('%b %Y')}"
@@ -162,7 +168,12 @@ with tab_confidence:
         "Balance statistic: % of positive responses minus % of negative responses"
     )
 
-    nace_options_conf = {f"{desc} ({code})": code for code, desc in SUPPLY_NACE.items()}
+    _supply_nace_conf = {code: desc for code, desc in SUPPLY_NACE.items()
+                         if _sector_nace is None or code in _sector_nace}
+    nace_options_conf = {f"{code} \u2014 {desc}": code for code, desc in _supply_nace_conf.items()}
+    if not nace_options_conf:
+        st.info("No supply NACE codes match the selected sector.")
+        st.stop()
     selected_nace_conf = st.selectbox("Select sector (NACE)", list(nace_options_conf.keys()), key="supply_conf_nace")
     nace_conf = nace_options_conf[selected_nace_conf]
     nace_conf_desc = NACE_DESCRIPTIONS.get(nace_conf, nace_conf)
@@ -178,13 +189,7 @@ with tab_confidence:
             st.markdown(freshness_badge(fr["tier"], fr["latest_date"]), unsafe_allow_html=True)
 
         available_conf = sorted(set(df_conf["country"]) - AGGREGATE_CODES)
-        default_conf = [c for c in ["DE", "FR", "IT", "ES", "PL"] if c in available_conf]
-        selected_conf = st.multiselect(
-            "Select countries", available_conf,
-            default=default_conf[:5],
-            format_func=lambda x: COUNTRY_NAMES.get(x, x),
-            key="supply_conf_countries",
-        )
+        selected_conf = [c for c in filters["countries"] if c in available_conf]
 
         if selected_conf:
             date_range = f"{df_conf['date'].min().strftime('%b %Y')} – {df_conf['date'].max().strftime('%b %Y')}"

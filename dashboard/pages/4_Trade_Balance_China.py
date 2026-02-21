@@ -15,6 +15,7 @@ from constants import (
     freshness_footnote,
 )
 from charts import line_chart, dual_axis_chart, freshness_badge
+from sidebar_filters import render_global_filters
 
 st.title("Trade Balance & China Competition")
 st.caption(
@@ -27,7 +28,17 @@ if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
 
+# --- Sidebar filters ---
+filters = render_global_filters(show_sector=True, country_mode="multi")
+_sector_cn = filters["sector_cn_codes"]
+
 all_cn_codes = list(data["comext"].keys())
+# Apply sector filter to CN codes
+if _sector_cn is not None:
+    all_cn_codes = [c for c in all_cn_codes if c in _sector_cn]
+    if not all_cn_codes:
+        st.info("No trade data matches the selected sector.")
+        st.stop()
 
 # Get a representative freshness date for trade data
 _sample_fr = next((v for k, v in data["freshness"].items() if k.startswith("comext_") and v.get("latest_date")), {})
@@ -173,8 +184,9 @@ cn_code = cn_options[selected_cn]
 cdf = data["comext"][cn_code]
 product_name = CN_DESCRIPTIONS.get(cn_code, cn_code)
 
+_exposure_countries = filters["countries"] if filters["countries"] else EU27_CODES
 country_exposure = []
-for country in EU27_CODES:
+for country in _exposure_countries:
     imp = cdf[(cdf["country"] == country) & (cdf["flow"] == "1") & (cdf["indicator"] == "VALUE_IN_EUROS")]
     world = imp[imp["partner"] == "WORLD"]["value"].sum()
     china = imp[imp["partner"] == "CN"]["value"].sum()
@@ -232,7 +244,7 @@ st.caption("Comparison of trade within the EU single market vs imports from Chin
 intra_eu = 0
 china_imp = 0
 world_imp = 0
-for country in EU27_CODES:
+for country in _exposure_countries:
     imp = cdf[(cdf["country"] == country) & (cdf["flow"] == "1") & (cdf["indicator"] == "VALUE_IN_EUROS")]
     eu_partners = imp[imp["partner"].isin(EU27_CODES)]["value"].sum()
     cn_partner = imp[imp["partner"] == "CN"]["value"].sum()
@@ -262,8 +274,9 @@ st.divider()
 st.subheader(f"Net Trade Balance by EU Country — {product_name} (CN {cn_code})")
 st.caption("Positive = net exporter (green) | Negative = net importer (red). Based on trade with all world partners.")
 
+_balance_countries = filters["countries"] if filters["countries"] else EU27_CODES
 balance_data = []
-for country in EU27_CODES:
+for country in _balance_countries:
     world_data = cdf[(cdf["country"] == country) & (cdf["partner"] == "WORLD") &
                       (cdf["indicator"] == "VALUE_IN_EUROS")]
     imp_total = world_data[world_data["flow"] == "1"]["value"].sum()

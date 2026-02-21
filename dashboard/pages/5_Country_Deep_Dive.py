@@ -16,6 +16,7 @@ from constants import (
     FLOW_LABELS, INDICATOR_LABELS, freshness_footnote,
 )
 from charts import line_chart, dual_axis_chart, trade_balance_chart, bilateral_flow_chart, freshness_badge
+from sidebar_filters import render_global_filters
 
 st.title("Country Deep Dive")
 st.caption("Select an EU member state to view all available trade and industrial indicators")
@@ -25,13 +26,12 @@ if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
 
-country = st.selectbox(
-    "Select country", EU27_CODES,
-    format_func=lambda x: f"{COUNTRY_NAMES.get(x, x)} ({x})",
-    index=EU27_CODES.index("DE") if "DE" in EU27_CODES else 0,
-)
-
-country_name = COUNTRY_NAMES.get(country, country)
+# --- Sidebar filters ---
+filters = render_global_filters(show_sector=True, country_mode="single_country")
+country = filters["scope_code"]
+country_name = filters["scope_name"]
+_sector_cn = filters["sector_cn_codes"]
+_sector_nace = filters["sector_nace_codes"]
 st.markdown(f"## {country_name} ({country})")
 
 tab_supply_trade, tab_demand_trade, tab_supply_idx, tab_demand_idx, tab_partners = st.tabs([
@@ -52,7 +52,11 @@ with tab_supply_trade:
                           key="cd_supply_ind", horizontal=True)
     indicator_name = INDICATOR_LABELS.get(indicator, indicator)
 
-    for cn_code, desc in SUPPLY_CN_CODES.items():
+    _supply_cn_items = {code: desc for code, desc in SUPPLY_CN_CODES.items()
+                        if _sector_cn is None or code in _sector_cn}
+    if not _supply_cn_items:
+        st.info("No supply trade data matches the selected sector.")
+    for cn_code, desc in _supply_cn_items.items():
         cdf = data["comext"].get(cn_code)
         if cdf is None:
             continue
@@ -60,7 +64,7 @@ with tab_supply_trade:
         if country_data.empty:
             continue
 
-        with st.expander(f"{desc} (CN {cn_code})"):
+        with st.expander(f"CN {cn_code} \u2014 {desc}"):
             world_imp = country_data[(country_data["partner"] == "WORLD") & (country_data["flow"] == "1")]
             world_exp = country_data[(country_data["partner"] == "WORLD") & (country_data["flow"] == "2")]
             china_imp = country_data[(country_data["partner"] == "CN") & (country_data["flow"] == "1")]
@@ -140,7 +144,11 @@ with tab_demand_trade:
                           key="cd_demand_ind", horizontal=True)
     indicator_name = INDICATOR_LABELS.get(indicator, indicator)
 
-    for cn_code, desc in DEMAND_CN_CODES.items():
+    _demand_cn_items = {code: desc for code, desc in DEMAND_CN_CODES.items()
+                        if _sector_cn is None or code in _sector_cn}
+    if not _demand_cn_items:
+        st.info("No demand trade data matches the selected sector.")
+    for cn_code, desc in _demand_cn_items.items():
         cdf = data["comext"].get(cn_code)
         if cdf is None:
             continue
@@ -148,7 +156,7 @@ with tab_demand_trade:
         if country_data.empty:
             continue
 
-        with st.expander(f"{desc} (CN {cn_code})"):
+        with st.expander(f"CN {cn_code} \u2014 {desc}"):
             world_imp = country_data[(country_data["partner"] == "WORLD") & (country_data["flow"] == "1")]
             world_exp = country_data[(country_data["partner"] == "WORLD") & (country_data["flow"] == "2")]
             china_imp = country_data[(country_data["partner"] == "CN") & (country_data["flow"] == "1")]
@@ -222,7 +230,11 @@ with tab_supply_idx:
     st.subheader(f"Supply Industrial Indices — {country_name}")
     st.caption("Production, prices, turnover, and confidence indices for label material sectors. Source: Eurostat STS")
 
-    for nace, nace_desc in SUPPLY_NACE.items():
+    _supply_nace_items = {code: desc for code, desc in SUPPLY_NACE.items()
+                          if _sector_nace is None or code in _sector_nace}
+    if not _supply_nace_items:
+        st.info("No supply indices match the selected sector.")
+    for nace, nace_desc in _supply_nace_items.items():
         datasets_with_data = []
         for ds in ["sts_inpr_m", "sts_inpp_m", "sts_intv_m", "ei_bssi_m_r2"]:
             key = f"{ds}_{nace}"
@@ -234,7 +246,7 @@ with tab_supply_idx:
                     datasets_with_data.append((key, ds, ds_desc, cdata))
 
         if datasets_with_data:
-            with st.expander(f"{nace_desc} ({nace}) — {len(datasets_with_data)} indicators"):
+            with st.expander(f"{nace} \u2014 {nace_desc} \u2014 {len(datasets_with_data)} indicators"):
                 for key, ds, ds_desc, cdata in datasets_with_data:
                     fr = data["freshness"].get(key, {})
                     badge = freshness_badge(fr.get("tier", 2), fr.get("latest_date"))
@@ -256,7 +268,11 @@ with tab_demand_idx:
     st.subheader(f"Demand Sector Indices — {country_name}")
     st.caption("Production, retail turnover, logistics, and confidence for end-market sectors. Source: Eurostat STS")
 
-    for nace, nace_desc in DEMAND_NACE.items():
+    _demand_nace_items = {code: desc for code, desc in DEMAND_NACE.items()
+                          if _sector_nace is None or code in _sector_nace}
+    if not _demand_nace_items:
+        st.info("No demand indices match the selected sector.")
+    for nace, nace_desc in _demand_nace_items.items():
         datasets_with_data = []
         all_datasets = ["sts_inpr_m", "sts_inpp_m", "sts_intv_m", "ei_bssi_m_r2",
                          "sts_trtu_m", "sts_sepr_m", "ei_bsrt_m_r2", "ei_bsse_m_r2"]
@@ -270,7 +286,7 @@ with tab_demand_idx:
                     datasets_with_data.append((key, ds, ds_desc, cdata))
 
         if datasets_with_data:
-            with st.expander(f"{nace_desc} ({nace}) — {len(datasets_with_data)} indicators"):
+            with st.expander(f"{nace} \u2014 {nace_desc} \u2014 {len(datasets_with_data)} indicators"):
                 for key, ds, ds_desc, cdata in datasets_with_data:
                     fr = data["freshness"].get(key, {})
                     badge = freshness_badge(fr.get("tier", 2), fr.get("latest_date"))
@@ -297,7 +313,9 @@ with tab_partners:
     )
 
     partner_totals = {}
-    for cn_code, cdf in data["comext"].items():
+    _partner_cn_codes = {k: v for k, v in data["comext"].items()
+                         if _sector_cn is None or k in _sector_cn}
+    for cn_code, cdf in _partner_cn_codes.items():
         imp = cdf[(cdf["country"] == country) & (cdf["flow"] == "1") &
                    (cdf["indicator"] == "VALUE_IN_EUROS") & (cdf["partner"] != "WORLD")]
         for _, row in imp.iterrows():

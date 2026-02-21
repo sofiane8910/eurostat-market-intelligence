@@ -20,6 +20,7 @@ from constants import (
 )
 from data_loader import get_eu27_aggregate
 from charts import sparkline, freshness_badge, line_chart
+from sidebar_filters import render_global_filters
 
 st.title("Executive Summary — European Labels Market")
 st.caption("Key performance indicators across supply and demand sides of the EU27 labels industry")
@@ -29,22 +30,11 @@ if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
 
-# --- Country filter ---
-country_options = ["EU27 Aggregate"] + [
-    f"{COUNTRY_NAMES.get(c, c)} ({c})" for c in EU27_CODES
-]
-selected_label = st.selectbox(
-    "Select scope", country_options, index=0,
-    help="View KPIs for the full EU27 aggregate or drill into an individual country",
-    key="exec_country",
-)
-is_aggregate = selected_label == "EU27 Aggregate"
-if is_aggregate:
-    scope_name = "EU27 Aggregate"
-    scope_code = None
-else:
-    scope_code = selected_label.split("(")[-1].rstrip(")")
-    scope_name = COUNTRY_NAMES.get(scope_code, scope_code)
+# --- Sidebar filters (country only, no sector on executive summary) ---
+filters = render_global_filters(show_sector=False, country_mode="single")
+is_aggregate = filters["is_aggregate"]
+scope_code = filters["scope_code"]
+scope_name = filters["scope_name"]
 
 # --- Freshness banner ---
 t1 = [v for v in data["freshness"].values() if v["tier"] == 1 and v["latest_date"] is not None]
