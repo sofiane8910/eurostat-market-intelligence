@@ -14,7 +14,6 @@ from constants import (
     SUPPLY_CN_CODES, DEMAND_CN_CODES, SUPPLY_NACE, DEMAND_NACE,
     TIER1_DATASETS,
 )
-from sidebar_filters import render_global_filters
 
 st.title("Data Freshness & Publication Lag Monitor")
 st.caption(
@@ -27,11 +26,6 @@ data = st.session_state.get("data")
 if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
-
-# --- Sidebar filters (sector only, no country on freshness page) ---
-filters = render_global_filters(show_sector=True, country_mode="none")
-_sector_cn = filters["sector_cn_codes"]
-_sector_nace = filters["sector_nace_codes"]
 
 st.markdown("""
 ### How Eurostat publication lags work
@@ -62,9 +56,6 @@ for key, info in data["freshness"].items():
 
     if key.startswith("comext_"):
         cn_code = key.replace("comext_", "")
-        # Sector filter: skip CN codes not in the selected sector
-        if _sector_cn is not None and cn_code not in _sector_cn:
-            continue
         desc = CN_DESCRIPTIONS.get(cn_code, cn_code)
         category = "Comext Trade (DS-045409)"
         side = "Supply" if cn_code in SUPPLY_CN_CODES else "Demand"
@@ -79,9 +70,6 @@ for key, info in data["freshness"].items():
             dataset, nace = m.group(1), m.group(2)
         else:
             dataset, nace = key, ""
-        # Sector filter: skip NACE codes not in the selected sector
-        if _sector_nace is not None and nace not in _sector_nace:
-            continue
         ds_desc = STS_DATASET_DESCRIPTIONS.get(dataset, dataset)
         nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
         category = "STS Industrial Index"

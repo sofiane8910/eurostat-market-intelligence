@@ -26,12 +26,19 @@ if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
 
-# --- Sidebar filters ---
-filters = render_global_filters(show_sector=True, country_mode="single_country")
-country = filters["scope_code"]
-country_name = filters["scope_name"]
+# --- Sidebar filters (sector only) ---
+filters = render_global_filters(show_sector=True, country_mode="none")
 _sector_cn = filters["sector_cn_codes"]
 _sector_nace = filters["sector_nace_codes"]
+
+# --- Country selector (in main area) ---
+country = st.selectbox(
+    "Select country", EU27_CODES,
+    format_func=lambda x: f"{COUNTRY_NAMES.get(x, x)} ({x})",
+    index=EU27_CODES.index("DE") if "DE" in EU27_CODES else 0,
+    key="cd_country",
+)
+country_name = COUNTRY_NAMES.get(country, country)
 st.markdown(f"## {country_name} ({country})")
 
 tab_supply_trade, tab_demand_trade, tab_supply_idx, tab_demand_idx, tab_partners = st.tabs([

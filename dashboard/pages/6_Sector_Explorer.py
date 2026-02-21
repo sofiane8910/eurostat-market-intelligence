@@ -14,7 +14,6 @@ from constants import (
     INDICATOR_LABELS, FLOW_LABELS, freshness_footnote,
 )
 from charts import line_chart, bar_chart_latest, heatmap_yoy, freshness_badge
-from sidebar_filters import render_global_filters
 
 st.title("Sector Explorer")
 st.caption(
@@ -27,15 +26,7 @@ if data is None:
     st.error("Data not loaded. Please return to the main page.")
     st.stop()
 
-# --- Sidebar filters ---
-filters = render_global_filters(show_sector=True, country_mode="multi")
-
-# Default the sector selectbox to the global sidebar sector if one is selected
-_sector_names = list(SECTOR_GROUPS.keys())
-_default_idx = 0
-if filters["sector"] and filters["sector"] in _sector_names:
-    _default_idx = _sector_names.index(filters["sector"])
-sector_name = st.selectbox("Select sector", _sector_names, index=_default_idx)
+sector_name = st.selectbox("Select sector", list(SECTOR_GROUPS.keys()))
 sector = SECTOR_GROUPS[sector_name]
 
 st.markdown(f"### {sector_name}")
@@ -133,7 +124,12 @@ with tab_indices:
                     all_countries.update(set(df["country"]) - AGGREGATE_CODES)
 
         available = sorted(all_countries & set(EU27_CODES))
-        selected = [c for c in filters["countries"] if c in available]
+        default_c = [c for c in ["DE", "FR", "IT", "ES", "PL"] if c in available]
+        selected = st.multiselect(
+            "Select countries", available, default=default_c[:5],
+            format_func=lambda x: COUNTRY_NAMES.get(x, x),
+            key="sector_idx_countries",
+        )
 
         for nace in nace_codes:
             nace_desc = NACE_DESCRIPTIONS.get(nace, nace)
