@@ -1,0 +1,59 @@
+source,group,sector,ticker,company,country,data_types,description,sales_interest
+yfinance,end_market,beverages,ABI.BR,Anheuser-Busch InBev,Belgium,"financials, prices, news",World's largest brewer. Quarterly income statements + daily share price + news.,Biggest beer label buyer globally. Revenue = label volumes.
+yfinance,end_market,beverages,HEIA.AS,Heineken,Netherlands,"financials, prices, news",Europe's largest brewer. 70+ countries.,Major EU beer label buyer. Regional growth = local label demand.
+yfinance,end_market,beverages,CARL-B.CO,Carlsberg,Denmark,"financials, prices, news",Third-largest Western European brewer.,Strong in Nordics and Eastern Europe. Growth there = label opportunity.
+yfinance,end_market,beverages,DGE.L,Diageo,UK,"financials, prices, news",World's largest spirits company (Johnnie Walker Smirnoff Guinness).,Highest label spend per unit in beverages. Premium foil and embellishment demand.
+yfinance,end_market,beverages,RI.PA,Pernod Ricard,France,"financials, prices, news",Second-largest spirits group (Absolut Jameson Martell).,Premium spirits labels. Regional sales show where luxury label demand grows.
+yfinance,end_market,beverages,RCO.PA,Rémy Cointreau,France,"financials, prices, news",Ultra-premium spirits (Rémy Martin cognac).,Top-tier luxury labels. Most expensive labels per unit in the industry.
+yfinance,end_market,beverages,CPR.MI,Campari,Italy,"financials, prices, news",Italian spirits group (Aperol Campari Wild Turkey).,Fast-growing through acquisitions. Each new brand = new label contracts.
+yfinance,end_market,beverages,CCH.L,Coca-Cola HBC,UK,"financials, prices, news",Coca-Cola bottler across 29 European and African countries.,Soft drink label volumes across 29 markets. Results map label demand by country.
+yfinance,end_market,beverages,CCEP.AS,Coca-Cola Europacific Partners,Netherlands,"financials, prices, news",Coca-Cola bottler for Western Europe and Pacific.,Major Western European soft drink label buyer. New product launches = new SKUs.
+yfinance,end_market,food,NESN.SW,Nestlé,Switzerland,"financials, prices, news",World's largest food company (Nescafé KitKat Maggi Purina).,Largest food label buyer globally. Organic growth = label volume growth.
+yfinance,end_market,food,BN.PA,Danone,France,"financials, prices, news",Global dairy water and plant-based food company (Evian Activia Alpro).,Large label buyer. Shift to plant-based = new SKUs and label demand.
+yfinance,end_market,food,KYGA.L,Kerry Group,Ireland,"financials, prices, news",B2B taste and nutrition ingredients company.,Not a label buyer but a proxy for food industry production activity.
+yfinance,end_market,food,ABF.L,Associated British Foods,UK,"financials, prices, news",Diversified food + Primark retail (Twinings Kingsmill).,Food brands buy labels; Primark buys hang tags and care labels.
+yfinance,end_market,food,ORK.OL,Orkla,Norway,"financials, prices, news",Leading Nordic consumer goods company.,Bellwether for Scandinavian and CEE label demand.
+yfinance,end_market,hpc,ULVR.L,Unilever,UK,"financials, prices, news",Global consumer goods giant (Dove Axe Hellmann's Domestos).,Billions of labels per year. Results by division map label demand by category.
+yfinance,end_market,hpc,OR.PA,L'Oréal,France,"financials, prices, news",World's largest cosmetics company.,#1 buyer of premium cosmetic labels. Design-intensive high-value segment.
+yfinance,end_market,hpc,HEN3.DE,Henkel,Germany,"financials, prices, news",Consumer brands (Persil Schwarzkopf) + Adhesive Technologies division.,Both a label buyer and PSA adhesive supplier. Dual relevance.
+yfinance,end_market,hpc,BEI.DE,Beiersdorf,Germany,"financials, prices, news",Skincare company (NIVEA Eucerin La Prairie).,NIVEA = mass labels. La Prairie = ultra-luxury labels. Both growing.
+yfinance,end_market,hpc,RKT.L,Reckitt Benckiser,UK,"financials, prices, news",Health and hygiene company (Dettol Nurofen Finish Durex).,Hygiene + OTC health labels. Durable and compliance-driven labelling.
+yfinance,end_market,hpc,ESSITY-B.ST,Essity,Sweden,"financials, prices, news",Hygiene and health company (Tork TENA Leukoplast).,Tork = B2B industrial labels. TENA/Leukoplast = medical labels.
+yfinance,end_market,pharma,NOVN.SW,Novartis,Switzerland,"financials, prices, news",Major pharma company. Oncology cardiovascular immunology.,Every drug needs serialised compliance labels. New launches = new SKUs.
+yfinance,end_market,pharma,ROG.SW,Roche,Switzerland,"financials, prices, news",Pharma + diagnostics leader.,Pharma labels + diagnostics kit labels. Dual label demand.
+yfinance,end_market,pharma,SAN.PA,Sanofi,France,"financials, prices, news",French pharma (Dupixent vaccines consumer health).,Vaccine labelling is complex (cold-chain vial labels serialisation).
+yfinance,end_market,pharma,AZN.L,AstraZeneca,UK,"financials, prices, news",Fast-growing pharma. Oncology and rare diseases.,Rapid growth = rapid label demand growth. Injectables need specialty labels.
+yfinance,end_market,pharma,NOVO-B.CO,Novo Nordisk,Denmark,"financials, prices, news",Diabetes and obesity leader (Ozempic Wegovy).,Explosive growth. Injectable pen labels are a fast-growing segment.
+yfinance,end_market,pharma,BAYN.DE,Bayer,Germany,"financials, prices, news",Pharma + consumer health + crop science (Aspirin Bepanthen).,Pharma compliance labels + consumer health retail labels.
+yfinance,end_market,pharma,GSK.L,GSK,UK,"financials, prices, news",Vaccines specialty medicines and HIV.,High-volume vaccine labels with cold-chain and regulatory needs.
+yfinance,end_market,pharma,UCB.BR,UCB,Belgium,"financials, prices, news",Specialty biopharma. Neurology and immunology (Bimzelx).,Small but high-value. Biologic labels are complex and premium.
+yfinance,end_market,tobacco,BATS.L,BAT,UK,"financials, prices, news",British American Tobacco (Lucky Strike Dunhill Vuse).,Regulation-driven label changes. Vaping = new label formats.
+yfinance,end_market,tobacco,IMB.L,Imperial Brands,UK,"financials, prices, news",Tobacco company (JPS Davidoff Gauloises blu).,Stable label demand from constant regulatory design changes.
+yfinance,end_market,retail,TSCO.L,Tesco,UK,"financials, prices, news",UK's largest supermarket.,Massive private-label programme. Revenue = own-brand label volumes.
+yfinance,end_market,retail,SBRY.L,Sainsbury's,UK,"financials, prices, news",Second-largest UK supermarket.,Large own-brand label buyer. Premium range growing.
+yfinance,end_market,retail,MKS.L,M&S,UK,"financials, prices, news",Premium UK food and clothing retailer.,Almost 100% own-brand food = all labels sourced directly.
+yfinance,end_market,retail,CA.PA,Carrefour,France,"financials, prices, news",Europe's largest retailer by revenue.,Biggest private-label programme in continental Europe.
+yfinance,end_market,retail,AD.AS,Ahold Delhaize,Netherlands,"financials, prices, news",Dutch-Belgian retailer (Albert Heijn Delhaize).,Major own-brand label buyer in Benelux and CEE.
+yfinance,end_market,retail,JMT.LS,Jerónimo Martins,Portugal,"financials, prices, news",Operates Biedronka (largest chain in Poland) and Pingo Doce.,Biedronka = biggest CEE grocery label demand indicator.
+yfinance,end_market,logistics,DHL.DE,DHL Group,Germany,"financials, prices, news",World's largest logistics company.,Largest shipping label consumer globally. Parcel volumes = label volumes.
+yfinance,end_market,logistics,DSV.CO,DSV,Denmark,"financials, prices, news",Global freight forwarder.,Freight volumes = goods movement = logistics labels.
+yfinance,end_market,logistics,MAERSK-B.CO,Maersk,Denmark,"financials, prices, news",Second-largest container shipping line + logistics.,Container volumes = global trade = labelled goods in transit.
+yfinance,end_market,logistics,KNIN.SW,Kuehne + Nagel,Switzerland,"financials, prices, news",Global logistics. Sea freight air freight contract logistics.,Contract logistics revenue = warehouse and inventory label demand.
+yfinance,competitor,label_materials,UPM.HE,UPM-Kymmene / Raflatac,Finland,"financials, prices, news",Top 3 global PSA labelstock producer.,Direct competitor. Their results = your market conditions.
+yfinance,competitor,label_materials,STERV.HE,Stora Enso,Finland,"financials, prices, news",Forest products and packaging. Paper and board supplier.,Upstream paper supplier. Financial stress = supply risk.
+yfinance,competitor,label_materials,HUH1V.HE,Huhtamaki,Finland,"financials, prices, news",Global food packaging company.,Adjacent competitor in food packaging. Same demand drivers as labels.
+yfinance,competitor,label_materials,MNDI.L,Mondi,UK,"financials, prices, news",Packaging and paper company. Kraft paper and flexible packaging.,Produces release liner base papers. Their health = liner supply health.
+yfinance,competitor,label_materials,BOL.PA,Bolloré,France,"financials, prices, news",Conglomerate with BOPP film division.,BOPP film supplier — the #1 filmic label substrate.
+yfinance,competitor,label_materials,AVY,Avery Dennison,US,"financials, prices, news",World's largest PSA labelstock company + RFID leader.,THE industry benchmark. Their guidance sets the market narrative.
+yfinance,competitor,label_materials,CCL-B.TO,CCL Industries,Canada,"financials, prices, news",World's largest label converter.,Direct converter competitor. Their segment results show which end-markets grow.
+yfinance,competitor,packaging,AMCR,Amcor,US,"financials, prices, news",Global flexible and rigid packaging leader.,Adjacent competitor. Brands may shift spend between labels and packaging.
+yfinance,competitor,films,POLYPLEX.NS,Polyplex Corporation,India,"financials, prices, news",Major global PET film producer. Plants in India Thailand Turkey US.,PET film supply and pricing. Affects label face stock and liner costs.
+yfinance,competitor,films,COSMOFILMS.NS,Cosmo Films,India,"financials, prices, news",Indian BOPP and specialty film producer.,BOPP supply from Asia. Capacity expansion signals competitive pressure.
+yfinance,competitor,label_materials,002191.SZ,Jinjia Group,China,"financials, prices, news",One of China's largest label and packaging printers.,Chinese label converter benchmark. Reflects Asian competitive pricing.
+yfinance,competitor,release_films,300106.SZ,Guanhao High-Tech,China,"financials, prices, news",Chinese release films and functional films manufacturer.,Chinese release liner competitor. Growth = more Asian liner supply.
+yfinance,competitor,label_materials,603681.SS,Shanghai Yongguan,China,"financials, prices, news",Major Chinese PSA labelstock producer.,Direct Chinese labelstock competitor. Domestic China market proxy.
+yfinance,competitor,films,000859.SZ,Anhui Guofeng,China,"financials, prices, news",Chinese BOPET and BOPP film manufacturer.,Chinese film capacity affecting global label substrate pricing.
+yfinance,competitor,films,002263.SZ,Zhejiang Dadongnan,China,"financials, prices, news",Chinese BOPET film producer.,PET film imports from China competing with European film.
+yfinance,competitor,films,300305.SZ,Jiangsu Yuxing Film,China,"financials, prices, news",Chinese polyester film manufacturer.,Expanding PET film capacity. Affects worldwide PET pricing.
+yfinance,competitor,label_materials,600210.SS,Shanghai Zijiang,China,"financials, prices, news",Chinese packaging and printing converter.,Chinese packaging competitor. Export activity may pressure EU prices.
+yfinance,competitor,release_films,600135.SS,Lekai Film,China,"financials, prices, news",Chinese PET release film manufacturer.,Release liner film from China. Affects global liner availability and pricing.
