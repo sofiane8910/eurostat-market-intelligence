@@ -1,0 +1,74 @@
+series_name,category,code_type,code,data_source,indicator_type,countries,country_count,granularity,date_min,date_max
+Fruit juices (incl. grape must),Production,CN,2009,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Mineral and aerated waters,Production,CN,2201,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Non-alcoholic beverages (excl. water/juices),Production,CN,2202,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Beer made from malt,Production,CN,2203,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Wine of fresh grapes,Production,CN,2204,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+"Spirits, liqueurs and other spirituous beverages",Production,CN,2208,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+"Beauty, make-up and skin care preparations",Production,CN,3304,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Hair preparations,Production,CN,3305,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+"Shaving, deodorant, bath preparations",Production,CN,3307,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Washing and cleaning preparations,Production,CN,3402,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Medicaments in measured doses,Production,CN,3004,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Prepared or preserved meat,Production,CN,1602,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Prepared or preserved fish,Production,CN,1604,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Prepared or preserved vegetables,Production,CN,2005,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Food preparations n.e.c.,Production,CN,2106,comext,trade,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Manufacture of food products,Manufacturing,NACE,C10,ei_bssi_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2026-01
+Manufacture of food products,Manufacturing,NACE,C10,sts_inlb_m,labour,AT;DE;PT,3,monthly,2023-01,2025-12
+Manufacture of food products,Manufacturing,NACE,C10,sts_inpi_m,prices,DE;DK;EE;ES;FI;FR;GR;HR;IT;LT;LV;NL;PL;SE;SI;SK,16,monthly,2023-01,2026-01
+Manufacture of food products,Manufacturing,NACE,C10,sts_inpp_m,prices,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HR;HU;IE;IT;LT;NL;PL;PT;RO;SE;SI,21,monthly,2023-01,2026-01
+Manufacture of food products,Manufacturing,NACE,C10,sts_inppd_m,prices,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HR;HU;IE;IT;LT;NL;PL;PT;RO;SE;SI,21,monthly,2023-01,2026-01
+Manufacture of food products,Manufacturing,NACE,C10,sts_inppnd_m,prices,AT;BE;BG;CY;CZ;DE;DK;ES;FI;FR;GR;HR;HU;IE;IT;LT;NL;PL;PT;RO;SE;SI,22,monthly,2023-01,2026-01
+Manufacture of food products,Manufacturing,NACE,C10,sts_inpr_m,production,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HU;IE;IT;LT;LV;NL;PL;PT;RO,19,monthly,2023-01,2025-12
+Manufacture of food products,Manufacturing,NACE,C10,sts_intv_m,turnover,AT;BE;CZ;DE;DK;ES;FI;FR;GR;HU;IE;IT;LT;LV;NL;PL;RO,17,monthly,2023-01,2025-12
+Manufacture of food products,Manufacturing,NACE,C10,sts_intvd_m,turnover,AT;CZ;DE;DK;FI;FR;GR;HU;IE;IT;LT;LV;NL;PL;RO,15,monthly,2023-01,2025-12
+Manufacture of food products,Manufacturing,NACE,C10,sts_intvnd_m,turnover,AT;CZ;DE;DK;FI;FR;GR;HU;IE;IT;LT;LV;NL;PL;RO,15,monthly,2023-01,2025-12
+Manufacture of beverages,Manufacturing,NACE,C11,ei_bssi_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2026-01
+Manufacture of beverages,Manufacturing,NACE,C11,sts_inlb_m,labour,AT;DE;PT,3,monthly,2023-01,2025-12
+Manufacture of beverages,Manufacturing,NACE,C11,sts_inpi_m,prices,DE;DK;EE;ES;FI;FR;GR;HR;IT;LT;LV;NL;PL;SE;SI;SK,16,monthly,2023-01,2026-01
+Manufacture of beverages,Manufacturing,NACE,C11,sts_inpp_m,prices,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HR;HU;IE;IT;LT;NL;PL;PT;RO;SE;SI,21,monthly,2023-01,2026-01
+Manufacture of beverages,Manufacturing,NACE,C11,sts_inppd_m,prices,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HR;HU;IE;IT;LT;NL;PL;PT;RO;SI,20,monthly,2023-01,2026-01
+Manufacture of beverages,Manufacturing,NACE,C11,sts_inppnd_m,prices,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HR;HU;IE;IT;NL;PL;PT;RO;SI,19,monthly,2023-01,2026-01
+Manufacture of beverages,Manufacturing,NACE,C11,sts_inpr_m,production,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HU;IT;LT;LV;NL;PL;PT;RO,18,monthly,2023-01,2025-12
+Manufacture of beverages,Manufacturing,NACE,C11,sts_intv_m,turnover,AT;BE;CZ;DE;DK;ES;FI;FR;GR;HU;IT;LT;LV;NL;PL;RO,16,monthly,2023-01,2025-12
+Manufacture of beverages,Manufacturing,NACE,C11,sts_intvd_m,turnover,AT;CZ;DE;DK;FI;FR;GR;HU;IT;LT;LV;NL;PL;RO,14,monthly,2023-01,2025-12
+Manufacture of beverages,Manufacturing,NACE,C11,sts_intvnd_m,turnover,AT;CZ;DE;DK;FI;FR;GR;HU;IT;LT;LV;NL;PL;RO,14,monthly,2023-01,2025-12
+Manufacture of tobacco products,Manufacturing,NACE,C12,ei_bssi_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2026-01
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_inlb_m,labour,DE;PT,2,monthly,2023-01,2025-12
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_inpi_m,prices,DE;DK;EE;ES;FI;FR;GR;HR;IT;LT;LV;NL;PL;SE;SI;SK,16,monthly,2023-01,2026-01
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_inpp_m,prices,BE;BG;DE;ES;GR;HR;HU;IT;LT;NL;PL;PT;RO;SE,14,monthly,2023-01,2026-01
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_inppd_m,prices,BE;BG;DE;ES;GR;HR;HU;IT;PL;PT;RO,11,monthly,2023-01,2026-01
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_inppnd_m,prices,BE;BG;DE;ES;GR;HR;HU;LT;NL;PT,10,monthly,2023-01,2026-01
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_inpr_m,production,AT;BE;BG;DE;DK;GR;HU;LT;NL;PL;RO,11,monthly,2023-01,2025-12
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_intv_m,turnover,DE;DK;ES;FR;GR;HU;LT;PL;RO,9,monthly,2023-01,2025-12
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_intvd_m,turnover,DE;DK;GR;HU;LT;PL;RO,7,monthly,2023-01,2025-12
+Manufacture of tobacco products,Manufacturing,NACE,C12,sts_intvnd_m,turnover,DE;DK;FR;GR;HU;LT;RO,7,monthly,2023-01,2025-12
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing,NACE,C204,ei_bssi_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2026-01
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing,NACE,C204,sts_inpi_m,prices,DE;DK;EE;ES;FI;FR;GR;HR;IT;LT;LV;NL;PL;SE;SI;SK,16,monthly,2023-01,2026-01
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing,NACE,C204,sts_inpp_m,prices,DE;ES;FI;FR;GR;HU;IT;LT;NL;PT;SE,11,monthly,2023-01,2025-12
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing,NACE,C204,sts_inppd_m,prices,CZ;DE;ES;FI;FR;GR;HU;IT;LT;NL;PT;SE,12,monthly,2023-01,2026-01
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing,NACE,C204,sts_inppnd_m,prices,DE;ES;FR;GR;HU;IT;LT;NL;PT;SE,10,monthly,2023-01,2026-01
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing,NACE,C204,sts_inpr_m,production,DE;ES;FR;GR;IT;LT,6,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,ei_bssi_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2026-01
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_inlb_m,labour,AT;DE;PT,3,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_inpi_m,prices,DE;DK;EE;ES;FI;FR;GR;HR;IT;LT;LV;NL;PL;SE;SI;SK,16,monthly,2023-01,2026-01
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_inpp_m,prices,AT;BE;BG;CZ;DE;ES;FI;FR;GR;HR;HU;IT;LT;NL;PL;PT;RO;SI,18,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_inppd_m,prices,AT;BE;BG;CZ;DE;ES;FI;FR;GR;HR;HU;IT;LT;NL;PL;PT;RO;SE;SI,19,monthly,2023-01,2026-01
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_inppnd_m,prices,AT;BE;BG;CY;CZ;DE;ES;FI;FR;GR;HR;HU;IT;LT;NL;PL;PT;RO,18,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_inpr_m,production,AT;BE;BG;CZ;DE;DK;ES;FR;GR;HU;IT;LT;NL;PL;PT;RO,16,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_intv_m,turnover,AT;BE;CZ;DE;DK;ES;FR;GR;HU;IT;LT;NL;PL;RO,14,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_intvd_m,turnover,AT;CZ;DE;DK;FR;GR;HU;IT;LT;NL;PL;RO,12,monthly,2023-01,2025-12
+Basic pharmaceutical products and preparations,Manufacturing,NACE,C21,sts_intvnd_m,turnover,AT;CZ;DE;DK;FR;GR;HU;IT;LT;NL;PL;RO,12,monthly,2023-01,2025-12
+Retail trade (excl. motor vehicles),Retail,NACE,G47,sts_trtu_m,turnover,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+"Retail sale of food, beverages and tobacco",Retail,NACE,G47_FOOD,ei_bsrt_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LV;MT;NL;PL;PT;RO;SE;SI;SK,26,monthly,2023-01,2026-01
+"Retail sale of food, beverages and tobacco",Retail,NACE,G47_FOOD,sts_trtu_m,turnover,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+"Dispensing chemist, medical goods, cosmetics, toiletries",Retail,NACE,G47_NF_HLTH,sts_trtu_m,turnover,AT;BE;DK;ES;FI;GR;HR;IE;IT;PT;RO;SE,12,monthly,2023-01,2025-12
+Non-food retail (excl. automotive fuel),Retail,NACE,G47_NFOOD_X_G473,sts_trtu_m,turnover,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,27,monthly,2023-01,2025-12
+Non-specialised stores (food predominating),Retail,NACE,G4711,sts_trtu_m,turnover,AT;BE;BG;CZ;DE;DK;ES;FI;FR;GR;HR;IE;IT;LT;NL;PL;PT;RO;SE,19,monthly,2023-01,2025-12
+Retail non-food products,Retail,NACE,G47_NFOOD,ei_bsrt_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LV;MT;NL;PL;PT;RO;SE;SI;SK,26,monthly,2023-01,2026-01
+Transportation and storage,Logistics,NACE,H,ei_bsse_m_r2,confidence,AT;BE;BG;CY;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IE;IT;LT;LV;MT;NL;PL;PT;RO;SE;SI;SK,26,monthly,2023-01,2026-01
+Transportation and storage,Logistics,NACE,H,sts_sepr_m,production,AT;BE;BG;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,25,monthly,2023-01,2025-12
+Land transport and pipelines,Logistics,NACE,H49,sts_sepr_m,production,AT;BE;BG;CZ;DE;EE;ES;FI;FR;GR;HR;HU;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,24,monthly,2023-01,2025-12
+Warehousing and transport support,Logistics,NACE,H52,sts_sepr_m,production,AT;BE;BG;CZ;DE;DK;EE;ES;FI;FR;GR;HR;HU;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,25,monthly,2023-01,2025-12
+Postal and courier activities,Logistics,NACE,H53,sts_sepr_m,production,AT;BE;BG;CZ;DE;EE;ES;GR;HR;HU;IT;LT;LU;LV;MT;NL;PL;PT;RO;SE;SI;SK,22,monthly,2023-01,2025-12

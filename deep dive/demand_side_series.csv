@@ -1,0 +1,31 @@
+series_name,category
+Fruit juices (incl. grape must),Production
+Mineral and aerated waters,Production
+Non-alcoholic beverages (excl. water/juices),Production
+Beer made from malt,Production
+Wine of fresh grapes,Production
+"Spirits, liqueurs and other spirituous beverages",Production
+"Beauty, make-up and skin care preparations",Production
+Hair preparations,Production
+"Shaving, deodorant, bath preparations",Production
+Washing and cleaning preparations,Production
+Medicaments in measured doses,Production
+Prepared or preserved meat,Production
+Prepared or preserved fish,Production
+Prepared or preserved vegetables,Production
+Food preparations n.e.c.,Production
+Manufacture of food products,Manufacturing
+Manufacture of beverages,Manufacturing
+Manufacture of tobacco products,Manufacturing
+"Soap, detergents, cleaning, cosmetics, toiletries",Manufacturing
+Basic pharmaceutical products and preparations,Manufacturing
+Retail trade (excl. motor vehicles),Retail
+"Retail sale of food, beverages and tobacco",Retail
+"Dispensing chemist, medical goods, cosmetics, toiletries",Retail
+Non-food retail (excl. automotive fuel),Retail
+Non-specialised stores (food predominating),Retail
+Retail non-food products,Retail
+Transportation and storage,Logistics
+Land transport and pipelines,Logistics
+Warehousing and transport support,Logistics
+Postal and courier activities,Logistics

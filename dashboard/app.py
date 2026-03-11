@@ -84,6 +84,7 @@ with col2:
     - **Country Deep Dive** — All indicators for one country
     - **Sector Explorer** — Cross-indicator sector view
     - **Data Freshness** — Full lag/status overview
+    - **Interest Review** — Demand-side series availability audit
     """)
 
 # Quick stats
