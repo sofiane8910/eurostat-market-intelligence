@@ -6,3 +6,7 @@ __pycache__/
 # Large CSVs — use .csv.gz versions in git, decompress locally
 output2/comext.csv
 output2/sts.csv
+data2/sts.csv
+data2/yfinance_financials.csv
+data2/yfinance_prices.csv
+data2/yfinance_news.csv
