@@ -1,0 +1,341 @@
+ticker,company,app_category,country,quarter,quarter_end,metric,value,currency,period_type
+NESN.SW,Nestlé,Food,Switzerland,FY 2025,2025-12-31,EBITDA,16207000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2024,2024-12-31,EBITDA,18662000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2023,2023-12-31,EBITDA,17804000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2022,2022-12-31,EBITDA,16076000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2025,2025-12-31,Net Income,9033000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2024,2024-12-31,Net Income,10884000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2023,2023-12-31,Net Income,11209000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2022,2022-12-31,Net Income,9270000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2025,2025-12-31,Total Revenue,89885000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2024,2024-12-31,Total Revenue,91720000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2023,2023-12-31,Total Revenue,93351000000.0,CHF,annual
+NESN.SW,Nestlé,Food,Switzerland,FY 2022,2022-12-31,Total Revenue,94780000000.0,CHF,annual
+BN.PA,Danone,Food,France,FY 2025,2025-12-31,EBITDA,4389000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2024,2024-12-31,EBITDA,4767000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2023,2023-12-31,EBITDA,3810000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2022,2022-12-31,EBITDA,4003000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2025,2025-12-31,Net Income,1825000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2024,2024-12-31,Net Income,2021000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2023,2023-12-31,Net Income,881000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2022,2022-12-31,Net Income,959000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2025,2025-12-31,Total Revenue,27283000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2024,2024-12-31,Total Revenue,27376000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2023,2023-12-31,Total Revenue,27619000000.0,EUR,annual
+BN.PA,Danone,Food,France,FY 2022,2022-12-31,Total Revenue,27661000000.0,EUR,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2025,2025-08-31,EBITDA,2654000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2024,2024-08-31,EBITDA,3132000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2023,2023-09-30,EBITDA,2476000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2023,2023-08-31,EBITDA,2476000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2025,2025-08-31,Net Income,1025000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2024,2024-08-31,Net Income,1455000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2023,2023-09-30,Net Income,1044000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2023,2023-08-31,Net Income,1044000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2025,2025-08-31,Total Revenue,19459000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2024,2024-08-31,Total Revenue,20073000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2023,2023-09-30,Total Revenue,19750000000.0,GBp,annual
+ABF.L,Assoc British Foods,Food,UK,FY 2023,2023-08-31,Total Revenue,19750000000.0,GBp,annual
+ORK.OL,Orkla,Food,Norway,2025-Q4,2025-12-31,EBITDA,3038000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q3,2025-09-30,EBITDA,2912000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q2,2025-06-30,EBITDA,2961000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q1,2025-03-31,EBITDA,3044000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2024-Q4,2024-12-31,EBITDA,2653000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q4,2025-12-31,Net Income,1888000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q3,2025-09-30,Net Income,1571000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q2,2025-06-30,Net Income,6221000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q1,2025-03-31,Net Income,1793000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2024-Q4,2024-12-31,Net Income,1360000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q4,2025-12-31,Total Revenue,18775000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q3,2025-09-30,Total Revenue,17946000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q2,2025-06-30,Total Revenue,17650000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2025-Q1,2025-03-31,Total Revenue,17176000000.0,NOK,quarterly
+ORK.OL,Orkla,Food,Norway,2024-Q4,2024-12-31,Total Revenue,18395000000.0,NOK,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q4,2025-12-31,EBITDA,3947000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q3,2025-09-30,EBITDA,3162000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q2,2025-06-30,EBITDA,4325000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q1,2025-03-31,EBITDA,3587000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2024-Q4,2024-12-31,EBITDA,3357000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q4,2025-12-31,Net Income,1959000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q3,2025-09-30,Net Income,1054000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q2,2025-06-30,Net Income,1676000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q1,2025-03-31,Net Income,2148000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2024-Q4,2024-12-31,Net Income,1220000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q4,2025-12-31,Total Revenue,15555000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q3,2025-09-30,Total Revenue,15133000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q2,2025-06-30,Total Revenue,15004000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2025-Q1,2025-03-31,Total Revenue,13628000000.0,EUR,quarterly
+ABI.BR,AB InBev,Beverage,Belgium,2024-Q4,2024-12-31,Total Revenue,14841000000.0,EUR,quarterly
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2025,2025-12-31,EBITDA,6248000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2024,2024-12-31,EBITDA,5313000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2023,2023-12-31,EBITDA,6072000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2022,2022-12-31,EBITDA,6450000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2025,2025-12-31,Net Income,1885000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2024,2024-12-31,Net Income,978000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2023,2023-12-31,Net Income,2304000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2022,2022-12-31,Net Income,2682000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2025,2025-12-31,Total Revenue,28753000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2024,2024-12-31,Total Revenue,29821000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2023,2023-12-31,Total Revenue,30362000000.0,EUR,annual
+HEIA.AS,Heineken,Beverage,Netherlands,FY 2022,2022-12-31,Total Revenue,28719000000.0,EUR,annual
+DGE.L,Diageo,Beverage,UK,FY 2025,2025-06-30,EBITDA,6359000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2024,2024-06-30,EBITDA,7087000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2023,2023-06-30,EBITDA,7890000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2022,2022-06-30,EBITDA,8089000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2025,2025-06-30,Net Income,2354000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2024,2024-06-30,Net Income,3870000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2023,2023-06-30,Net Income,4445000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2022,2022-06-30,Net Income,4280000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2025,2025-06-30,Total Revenue,20245000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2024,2024-06-30,Total Revenue,20269000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2023,2023-06-30,Total Revenue,20555000000.0,GBp,annual
+DGE.L,Diageo,Beverage,UK,FY 2022,2022-06-30,Total Revenue,20516000000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2024,2024-12-31,EBITDA,1624300000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2023,2023-12-31,EBITDA,1383100000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2022,2022-12-31,EBITDA,1106200000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2021,2021-12-31,EBITDA,1133300000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2024,2024-12-31,Net Income,820600000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2023,2023-12-31,Net Income,636500000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2022,2022-12-31,Net Income,415400000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2021,2021-12-31,Net Income,547200000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2024,2024-12-31,Total Revenue,10754400000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2023,2023-12-31,Total Revenue,10184000000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2022,2022-12-31,Total Revenue,9198400000.0,GBp,annual
+CCH.L,Coca-Cola HBC,Beverage,UK,FY 2021,2021-12-31,Total Revenue,7168400000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2025,2025-12-31,EBITDA,14056000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2024,2024-12-31,EBITDA,8422000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2023,2023-12-31,EBITDA,8826000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2022,2022-12-31,EBITDA,12292000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2025,2025-12-31,Net Income,7764000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2024,2024-12-31,Net Income,3068000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2023,2023-12-31,Net Income,-14367000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2022,2022-12-31,Net Income,6666000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2025,2025-12-31,Total Revenue,25610000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2024,2024-12-31,Total Revenue,25867000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2023,2023-12-31,Total Revenue,27283000000.0,GBp,annual
+BATS.L,BAT,Tobacco,UK,FY 2022,2022-12-31,Total Revenue,27655000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2025,2025-09-30,EBITDA,4365000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2024,2024-09-30,EBITDA,4137000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2023,2023-09-30,EBITDA,4245000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2022,2022-09-30,EBITDA,4928000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2025,2025-09-30,Net Income,2071000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2024,2024-09-30,Net Income,2613000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2023,2023-09-30,Net Income,2328000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2022,2022-09-30,Net Income,1570000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2025,2025-09-30,Total Revenue,32171000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2024,2024-09-30,Total Revenue,32411000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2023,2023-09-30,Total Revenue,32475000000.0,GBp,annual
+IMB.L,Imperial Brands,Tobacco,UK,FY 2022,2022-09-30,Total Revenue,32551000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2024,2024-12-31,EBITDA,11744000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2023,2023-12-31,EBITDA,11992000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2022,2022-12-31,EBITDA,13072000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2021,2021-12-31,EBITDA,10817000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2024,2024-12-31,Net Income,5744000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2023,2023-12-31,Net Income,6487000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2022,2022-12-31,Net Income,7642000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2021,2021-12-31,Net Income,6049000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2024,2024-12-31,Total Revenue,60761000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2023,2023-12-31,Total Revenue,59604000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2022,2022-12-31,Total Revenue,60073000000.0,GBp,annual
+ULVR.L,Unilever,Home & Personal Care,UK,FY 2021,2021-12-31,Total Revenue,52444000000.0,GBp,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2025,2025-12-31,EBITDA,10685400000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2024,2024-12-31,EBITDA,10661600000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2023,2023-12-31,EBITDA,9944900000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2022,2022-12-31,EBITDA,9223600000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2025,2025-12-31,Net Income,6127200000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2024,2024-12-31,Net Income,6408700000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2023,2023-12-31,Net Income,6184000000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2022,2022-12-31,Net Income,5706600000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2025,2025-12-31,Total Revenue,44052000000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2024,2024-12-31,Total Revenue,43486800000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2023,2023-12-31,Total Revenue,41182500000.0,EUR,annual
+OR.PA,L'Oréal,Home & Personal Care,France,FY 2022,2022-12-31,Total Revenue,38260600000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2024,2024-12-31,EBITDA,3678000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2023,2023-12-31,EBITDA,2923000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2022,2022-12-31,EBITDA,2644000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2021,2021-12-31,EBITDA,3180000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2024,2024-12-31,Net Income,2007000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2023,2023-12-31,Net Income,1318000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2022,2022-12-31,Net Income,1259000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2021,2021-12-31,Net Income,1634000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2024,2024-12-31,Total Revenue,21586000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2023,2023-12-31,Total Revenue,21514000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2022,2022-12-31,Total Revenue,22397000000.0,EUR,annual
+HEN3.DE,Henkel,Home & Personal Care,Germany,FY 2021,2021-12-31,Total Revenue,20066000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2025,2025-12-31,EBITDA,1700000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2024,2024-12-31,EBITDA,1728000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2023,2023-12-31,EBITDA,1580000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2022,2022-12-31,EBITDA,1399000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2025,2025-12-31,Net Income,939000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2024,2024-12-31,Net Income,912000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2023,2023-12-31,Net Income,736000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2022,2022-12-31,Net Income,755000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2025,2025-12-31,Total Revenue,9852000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2024,2024-12-31,Total Revenue,9850000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2023,2023-12-31,Total Revenue,9447000000.0,EUR,annual
+BEI.DE,Beiersdorf,Home & Personal Care,Germany,FY 2022,2022-12-31,Total Revenue,8799000000.0,EUR,annual
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q4,2025-12-31,EBITDA,5073000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q3,2025-09-30,EBITDA,5841000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q2,2025-06-30,EBITDA,6076000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q1,2025-03-31,EBITDA,5831000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2024-Q4,2024-12-31,EBITDA,5188000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q4,2025-12-31,Net Income,2409000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q3,2025-09-30,Net Income,3928000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q2,2025-06-30,Net Income,4041000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q1,2025-03-31,Net Income,3606000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2024-Q4,2024-12-31,Net Income,2818000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q4,2025-12-31,Total Revenue,13860000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q3,2025-09-30,Total Revenue,14358000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q2,2025-06-30,Total Revenue,14836000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2025-Q1,2025-03-31,Total Revenue,13620000000.0,CHF,quarterly
+NOVN.SW,Novartis,Pharmaceuticals,Switzerland,2024-Q4,2024-12-31,Total Revenue,13558000000.0,CHF,quarterly
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2025,2025-12-31,EBITDA,21705000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2024,2024-12-31,EBITDA,16619000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2023,2023-12-31,EBITDA,18540000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2022,2022-12-31,EBITDA,20861000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2025,2025-12-31,Net Income,12880000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2024,2024-12-31,Net Income,8277000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2023,2023-12-31,Net Income,11498000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2022,2022-12-31,Net Income,12421000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2025,2025-12-31,Total Revenue,63356000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2024,2024-12-31,Total Revenue,62395000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2023,2023-12-31,Total Revenue,60441000000.0,CHF,annual
+ROG.SW,Roche,Pharmaceuticals,Switzerland,FY 2022,2022-12-31,Total Revenue,65814000000.0,CHF,annual
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q4,2025-12-31,EBITDA,-341000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q3,2025-09-30,EBITDA,4198000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q2,2025-06-30,EBITDA,1889000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q1,2025-03-31,EBITDA,2770000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2024-Q4,2024-12-31,EBITDA,563000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q4,2025-12-31,Net Income,-801000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q3,2025-09-30,Net Income,2802000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q2,2025-06-30,Net Income,3940000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q1,2025-03-31,Net Income,1872000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2024-Q4,2024-12-31,Net Income,499000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q4,2025-12-31,Total Revenue,12205000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q3,2025-09-30,Total Revenue,13170000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q2,2025-06-30,Total Revenue,10735000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2025-Q1,2025-03-31,Total Revenue,10606000000.0,EUR,quarterly
+SAN.PA,Sanofi,Pharmaceuticals,France,2024-Q4,2024-12-31,Total Revenue,7631000000.0,EUR,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q4,2025-12-31,EBITDA,37298000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q3,2025-09-30,EBITDA,31439000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q2,2025-06-30,EBITDA,43596000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q1,2025-03-31,EBITDA,46046000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2024-Q4,2024-12-31,EBITDA,45848000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q4,2025-12-31,Net Income,26891000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q3,2025-09-30,Net Income,20006000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q2,2025-06-30,Net Income,26503000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q1,2025-03-31,Net Income,29034000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2024-Q4,2024-12-31,Net Income,28230000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q4,2025-12-31,Total Revenue,79144000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q3,2025-09-30,Total Revenue,74976000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q2,2025-06-30,Total Revenue,76857000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2025-Q1,2025-03-31,Total Revenue,78087000000.0,DKK,quarterly
+NOVO-B.CO,Novo Nordisk,Pharmaceuticals,Denmark,2024-Q4,2024-12-31,Total Revenue,85683000000.0,DKK,quarterly
+TSCO.L,Tesco,Retail,UK,FY 2025,2025-02-28,EBITDA,4771000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2024,2024-02-29,EBITDA,4825000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2023,2023-02-28,EBITDA,3227000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2022,2022-02-28,EBITDA,4403000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2025,2025-02-28,Net Income,1626000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2024,2024-02-29,Net Income,1188000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2023,2023-02-28,Net Income,737000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2022,2022-02-28,Net Income,1481000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2025,2025-02-28,Total Revenue,69916000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2024,2024-02-29,Total Revenue,68187000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2023,2023-02-28,Total Revenue,65322000000.0,GBp,annual
+TSCO.L,Tesco,Retail,UK,FY 2022,2022-02-28,Total Revenue,61344000000.0,GBp,annual
+CA.PA,Carrefour,Retail,France,FY 2025,2025-12-31,EBITDA,4672000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2024,2024-12-31,EBITDA,4364000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2023,2023-12-31,EBITDA,4338000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2022,2022-12-31,EBITDA,4792000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2025,2025-12-31,Net Income,319000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2024,2024-12-31,Net Income,723000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2023,2023-12-31,Net Income,1659000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2022,2022-12-31,Net Income,1348000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2025,2025-12-31,Total Revenue,84024000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2024,2024-12-31,Total Revenue,83453000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2023,2023-12-31,Total Revenue,84910000000.0,EUR,annual
+CA.PA,Carrefour,Retail,France,FY 2022,2022-12-31,Total Revenue,83088000000.0,EUR,annual
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q4,2025-12-31,EBITDA,1896000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q3,2025-09-30,EBITDA,1839000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q2,2025-06-30,EBITDA,1828000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q1,2025-03-31,EBITDA,1862000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2024-Q4,2024-12-31,EBITDA,1587000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q4,2025-12-31,Net Income,577000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q3,2025-09-30,Net Income,584000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q2,2025-06-30,Net Income,548000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q1,2025-03-31,Net Income,554000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2024-Q4,2024-12-31,Net Income,380000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q4,2025-12-31,Total Revenue,23490000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q3,2025-09-30,Total Revenue,22494000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q2,2025-06-30,Total Revenue,23092000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2025-Q1,2025-03-31,Total Revenue,23276000000.0,EUR,quarterly
+AD.AS,Ahold Delhaize,Retail,Netherlands,2024-Q4,2024-12-31,Total Revenue,23276000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q3,2025-09-30,EBITDA,657000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q2,2025-06-30,EBITDA,569000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q1,2025-03-31,EBITDA,535000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2024-Q4,2024-12-31,EBITDA,564000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2024-Q3,2024-09-30,EBITDA,581000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q3,2025-09-30,Net Income,214000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q2,2025-06-30,Net Income,142000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q1,2025-03-31,Net Income,127000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2024-Q4,2024-12-31,Net Income,159000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2024-Q3,2024-09-30,Net Income,187000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q3,2025-09-30,Total Revenue,9138000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q2,2025-06-30,Total Revenue,9020000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2025-Q1,2025-03-31,Total Revenue,8377000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2024-Q4,2024-12-31,Total Revenue,8699000000.0,EUR,quarterly
+JMT.LS,Jerónimo Martins,Retail,Portugal,2024-Q3,2024-09-30,Total Revenue,8467000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2025-Q2,2025-06-30,EBITDA,2736000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2025-Q1,2025-03-31,EBITDA,2711000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q4,2024-12-31,EBITDA,3004000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q3,2024-09-30,EBITDA,2601000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q2,2024-06-30,EBITDA,2630000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2025-Q2,2025-06-30,Net Income,815000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2025-Q1,2025-03-31,Net Income,786000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q4,2024-12-31,Net Income,1097000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q3,2024-09-30,Net Income,751000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q2,2024-06-30,Net Income,744000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2025-Q2,2025-06-30,Total Revenue,19826000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2025-Q1,2025-03-31,Total Revenue,20809000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q4,2024-12-31,Total Revenue,22704000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q3,2024-09-30,Total Revenue,20592000000.0,EUR,quarterly
+DHL.DE,DHL Group,Transport & Logistics,Germany,2024-Q2,2024-06-30,Total Revenue,20639000000.0,EUR,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q4,2025-12-31,EBITDA,5297000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q2,2025-06-30,EBITDA,6454000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q1,2025-03-31,EBITDA,6037000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2024-Q4,2024-12-31,EBITDA,4768000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2024-Q3,2024-09-30,EBITDA,5793000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q4,2025-12-31,Net Income,917000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q2,2025-06-30,Net Income,2330000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q1,2025-03-31,Net Income,2797000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2024-Q4,2024-12-31,Net Income,2210000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2024-Q3,2024-09-30,Net Income,2823000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q4,2025-12-31,Total Revenue,71685000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q2,2025-06-30,Total Revenue,61983000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2025-Q1,2025-03-31,Total Revenue,41680000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2024-Q4,2024-12-31,Total Revenue,43514000000.0,DKK,quarterly
+DSV.CO,DSV,Transport & Logistics,Denmark,2024-Q3,2024-09-30,Total Revenue,44095000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q4,2025-12-31,Net Income,-70000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q3,2025-09-30,Net Income,1047000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q2,2025-06-30,Net Income,586000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q1,2025-03-31,Net Income,1162000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2024-Q4,2024-12-31,Net Income,2085000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q4,2025-12-31,Total Revenue,13331000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q3,2025-09-30,Total Revenue,14206000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q2,2025-06-30,Total Revenue,13130000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2025-Q1,2025-03-31,Total Revenue,13321000000.0,DKK,quarterly
+MAERSK-B.CO,Maersk,Transport & Logistics,Denmark,2024-Q4,2024-12-31,Total Revenue,14594000000.0,DKK,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q4,2025-12-31,EBITDA,458000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q2,2025-06-30,EBITDA,571000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q1,2025-03-31,EBITDA,640000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2024-Q4,2024-12-31,EBITDA,626000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2024-Q3,2024-09-30,EBITDA,669000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q4,2025-12-31,Net Income,157000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q2,2025-06-30,Net Income,240000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q1,2025-03-31,Net Income,291000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2024-Q4,2024-12-31,Net Income,296000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2024-Q3,2024-09-30,Net Income,324000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q4,2025-12-31,Total Revenue,5954000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q2,2025-06-30,Total Revenue,6149000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2025-Q1,2025-03-31,Total Revenue,6330000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2024-Q4,2024-12-31,Total Revenue,6761000000.0,CHF,quarterly
+KNIN.SW,Kuehne+Nagel,Transport & Logistics,Switzerland,2024-Q3,2024-09-30,Total Revenue,6487000000.0,CHF,quarterly
