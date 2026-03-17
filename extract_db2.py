@@ -216,6 +216,9 @@ def extract_sts_monthly(dataset, nace):
 
     print(f"  Fetching {dataset} x {nace}...")
 
+    # Eurostat API requires uppercase dataset codes in some package versions
+    api_dataset = dataset.upper()
+
     # Attempt 1: seasonally adjusted, index 2021=100
     try:
         filter_pars = {
@@ -225,7 +228,7 @@ def extract_sts_monthly(dataset, nace):
             "s_adj": ["SCA"],
             "unit": ["I21"],
         }
-        df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
+        df = eurostat.get_data_df(api_dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
             df = _clean_sts_df(df)
             print(f"  -> OK: {len(df)} rows")
@@ -242,7 +245,7 @@ def extract_sts_monthly(dataset, nace):
             "s_adj": ["SCA"],
             "unit": ["I15"],
         }
-        df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
+        df = eurostat.get_data_df(api_dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
             df = _clean_sts_df(df)
             print(f"  -> OK (I15): {len(df)} rows")
@@ -257,7 +260,7 @@ def extract_sts_monthly(dataset, nace):
             "endPeriod": END_PERIOD,
             "nace_r2": [nace],
         }
-        df = eurostat.get_data_df(dataset, filter_pars=filter_pars, flags=True)
+        df = eurostat.get_data_df(api_dataset, filter_pars=filter_pars, flags=True)
         if df is not None and not df.empty:
             df = _clean_sts_df(df)
             print(f"  -> OK (broad): {len(df)} rows")
