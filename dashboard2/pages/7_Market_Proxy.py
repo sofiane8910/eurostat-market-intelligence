@@ -142,7 +142,7 @@ for i, comp in enumerate(companies):
                     s += f" ({sign}{chg:.0f}%)"
                 return s
 
-            formatted = pivot.copy()
+            formatted = pivot.astype(object).copy()
             for col in pivot.columns:
                 for row in pivot.index:
                     formatted.loc[row, col] = _fmt_cell(
