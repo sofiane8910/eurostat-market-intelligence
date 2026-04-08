@@ -12,8 +12,15 @@ from constants import (
     SECTOR_GROUPS, EU27_CODES, AGGREGATE_CODES, COUNTRY_NAMES,
     CN_DESCRIPTIONS, STS_DATASET_DESCRIPTIONS, NACE_DESCRIPTIONS,
     INDICATOR_LABELS, FLOW_LABELS, freshness_footnote,
+    KEY_FINANCIAL_METRICS, MARGIN_METRICS,
 )
-from charts import line_chart, bar_chart_latest, heatmap_yoy, freshness_badge
+from charts import (
+    line_chart, bar_chart_latest, heatmap_yoy, freshness_badge,
+    stock_price_chart, revenue_bar_chart, margin_trend_chart,
+)
+from yfinance_helpers import (
+    get_tickers_for_sector, render_company_news,
+)
 
 st.title("Sector Explorer")
 st.caption(
@@ -45,10 +52,11 @@ with st.expander("Sector coverage — product codes and industry classifications
             desc = NACE_DESCRIPTIONS.get(nace, nace)
             st.markdown(f"- {desc} ({nace})")
 
-tab_trade, tab_indices, tab_compare = st.tabs([
+tab_trade, tab_indices, tab_compare, tab_players = st.tabs([
     "International Trade",
     "Industrial Indices",
     "Country Comparison",
+    "Key Players",
 ])
 
 # ---- TRADE TAB ----
@@ -245,3 +253,73 @@ with tab_compare:
                 use_container_width=True,
             )
             st.caption("Source: Eurostat Comext DS-045409 | ~6-8 week publication lag")
+
+# ---- KEY PLAYERS TAB ----
+with tab_players:
+    yf_prices = data.get("yf_prices", pd.DataFrame())
+    yf_fin = data.get("yf_financials", pd.DataFrame())
+    yf_news = data.get("yf_news", pd.DataFrame())
+
+    sector_tickers = get_tickers_for_sector(sector_name, yf_prices)
+
+    if not sector_tickers:
+        st.info(f"No company data available for the {sector_name} sector.")
+    else:
+        st.subheader(f"Key Players — {sector_name}")
+        st.caption("Source: Yahoo Finance | Stock prices and quarterly financials")
+
+        # Ticker multiselect
+        ticker_names = {}
+        for t in sector_tickers:
+            tdf = yf_prices[yf_prices["ticker"] == t]
+            if not tdf.empty:
+                ticker_names[t] = tdf["company"].iloc[0]
+        selected_tickers = st.multiselect(
+            "Select companies", sector_tickers,
+            default=sector_tickers,
+            format_func=lambda x: ticker_names.get(x, x),
+            key="sector_player_tickers",
+        )
+
+        if selected_tickers:
+            # Normalized stock price chart
+            st.plotly_chart(
+                stock_price_chart(yf_prices, selected_tickers,
+                                  f"Stock Performance — {sector_name} (Normalized to 100)",
+                                  normalize=True),
+                use_container_width=True,
+            )
+            st.caption("Normalized to 100 at start date for cross-currency comparison.")
+
+            # Financial metric selector
+            if not yf_fin.empty:
+                available_metrics = yf_fin[
+                    (yf_fin["ticker"].isin(selected_tickers)) &
+                    (yf_fin["metric"].isin(KEY_FINANCIAL_METRICS))
+                ]["metric"].unique().tolist()
+
+                if available_metrics:
+                    sel_metric = st.selectbox(
+                        "Financial metric", available_metrics,
+                        key="sector_player_metric",
+                    )
+                    st.plotly_chart(
+                        revenue_bar_chart(yf_fin, selected_tickers, sel_metric,
+                                          f"{sel_metric} by Quarter — {sector_name}"),
+                        use_container_width=True,
+                    )
+
+                    # Margin trends
+                    st.markdown("**Margin Trends**")
+                    for margin_name, (num, den) in MARGIN_METRICS.items():
+                        fig = margin_trend_chart(yf_fin, selected_tickers,
+                                                 num, den,
+                                                 f"{margin_name} — {sector_name}")
+                        if fig.data:
+                            st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No financial data available for selected companies.")
+
+            # News
+            st.markdown("**Latest News**")
+            render_company_news(yf_news, selected_tickers)

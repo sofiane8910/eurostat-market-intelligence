@@ -62,8 +62,10 @@ def render_global_filters(show_sector: bool = True,
                     "**Supply sectors** (Paper & Board, Labels, Films & Plastics, "
                     "Adhesives, Inks, RFID): raw materials and packaging inputs "
                     "used to manufacture labels.\n\n"
-                    "**Demand sectors** (Food & Beverages, HPC & Cosmetics, "
-                    "Pharma, Logistics): end-market industries whose packaging "
+                    "**Demand sectors** (Food & Beverages, Tobacco, HPC & Cosmetics, "
+                    "Pharma, Textiles & Apparel, Automotive, Consumer Durables, "
+                    "Machinery & Metals, Furniture, Logistics, Office Products, "
+                    "Building Materials): end-market industries whose packaging "
                     "drives label consumption."
                 ),
             )

@@ -131,6 +131,11 @@ def load_all_data():
         sts_series.append((dataset, nace, ds_desc, nace_desc, side))
         freshness[key] = compute_freshness(df, dataset)
 
+    # Load yfinance data
+    yf_prices = _load_yfinance_prices()
+    yf_financials = _load_yfinance_financials()
+    yf_news = _load_yfinance_news()
+
     return {
         "comext": comext_data,
         "sts": sts_data,
@@ -139,6 +144,9 @@ def load_all_data():
             "comext_codes": comext_codes,
             "sts_series": sts_series,
         },
+        "yf_prices": yf_prices,
+        "yf_financials": yf_financials,
+        "yf_news": yf_news,
     }
 
 
@@ -151,6 +159,44 @@ def load_availability_data():
     summary = pd.read_csv(summary_path) if os.path.isfile(summary_path) else pd.DataFrame()
     detail = pd.read_csv(detail_path) if os.path.isfile(detail_path) else pd.DataFrame()
     return {"summary": summary, "detail": detail}
+
+
+def _load_yfinance_prices() -> pd.DataFrame:
+    """Load output2/yfinance_prices.csv — daily stock prices."""
+    path = os.path.join(DATA_DIR, "yfinance_prices.csv")
+    if not os.path.isfile(path):
+        return pd.DataFrame()
+    df = pd.read_csv(path)
+    if df.empty:
+        return df
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    for col in ["open", "high", "low", "close", "volume"]:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    return df
+
+
+def _load_yfinance_financials() -> pd.DataFrame:
+    """Load output2/yfinance_financials.csv — quarterly financial data."""
+    path = os.path.join(DATA_DIR, "yfinance_financials.csv")
+    if not os.path.isfile(path):
+        return pd.DataFrame()
+    df = pd.read_csv(path)
+    if df.empty:
+        return df
+    df["value"] = pd.to_numeric(df["value"], errors="coerce")
+    if "quarter_end" in df.columns:
+        df["quarter_end"] = pd.to_datetime(df["quarter_end"], errors="coerce")
+    return df
+
+
+def _load_yfinance_news() -> pd.DataFrame:
+    """Load output2/yfinance_news.csv — recent company news."""
+    path = os.path.join(DATA_DIR, "yfinance_news.csv")
+    if not os.path.isfile(path):
+        return pd.DataFrame()
+    df = pd.read_csv(path)
+    return df
 
 
 def get_eu27_aggregate(df: pd.DataFrame, partner: str = "WORLD",

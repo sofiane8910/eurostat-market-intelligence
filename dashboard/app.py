@@ -36,10 +36,13 @@ with st.sidebar:
 
     n_comext = len(data["comext"])
     n_sts = len(data["sts"])
+    n_tickers = data["yf_prices"]["ticker"].nunique() if not data["yf_prices"].empty else 0
     st.metric("Total Series", n_comext + n_sts)
     col1, col2 = st.columns(2)
     col1.metric("Comext Trade", n_comext)
     col2.metric("STS Indices", n_sts)
+    if n_tickers > 0:
+        st.metric("Company Tickers", n_tickers)
 
     # Freshness summary
     st.divider()
@@ -54,7 +57,7 @@ with st.sidebar:
         st.warning(f"Tier 2 (lagged): {len(t2)} series, latest {latest_t2.strftime('%b %Y')}")
 
     st.divider()
-    st.caption("Data: Eurostat Comext & STS APIs")
+    st.caption("Data: Eurostat Comext & STS APIs, Yahoo Finance")
     st.caption("Coverage: 2023-01 to present")
 
 # Main landing page
@@ -82,9 +85,10 @@ with col2:
     st.markdown("""
     **Deep Dive Pages**
     - **Country Deep Dive** — All indicators for one country
-    - **Sector Explorer** — Cross-indicator sector view
+    - **Sector Explorer** — Cross-indicator sector view + key players
     - **Data Freshness** — Full lag/status overview
     - **Interest Review** — Demand-side series availability audit
+    - **Competitive Landscape** — Company financials, China deep-dive
     """)
 
 # Quick stats

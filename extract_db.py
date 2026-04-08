@@ -110,11 +110,24 @@ STS_DATASETS = [
 ]
 
 NACE_CODES = [
+    # Supply-side
     "C17", "C171", "C1712", "C172", "C1729",
     "C18", "C20", "C203", "C2052",
     "C22", "C222", "C2221", "C2229", "C2829",
-    # Demand-side end-market sectors
+    # Demand-side: existing end-market sectors
     "C10", "C11", "C12", "C204", "C21",
+    # Demand-side: 4-digit splits (user's macro-category table)
+    "C2041", "C2042",                       # HPC vs Household Chemicals
+    "C29",                                  # Automotive
+    "C26", "C262", "C263", "C264",          # Electronics (parent + brown goods)
+    "C27", "C2751",                         # Electrical equipment + white goods
+    "C1723", "C3299",                       # Office products
+    # Demand-side: new sector additions
+    "C13", "C14", "C15",                    # Textiles, apparel, leather/footwear
+    "C23",                                  # Glass & ceramics (label proxy)
+    "C25", "C28",                           # Fabricated metals, machinery
+    "C31", "C32",                           # Furniture, other manufacturing
+    "C16",                                  # Wood & building materials
 ]
 
 DEMAND_STS_SERIES = {
@@ -230,6 +243,26 @@ NACE_DESCRIPTIONS = {
     "C12": "Manufacture of tobacco products",
     "C204": "Soap, detergents, cleaning, cosmetics, toiletries",
     "C21": "Basic pharmaceutical products and preparations",
+    "C2041": "Manufacture of soap, detergents, cleaning and polishing preparations",
+    "C2042": "Manufacture of perfumes and toilet preparations",
+    "C13": "Manufacture of textiles",
+    "C14": "Manufacture of wearing apparel",
+    "C15": "Manufacture of leather and related products",
+    "C16": "Manufacture of wood and cork products",
+    "C23": "Manufacture of other non-metallic mineral products",
+    "C25": "Manufacture of fabricated metal products",
+    "C26": "Manufacture of computer, electronic and optical products",
+    "C262": "Manufacture of computers and peripheral equipment",
+    "C263": "Manufacture of communication equipment",
+    "C264": "Manufacture of consumer electronics",
+    "C27": "Manufacture of electrical equipment",
+    "C2751": "Manufacture of electric domestic appliances",
+    "C28": "Manufacture of machinery and equipment n.e.c.",
+    "C29": "Manufacture of motor vehicles, trailers and semi-trailers",
+    "C31": "Manufacture of furniture",
+    "C32": "Other manufacturing",
+    "C3299": "Other manufacturing n.e.c.",
+    "C1723": "Manufacture of paper stationery",
     "G47": "Retail trade (excl. motor vehicles)",
     "G47_FOOD": "Retail sale of food, beverages and tobacco",
     "G47_NF_HLTH": "Dispensing chemist, medical goods, cosmetics, toiletries",
@@ -254,6 +287,8 @@ EXCLUDED_STS_DATASETS = {"sts_ordi_m"}
 _EXCLUDED_NACE_FOR_TURNOVER_LABOUR = [
     "C171", "C1712", "C172", "C1729", "C203", "C2052",
     "C222", "C2221", "C2229", "C2829", "C204",
+    # New 3/4-digit codes (no turnover/labour at this granularity)
+    "C2041", "C2042", "C262", "C263", "C264", "C2751", "C1723", "C3299",
 ]
 EXCLUDED_STS_COMBOS = {
     (ds, nace)

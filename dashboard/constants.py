@@ -150,17 +150,42 @@ SUPPLY_NACE = {
 }
 
 DEMAND_NACE = {
+    # Consumer FMCG
     "C10": "Manufacture of food products",
     "C11": "Manufacture of beverages",
     "C12": "Manufacture of tobacco products",
     "C204": "Soap, detergents, cleaning, cosmetics, toiletries",
+    "C2041": "Manufacture of soap, detergents, cleaning and polishing preparations",
+    "C2042": "Manufacture of perfumes and toilet preparations",
     "C21": "Basic pharmaceutical products and preparations",
+    "C13": "Manufacture of textiles",
+    "C14": "Manufacture of wearing apparel",
+    "C15": "Manufacture of leather and related products",
+    # Regulated & Industrial
+    "C29": "Manufacture of motor vehicles, trailers and semi-trailers",
+    "C26": "Manufacture of computer, electronic and optical products",
+    "C262": "Manufacture of computers and peripheral equipment",
+    "C263": "Manufacture of communication equipment",
+    "C264": "Manufacture of consumer electronics",
+    "C27": "Manufacture of electrical equipment",
+    "C2751": "Manufacture of electric domestic appliances",
+    "C28": "Manufacture of machinery and equipment n.e.c.",
+    "C25": "Manufacture of fabricated metal products",
+    "C31": "Manufacture of furniture",
+    "C32": "Other manufacturing",
+    "C3299": "Other manufacturing n.e.c.",
+    # Miscellaneous
+    "C1723": "Manufacture of paper stationery",
+    "C23": "Manufacture of other non-metallic mineral products",
+    "C16": "Manufacture of wood and cork products",
+    # Retail
     "G47": "Retail trade (excl. motor vehicles)",
     "G47_FOOD": "Retail sale of food, beverages and tobacco",
     "G47_NF_HLTH": "Dispensing chemist, medical goods, cosmetics, toiletries",
     "G47_NFOOD_X_G473": "Non-food retail (excl. automotive fuel)",
     "G4711": "Non-specialised stores (food predominating)",
     "G47_NFOOD": "Retail non-food products",
+    # Services & Logistics
     "H": "Transportation and storage",
     "H49": "Land transport and pipelines",
     "H52": "Warehousing and transport support",
@@ -212,25 +237,69 @@ SECTOR_GROUPS = {
         "nace_codes": ["C2829"],
         "description": "RFID tags, smart cards, semiconductor media",
     },
+    # --- Demand: Consumer FMCG ---
     "Food & Beverages": {
         "cn_codes": ["1602", "1604", "2005", "2106", "2009", "2201", "2202", "2203", "2204", "2208"],
-        "nace_codes": ["C10", "C11", "C12", "G47_FOOD", "G4711"],
+        "nace_codes": ["C10", "C11", "G47_FOOD", "G4711"],
         "description": "Processed food, beverages, food retail",
+    },
+    "Tobacco": {
+        "cn_codes": [],
+        "nace_codes": ["C12"],
+        "description": "Tobacco products — pack labels, health warnings, tax stamps",
     },
     "HPC & Cosmetics": {
         "cn_codes": ["3304", "3305", "3307", "3402"],
-        "nace_codes": ["C204", "G47_NF_HLTH"],
+        "nace_codes": ["C204", "C2041", "C2042", "G47_NF_HLTH"],
         "description": "Beauty, hair, cleaning products, cosmetics retail",
     },
+    "Textiles & Apparel": {
+        "cn_codes": [],
+        "nace_codes": ["C13", "C14", "C15"],
+        "description": "Garment labels, care labels, brand tags, footwear labels",
+    },
+    # --- Demand: Regulated & Industrial ---
     "Pharma": {
         "cn_codes": ["3004"],
         "nace_codes": ["C21"],
         "description": "Pharmaceutical products",
     },
+    "Automotive": {
+        "cn_codes": [],
+        "nace_codes": ["C29"],
+        "description": "VIN labels, safety labels, durable under-hood labels",
+    },
+    "Consumer Durables": {
+        "cn_codes": [],
+        "nace_codes": ["C26", "C262", "C263", "C264", "C27", "C2751"],
+        "description": "Electronics and white goods — energy labels, serial numbers, compliance marks",
+    },
+    "Machinery & Metals": {
+        "cn_codes": [],
+        "nace_codes": ["C28", "C25"],
+        "description": "Industrial nameplates, rating plates, safety/identification labels",
+    },
+    "Furniture & Other Mfg": {
+        "cn_codes": [],
+        "nace_codes": ["C31", "C32", "C3299"],
+        "description": "Product/safety labels, medical device labels, fire retardancy labels",
+    },
+    # --- Demand: Services & Logistics ---
     "Logistics": {
         "cn_codes": [],
         "nace_codes": ["H", "H49", "H52", "H53"],
         "description": "Transport, warehousing, postal services",
+    },
+    # --- Demand: Miscellaneous ---
+    "Office Products": {
+        "cn_codes": [],
+        "nace_codes": ["C1723", "C3299"],
+        "description": "Paper stationery, pens, folders, office supplies",
+    },
+    "Building Materials": {
+        "cn_codes": [],
+        "nace_codes": ["C16", "C23"],
+        "description": "Timber certification labels, building product labels, glass containers",
     },
 }
 
@@ -254,6 +323,112 @@ FLOW_LABELS = {"1": "Imports", "2": "Exports"}
 INDICATOR_LABELS = {
     "VALUE_IN_EUROS": "Trade Value (EUR)",
     "QUANTITY_IN_100KG": "Trade Volume (100 kg)",
+}
+
+
+# ---------------------------------------------------------------------------
+# yfinance ticker ↔ sector mappings
+# ---------------------------------------------------------------------------
+
+YFINANCE_TO_SECTOR = {
+    # Competitors → supply sectors
+    ("competitor", "label_materials"): ["Labels", "Paper & Board"],
+    ("competitor", "films"): ["Films & Plastics"],
+    ("competitor", "release_films"): ["Films & Plastics", "Paper & Board"],
+    ("competitor", "packaging"): ["Labels"],
+    # End-market → demand sectors
+    ("end_market", "beverages"): ["Food & Beverages"],
+    ("end_market", "food"): ["Food & Beverages"],
+    ("end_market", "hpc"): ["HPC & Cosmetics"],
+    ("end_market", "pharma"): ["Pharma"],
+    ("end_market", "logistics"): ["Logistics"],
+    ("end_market", "retail"): ["Food & Beverages", "HPC & Cosmetics"],
+    ("end_market", "tobacco"): ["Food & Beverages"],
+}
+
+# Reverse mapping: sector name → list of (group, sector) keys
+SECTOR_TO_YFINANCE: dict[str, list[tuple[str, str]]] = {}
+for _key, _sectors in YFINANCE_TO_SECTOR.items():
+    for _s in _sectors:
+        SECTOR_TO_YFINANCE.setdefault(_s, []).append(_key)
+
+# Competitor tickers grouped by country (from yfinance data)
+COMPETITOR_COUNTRIES = {
+    "China": [
+        ("002191.SZ", "Jinjia Group", "label_materials"),
+        ("600210.SS", "Shanghai Zijiang", "label_materials"),
+        ("603681.SS", "Shanghai Yongguan", "label_materials"),
+        ("000859.SZ", "Anhui Guofeng", "films"),
+        ("002263.SZ", "Zhejiang Dadongnan", "films"),
+        ("300305.SZ", "Jiangsu Yuxing Film", "films"),
+        ("300106.SZ", "Guanhao High-Tech", "release_films"),
+        ("600135.SS", "Lekai Film", "release_films"),
+    ],
+    "India": [
+        ("POLYPLEX.NS", "Polyplex Corporation", "films"),
+    ],
+    "Finland": [
+        ("UPM.HE", "UPM-Kymmene / Raflatac", "label_materials"),
+        ("STERV.HE", "Stora Enso", "label_materials"),
+        ("HUH1V.HE", "Huhtamaki", "label_materials"),
+    ],
+    "France": [
+        ("BOL.PA", "Bolloré", "label_materials"),
+    ],
+    "UK": [
+        ("MNDI.L", "Mondi", "label_materials"),
+    ],
+    "US": [
+        ("AVY", "Avery Dennison", "label_materials"),
+        ("AMCR", "Amcor", "packaging"),
+    ],
+    "Canada": [
+        ("CCL-B.TO", "CCL Industries", "label_materials"),
+    ],
+}
+
+# China competitor sub-sector breakdown for detailed analysis
+CHINA_COMPETITOR_DETAIL = {
+    "Label Materials": [
+        ("002191.SZ", "Jinjia Group"),
+        ("600210.SS", "Shanghai Zijiang"),
+        ("603681.SS", "Shanghai Yongguan"),
+    ],
+    "Films": [
+        ("000859.SZ", "Anhui Guofeng"),
+        ("002263.SZ", "Zhejiang Dadongnan"),
+        ("300305.SZ", "Jiangsu Yuxing Film"),
+    ],
+    "Release Films": [
+        ("300106.SZ", "Guanhao High-Tech"),
+        ("600135.SS", "Lekai Film"),
+    ],
+}
+
+# Key financial metrics from yfinance quarterly data
+KEY_FINANCIAL_METRICS = [
+    "Total Revenue", "Gross Profit", "EBITDA",
+    "Operating Income", "Net Income",
+]
+
+# Margin definitions: name → (numerator metric, denominator metric)
+MARGIN_METRICS = {
+    "Gross Margin": ("Gross Profit", "Total Revenue"),
+    "EBITDA Margin": ("EBITDA", "Total Revenue"),
+    "Operating Margin": ("Operating Income", "Total Revenue"),
+    "Net Margin": ("Net Income", "Total Revenue"),
+}
+
+# Map China sub-sectors to CN codes for EU trade cross-reference
+CHINA_SUBSECTOR_CN_CODES = {
+    "Label Materials": ["48211010", "48211090", "48219010", "48219090",
+                        "48114100", "48114900"],
+    "Films": ["39201023", "39201024", "39201025", "39201028",
+              "39201040", "39201081", "39201089",
+              "39202021", "39202029", "39202080",
+              "39206210", "39206219", "39206290"],
+    "Release Films": ["48064010", "48064090",
+                      "39199010", "39199020", "39199080"],
 }
 
 

@@ -237,6 +237,95 @@ def bilateral_flow_chart(df: pd.DataFrame, country: str,
     return fig
 
 
+def stock_price_chart(df: pd.DataFrame, tickers: list[str], title: str,
+                      normalize: bool = False) -> go.Figure:
+    """Multi-ticker stock price line chart.
+    When normalize=True, rebases all series to 100 at their first date."""
+    fig = go.Figure()
+    for ticker in tickers:
+        tdf = df[df["ticker"] == ticker].sort_values("date")
+        if tdf.empty:
+            continue
+        company = tdf["company"].iloc[0]
+        y = tdf["close"].values
+        if normalize and len(y) > 0 and y[0] != 0:
+            y = y / y[0] * 100
+        fig.add_trace(go.Scatter(
+            x=tdf["date"], y=y,
+            mode="lines", name=company,
+            hovertemplate="%{x|%b %d, %Y}: %{y:.2f}<extra>" + company + "</extra>",
+        ))
+    y_label = "Normalized (Base 100)" if normalize else "Price"
+    fig.update_layout(
+        title=title, xaxis_title="", yaxis_title=y_label,
+        hovermode="x unified", legend=dict(orientation="h", y=-0.15),
+        margin=dict(l=60, r=20, t=40, b=40), height=450,
+    )
+    return fig
+
+
+def revenue_bar_chart(df: pd.DataFrame, tickers: list[str],
+                      metric: str, title: str) -> go.Figure:
+    """Grouped bar chart of a financial metric by quarter, one colour per company."""
+    fig = go.Figure()
+    fdf = df[(df["ticker"].isin(tickers)) & (df["metric"] == metric)].copy()
+    if fdf.empty:
+        fig.update_layout(title=title, annotations=[dict(
+            text="No data available", showarrow=False,
+            xref="paper", yref="paper", x=0.5, y=0.5, font=dict(size=16))])
+        return fig
+    fdf = fdf.sort_values("quarter")
+    for ticker in tickers:
+        tdf = fdf[fdf["ticker"] == ticker]
+        if tdf.empty:
+            continue
+        company = tdf["company"].iloc[0]
+        currency = tdf["currency"].iloc[0] if "currency" in tdf.columns else ""
+        fig.add_trace(go.Bar(
+            x=tdf["quarter"], y=tdf["value"],
+            name=f"{company} ({currency})" if currency else company,
+            hovertemplate="%{x}: %{y:,.0f}<extra>" + company + "</extra>",
+        ))
+    fig.update_layout(
+        title=title, barmode="group",
+        xaxis_title="Quarter", yaxis_title=metric,
+        hovermode="x unified", legend=dict(orientation="h", y=-0.2),
+        margin=dict(l=60, r=20, t=40, b=60), height=450,
+    )
+    return fig
+
+
+def margin_trend_chart(df: pd.DataFrame, tickers: list[str],
+                       numerator: str, denominator: str,
+                       title: str) -> go.Figure:
+    """Line chart of computed margin % (numerator/denominator) over quarters."""
+    fig = go.Figure()
+    for ticker in tickers:
+        num = df[(df["ticker"] == ticker) & (df["metric"] == numerator)][["quarter", "value"]].rename(
+            columns={"value": "num"})
+        den = df[(df["ticker"] == ticker) & (df["metric"] == denominator)][["quarter", "value"]].rename(
+            columns={"value": "den"})
+        if num.empty or den.empty:
+            continue
+        merged = num.merge(den, on="quarter")
+        merged = merged[merged["den"] != 0]
+        merged["margin"] = merged["num"] / merged["den"] * 100
+        merged = merged.sort_values("quarter")
+        company_name = df[df["ticker"] == ticker]["company"].iloc[0]
+        fig.add_trace(go.Scatter(
+            x=merged["quarter"], y=merged["margin"],
+            mode="lines+markers", name=company_name,
+            marker=dict(size=5),
+            hovertemplate="%{x}: %{y:.1f}%<extra>" + company_name + "</extra>",
+        ))
+    fig.update_layout(
+        title=title, xaxis_title="Quarter", yaxis_title="Margin (%)",
+        hovermode="x unified", legend=dict(orientation="h", y=-0.2),
+        margin=dict(l=60, r=20, t=40, b=60), height=400,
+    )
+    return fig
+
+
 def freshness_badge(tier: int, latest_date, lag_days: int = None) -> str:
     """Return colored HTML badge for data freshness."""
     if latest_date is None:

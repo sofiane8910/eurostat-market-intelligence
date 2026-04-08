@@ -2,10 +2,13 @@
 __pycache__/
 *.pyc
 .claude/
+.DS_Store
 
-# Large CSVs — use .csv.gz versions in git, decompress locally
+# Large data files
 output2/comext.csv
 output2/sts.csv
+output2/*.zip
+output2.zip
 data2/sts.csv
 data2/yfinance_financials.csv
 data2/yfinance_prices.csv

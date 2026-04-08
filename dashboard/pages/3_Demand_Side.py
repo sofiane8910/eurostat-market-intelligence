@@ -20,7 +20,8 @@ from sidebar_filters import render_global_filters
 st.title("Demand Side — End-Market Sectors")
 st.caption(
     "Trade flows and economic indicators for sectors that consume labels: "
-    "food, beverages, HPC & cosmetics, pharmaceuticals, retail, and logistics"
+    "food, beverages, HPC & cosmetics, pharmaceuticals, textiles, automotive, "
+    "electronics, retail, and logistics"
 )
 
 data = st.session_state.get("data")
@@ -33,8 +34,9 @@ filters = render_global_filters(show_sector=True, country_mode="multi")
 _sector_cn = filters["sector_cn_codes"]
 _sector_nace = filters["sector_nace_codes"]
 
-tab_trade, tab_retail, tab_logistics = st.tabs([
+tab_trade, tab_industrial, tab_retail, tab_logistics = st.tabs([
     "End-Market International Trade (Comext)",
+    "Industrial End-Markets",
     "Retail Trade & Confidence",
     "Logistics & Services",
 ])
@@ -124,6 +126,113 @@ with tab_trade:
                 use_container_width=True,
             )
             st.caption(freshness_footnote(fr.get("tier", 2), fr.get("latest_date")))
+
+# ---- INDUSTRIAL END-MARKETS TAB ----
+with tab_industrial:
+    st.subheader("Industrial End-Market Production & Prices")
+    st.caption(
+        "Source: Eurostat STS | Monthly production and price indices for label-consuming "
+        "industrial sectors (2021 = 100, seasonally adjusted)"
+    )
+
+    _INDUSTRIAL_GROUPS = {
+        "Consumer FMCG": {
+            "C12": "Tobacco",
+            "C13": "Textiles",
+            "C14": "Wearing apparel",
+            "C15": "Leather & footwear",
+        },
+        "Regulated & Industrial": {
+            "C29": "Automotive",
+            "C26": "Electronics (total)",
+            "C262": "Computers",
+            "C263": "Communication equipment",
+            "C264": "Consumer electronics",
+            "C27": "Electrical equipment (total)",
+            "C2751": "Domestic appliances",
+            "C28": "Machinery & equipment",
+            "C25": "Fabricated metals",
+            "C31": "Furniture",
+            "C32": "Other manufacturing",
+        },
+        "Miscellaneous": {
+            "C23": "Glass & ceramics",
+            "C16": "Wood & building materials",
+            "C1723": "Paper stationery",
+        },
+    }
+
+    _INDUSTRIAL_DATASETS = {
+        "Production index": "sts_inpr_m",
+        "Producer prices (total)": "sts_inpp_m",
+        "Import prices": "sts_inpi_m",
+        "Industry confidence": "ei_bssi_m_r2",
+    }
+
+    col_grp, col_metric = st.columns(2)
+    macro_cat = col_grp.selectbox(
+        "Macro-category",
+        list(_INDUSTRIAL_GROUPS.keys()),
+        key="ind_macro",
+    )
+    metric_label = col_metric.selectbox(
+        "Metric",
+        list(_INDUSTRIAL_DATASETS.keys()),
+        key="ind_metric",
+    )
+    dataset_id = _INDUSTRIAL_DATASETS[metric_label]
+    nace_map = _INDUSTRIAL_GROUPS[macro_cat]
+
+    # Filter by sector NACE codes if a sidebar sector is selected
+    if _sector_nace is not None:
+        nace_map = {k: v for k, v in nace_map.items() if k in _sector_nace}
+
+    if not nace_map:
+        st.info("No industrial data matches the selected sector filter.")
+    else:
+        selected_nace_label = st.selectbox(
+            "Select industry",
+            [f"{v} ({k})" for k, v in nace_map.items()],
+            key="ind_nace",
+        )
+        # Extract NACE code from label
+        selected_nace = list(nace_map.keys())[
+            [f"{v} ({k})" for k, v in nace_map.items()].index(selected_nace_label)
+        ]
+
+        series_key = f"{dataset_id}_{selected_nace}"
+        if series_key not in data["sts"]:
+            st.warning(f"No data available for {series_key}. Run extraction to fetch this series.")
+        else:
+            df = data["sts"][series_key]
+
+            fr = data["freshness"].get(series_key, {})
+            if fr.get("latest_date"):
+                st.markdown(freshness_badge(fr["tier"], fr["latest_date"]), unsafe_allow_html=True)
+
+            is_confidence = "confidence" in metric_label.lower()
+            y_label = "Confidence Balance (pp)" if is_confidence else "Index (2021 = 100)"
+
+            available_countries = sorted(set(df["country"]) - AGGREGATE_CODES)
+            selected_countries = [c for c in filters["countries"] if c in available_countries]
+
+            if selected_countries:
+                nace_desc = NACE_DESCRIPTIONS.get(selected_nace, selected_nace)
+                date_range = f"{df['date'].min().strftime('%b %Y')} – {df['date'].max().strftime('%b %Y')}"
+                st.plotly_chart(
+                    line_chart(df, selected_countries,
+                               f"{nace_desc} — {metric_label}, {date_range}",
+                               y_label=y_label),
+                    use_container_width=True,
+                )
+                st.caption(freshness_footnote(fr.get("tier", 2), fr.get("latest_date")))
+
+                with st.expander("Year-on-Year % Change Heatmap"):
+                    st.plotly_chart(
+                        heatmap_yoy(df, selected_countries,
+                                    f"{nace_desc} — {metric_label} YoY Change (%)"),
+                        use_container_width=True,
+                    )
 
 # ---- RETAIL TAB ----
 with tab_retail:
